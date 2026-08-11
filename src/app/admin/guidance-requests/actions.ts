@@ -2,9 +2,14 @@
 
 import { supabaseServer } from "@/lib/supabase";
 import { GuidanceRequest, RequestStatus, PaymentStatus } from "@/types/admin";
+import { verifyAdminAuth } from "@/lib/admin-auth";
 
 export async function getGuidanceRequests(): Promise<{ success: boolean; data?: GuidanceRequest[]; error?: string }> {
   try {
+    const isAuthorized = await verifyAdminAuth();
+    if (!isAuthorized) {
+      return { success: false, error: "Unauthorized access." };
+    }
     const { data, error } = await supabaseServer
       .from("guidance_requests")
       .select("*")
@@ -27,6 +32,10 @@ export async function updateGuidanceRequestStatus(
   status: RequestStatus
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    const isAuthorized = await verifyAdminAuth();
+    if (!isAuthorized) {
+      return { success: false, error: "Unauthorized access." };
+    }
     const { error } = await supabaseServer
       .from("guidance_requests")
       .update({ status })
@@ -50,6 +59,10 @@ export async function updatePaymentStatus(
   note?: string
 ): Promise<{ success: boolean; error?: string; paid_at?: string }> {
   try {
+    const isAuthorized = await verifyAdminAuth();
+    if (!isAuthorized) {
+      return { success: false, error: "Unauthorized access." };
+    }
     const updateData: Record<string, string | null> = { payment_status: status };
     if (note !== undefined) {
       updateData.payment_verification_note = note;

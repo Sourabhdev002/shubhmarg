@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, use } from "react";
-import { getPaymentRequestByReference, submitPaymentUtr } from "./actions";
+import { getPaymentRequestByReference, submitPaymentConfirmation } from "./actions";
 import { Copy, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import QRCode from "react-qr-code";
@@ -26,9 +26,8 @@ export default function PaymentPage({ params }: PageProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [utr, setUtr] = useState("");
-  const [submittingUtr, setSubmittingUtr] = useState(false);
-  const [utrError, setUtrError] = useState("");
+  const [submittingConfirmation, setSubmittingConfirmation] = useState(false);
+  const [confirmError, setConfirmError] = useState("");
   const [copied, setCopied] = useState(false);
   const [deviceType, setDeviceType] = useState<"ios" | "android" | "desktop" | "unknown">("unknown");
 
@@ -87,20 +86,19 @@ export default function PaymentPage({ params }: PageProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSubmitUtr = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setUtrError("");
-    setSubmittingUtr(true);
+  const handleConfirmPayment = async () => {
+    setConfirmError("");
+    setSubmittingConfirmation(true);
 
-    const res = await submitPaymentUtr(reference_id, utr);
+    const res = await submitPaymentConfirmation(reference_id);
     if (res.success) {
       if (request) {
         setRequest({ ...request, payment_status: "payment_verification" });
       }
     } else {
-      setUtrError(res.error || "Failed to submit.");
+      setConfirmError(res.error || "Failed to confirm payment.");
     }
-    setSubmittingUtr(false);
+    setSubmittingConfirmation(false);
   };
 
   if (loading) {
@@ -182,7 +180,7 @@ export default function PaymentPage({ params }: PageProps) {
               <Loader2 className="h-16 w-16 text-brand-gold animate-spin mb-4" />
               <h3 className="text-2xl font-bold text-brand-maroon font-serif mb-2">Verification Pending</h3>
               <p className="text-charcoal/80 italic font-serif mb-6">
-                Your UTR has been submitted and is currently pending manual verification by our team. Your request will be confirmed after verification.
+                Your payment confirmation has been received and is currently pending manual verification. Our team will verify the payment and confirm your guidance request.
               </p>
               <p className="text-sm font-semibold tracking-widest uppercase text-brand-gold-dark animate-pulse">
                 Checking payment status...
@@ -264,41 +262,25 @@ export default function PaymentPage({ params }: PageProps) {
               </div>
 
               <div className="border-t border-brand-gold/20 pt-8">
-                <h3 className="text-lg font-bold text-brand-maroon font-serif mb-4">Submit Payment Reference</h3>
-                <p className="text-sm text-charcoal/70 mb-4">
-                  After completing the payment, enter your 12-digit UTR / transaction reference below to verify your request.
+                <p className="text-charcoal/80 font-medium mb-6">
+                  After completing your payment, confirm below. Our team will verify the payment using the merchant payment notification.
                 </p>
 
-                <form onSubmit={handleSubmitUtr} className="space-y-4">
-                  <div>
-                    <label htmlFor="utr" className="block text-sm font-semibold text-charcoal uppercase tracking-wider mb-2">
-                      UTR / Reference Number
-                    </label>
-                    <input
-                      type="text"
-                      id="utr"
-                      value={utr}
-                      onChange={(e) => setUtr(e.target.value)}
-                      placeholder="e.g. 123456789012"
-                      className="w-full rounded-sm border border-brand-gold/40 bg-brand-ivory px-4 py-3 text-charcoal focus:outline-none focus:ring-2 focus:ring-brand-maroon font-mono"
-                      required
-                      minLength={8}
-                    />
-                  </div>
-                  {utrError && <p className="text-sm text-red-600">{utrError}</p>}
+                <div className="space-y-4">
+                  {confirmError && <p className="text-sm text-red-600">{confirmError}</p>}
 
                   <button
-                    type="submit"
-                    disabled={submittingUtr || !utr.trim()}
+                    onClick={handleConfirmPayment}
+                    disabled={submittingConfirmation}
                     className="w-full flex justify-center items-center rounded-sm bg-brand-maroon px-8 py-4 text-sm font-bold uppercase tracking-widest text-brand-ivory shadow-sm hover:bg-brand-maroon-dark disabled:opacity-50 transition-all border border-brand-maroon"
                   >
-                    {submittingUtr ? (
+                    {submittingConfirmation ? (
                       <Loader2 className="h-5 w-5 animate-spin" />
                     ) : (
-                      "Submit Reference"
+                      "I Have Completed Payment"
                     )}
                   </button>
-                </form>
+                </div>
               </div>
             </div>
           )}
