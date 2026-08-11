@@ -4,6 +4,7 @@ import React, { useEffect, useState, use } from "react";
 import { getPaymentRequestByReference, submitPaymentUtr } from "./actions";
 import { Copy, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
+import QRCode from "react-qr-code";
 
 interface PageProps {
   params: Promise<{ reference_id: string }>;
@@ -24,11 +25,25 @@ export default function PaymentPage({ params }: PageProps) {
   const [request, setRequest] = useState<PaymentRequest | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  
+
   const [utr, setUtr] = useState("");
   const [submittingUtr, setSubmittingUtr] = useState(false);
   const [utrError, setUtrError] = useState("");
   const [copied, setCopied] = useState(false);
+  const [deviceType, setDeviceType] = useState<"ios" | "android" | "desktop" | "unknown">("unknown");
+
+  useEffect(() => {
+    const win = window as unknown as { opera?: string; MSStream?: boolean };
+    const ua = navigator.userAgent || navigator.vendor || win.opera || "";
+    let type: "ios" | "android" | "desktop" = "desktop";
+    if (/android/i.test(ua)) {
+      type = "android";
+    } else if (/iPad|iPhone|iPod/.test(ua) && !win.MSStream) {
+      type = "ios";
+    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setDeviceType(type);
+  }, []);
 
   const PAYTM_UPI = "paytmqr2810050501011nkqq2oa80eh@paytm";
 
@@ -76,7 +91,7 @@ export default function PaymentPage({ params }: PageProps) {
     e.preventDefault();
     setUtrError("");
     setSubmittingUtr(true);
-    
+
     const res = await submitPaymentUtr(reference_id, utr);
     if (res.success) {
       if (request) {
@@ -109,8 +124,9 @@ export default function PaymentPage({ params }: PageProps) {
     );
   }
 
-  // Define dynamic deep link for mobile users
-  const upiDeepLink = `upi://pay?pa=${PAYTM_UPI}&pn=ShubhMarg&tr=${reference_id}&am=${request.payment_amount}&cu=INR&tn=Payment_for_${reference_id}`;
+  const upiParams = `pa=${PAYTM_UPI}&pn=ShubhMarg&tr=${reference_id}&am=${request.payment_amount}&cu=INR&tn=Payment_for_${reference_id}`;
+  const upiDeepLinkAndroid = `upi://pay?${upiParams}`;
+  const gpayLink = `gpay://upi/pay?${upiParams}`;
 
   return (
     <div className="min-h-screen bg-brand-ivory py-16 px-6">
@@ -125,7 +141,7 @@ export default function PaymentPage({ params }: PageProps) {
         </div>
 
         <div className="bg-brand-parchment border border-brand-gold/30 rounded-sm p-8 shadow-sm">
-          
+
           <div className="flex justify-between items-end border-b border-brand-gold/20 pb-6 mb-6">
             <div>
               <p className="text-xs font-semibold text-brand-gold-dark uppercase tracking-widest mb-1">Service</p>
@@ -181,32 +197,70 @@ export default function PaymentPage({ params }: PageProps) {
                   The previous payment verification failed. Please try again or contact support.
                 </div>
               )}
-              
+
               <div className="text-center">
-                <p className="text-charcoal/80 font-medium mb-6">
-                  Please make a payment of <strong className="text-charcoal">₹{request.payment_amount}</strong> using any UPI app.
-                </p>
-                
+                {deviceType === "ios" && (
+                  <>
+                    <p className="text-charcoal/80 font-medium mb-4">Choose your UPI app</p>
+                    <div className="flex flex-col gap-3 mb-6">
+                      <a
+                        href={gpayLink}
+                        className="block w-full rounded-sm bg-brand-ivory border border-brand-gold px-6 py-4 text-center font-bold text-brand-maroon uppercase tracking-widest hover:bg-brand-gold/10 transition-colors shadow-sm"
+                      >
+                        Google Pay
+                      </a>
+                    </div>
+                    <p className="text-charcoal/80 font-medium mb-4 uppercase tracking-wider text-sm">OR Scan QR / Copy UPI ID</p>
+                  </>
+                )}
+
+                {deviceType === "android" && (
+                  <>
+                    <p className="text-charcoal/80 font-medium mb-6">
+                      Please make a payment of <strong className="text-charcoal">₹{request.payment_amount}</strong>
+                    </p>
+                    <a
+                      href={upiDeepLinkAndroid}
+                      className="block w-full rounded-sm bg-brand-ivory border border-brand-gold px-6 py-4 text-center font-bold text-brand-maroon uppercase tracking-widest hover:bg-brand-gold/10 transition-colors mb-8 shadow-sm"
+                    >
+                      Pay ₹{request.payment_amount} with UPI
+                    </a>
+                  </>
+                )}
+
+                {deviceType === "desktop" && (
+                  <p className="text-charcoal/80 font-medium mb-6">
+                    Scan QR with your UPI app
+                  </p>
+                )}
+
+                {deviceType === "unknown" && (
+                  <p className="text-charcoal/80 font-medium mb-6">
+                    Please make a payment of <strong className="text-charcoal">₹{request.payment_amount}</strong> using any UPI app.
+                  </p>
+                )}
+
                 <div className="flex flex-col items-center justify-center bg-brand-ivory border border-brand-gold/40 p-6 rounded-sm mb-6">
-                  <p className="text-xs font-semibold uppercase text-brand-gold-dark tracking-widest mb-2">Paytm UPI ID</p>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xl font-bold text-brand-maroon tracking-wider font-mono">{PAYTM_UPI}</span>
-                    <button 
+                  {(deviceType === "desktop" || deviceType === "ios") && (
+                    <div className="mb-6 flex flex-col items-center">
+                      <div className="p-4 bg-white rounded-sm shadow-sm border border-brand-gold/20">
+                        <QRCode value={upiDeepLinkAndroid} size={180} level="M" />
+                      </div>
+                    </div>
+                  )}
+                  <p className="text-xs font-semibold uppercase text-brand-gold-dark tracking-widest mb-2">Copy UPI ID</p>
+                  <div className="flex items-center gap-3 w-full justify-center">
+                    <span className="text-lg md:text-xl font-bold text-brand-maroon tracking-wider font-mono break-all text-center">{PAYTM_UPI}</span>
+                    <button
                       onClick={handleCopy}
-                      className="p-2 text-brand-gold-dark hover:bg-brand-parchment rounded-sm transition-colors"
+                      className="p-2 text-brand-gold-dark hover:bg-brand-parchment rounded-sm transition-colors shrink-0"
                       title="Copy UPI ID"
+                      aria-label="Copy UPI ID"
                     >
                       {copied ? <CheckCircle2 className="h-5 w-5 text-green-600" /> : <Copy className="h-5 w-5" />}
                     </button>
                   </div>
                 </div>
-
-                <a 
-                  href={upiDeepLink}
-                  className="md:hidden block w-full rounded-sm bg-brand-ivory border border-brand-gold px-6 py-4 text-center font-bold text-brand-maroon uppercase tracking-widest hover:bg-brand-gold/10 transition-colors mb-8 shadow-sm"
-                >
-                  Pay ₹{request.payment_amount} with UPI
-                </a>
               </div>
 
               <div className="border-t border-brand-gold/20 pt-8">
@@ -232,7 +286,7 @@ export default function PaymentPage({ params }: PageProps) {
                     />
                   </div>
                   {utrError && <p className="text-sm text-red-600">{utrError}</p>}
-                  
+
                   <button
                     type="submit"
                     disabled={submittingUtr || !utr.trim()}
