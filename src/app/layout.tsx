@@ -21,8 +21,22 @@ const tiro = Tiro_Devanagari_Hindi({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://shubhmarg.vercel.app"),
   title: "ShubhMarg — Traditional Vedic Guidance for Modern Life",
   description: "Personalized Vedic guidance and traditional spiritual services for modern life.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "ShubhMarg — Traditional Vedic Guidance for Modern Life",
+    description: "Personalized Vedic guidance and traditional spiritual services for modern life.",
+    url: "https://shubhmarg.vercel.app",
+    type: "website",
+  },
+  twitter: {
+    title: "ShubhMarg — Traditional Vedic Guidance for Modern Life",
+    description: "Personalized Vedic guidance and traditional spiritual services for modern life.",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
