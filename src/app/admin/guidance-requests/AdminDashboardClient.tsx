@@ -355,6 +355,10 @@ export default function AdminDashboardClient({ initialRequests }: Props) {
                     <dt className="text-sm font-medium text-gray-500">Full Name</dt>
                     <dd className="mt-1 text-sm text-gray-900 font-medium">{selectedRequest.full_name}</dd>
                   </div>
+                  <div className="bg-white p-3 border border-gray-100 rounded-lg shadow-sm">
+                    <dt className="text-sm font-medium text-gray-500">Email Address</dt>
+                    <dd className="mt-1 text-sm text-gray-900 font-medium">{selectedRequest.email || <span className="text-gray-400 italic">Not provided</span>}</dd>
+                  </div>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white p-3 border border-gray-100 rounded-lg shadow-sm">

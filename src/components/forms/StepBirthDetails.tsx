@@ -14,6 +14,8 @@ export default function StepBirthDetails({ formData, updateForm, onNext, onBack 
 
   const isFormValid =
     formData.fullName.trim() !== "" &&
+    formData.email.trim() !== "" &&
+    /^\S+@\S+\.\S+$/.test(formData.email) &&
     formData.dateOfBirth.trim() !== "" &&
     formData.birthPlace.trim() !== "" &&
     formData.currentCity.trim() !== "" &&
@@ -29,20 +31,38 @@ export default function StepBirthDetails({ formData, updateForm, onNext, onBack 
       </p>
 
       <div className="mt-8 space-y-6">
-        <div>
-          <label htmlFor="fullName" className="block text-sm font-medium text-slate-900">
-            Full Name <span className="text-red-500">*</span>
-          </label>
-          <div className="mt-2">
-            <input
-              type="text"
-              name="fullName"
-              id="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              className="block w-full rounded-md border-0 py-2.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 px-3"
-              placeholder="Enter your full name"
-            />
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label htmlFor="fullName" className="block text-sm font-medium text-slate-900">
+              Full Name <span className="text-red-500">*</span>
+            </label>
+            <div className="mt-2">
+              <input
+                type="text"
+                name="fullName"
+                id="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                className="block w-full rounded-md border-0 py-2.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 px-3"
+                placeholder="Enter your full name"
+              />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-slate-900">
+              Email Address <span className="text-red-500">*</span>
+            </label>
+            <div className="mt-2">
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="block w-full rounded-md border-0 py-2.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 px-3"
+                placeholder="you@example.com"
+              />
+            </div>
           </div>
         </div>
 

@@ -43,6 +43,9 @@ export async function submitGuidanceRequest(formData: GuidanceFormData) {
     if (!formData.fullName || formData.fullName.trim().length < 2) {
       return { success: false, error: "Full name is required and must be valid." };
     }
+    if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) {
+      return { success: false, error: "A valid email address is required." };
+    }
     if (!formData.dateOfBirth || isNaN(Date.parse(formData.dateOfBirth))) {
       return { success: false, error: "A valid date of birth is required." };
     }
@@ -70,6 +73,9 @@ export async function submitGuidanceRequest(formData: GuidanceFormData) {
     if (!SERVICES.includes(formData.service)) {
       return { success: false, error: "Invalid service selected." };
     }
+    if (!formData.privacyConsent) {
+      return { success: false, error: "You must agree to the Privacy Policy and Terms of Service to proceed." };
+    }
 
     // 3. Generate Reference ID
     // Format: SHUBH-XXXXXX
@@ -87,6 +93,7 @@ export async function submitGuidanceRequest(formData: GuidanceFormData) {
           reference_id: referenceId,
           concern: formData.concern,
           full_name: formData.fullName.trim(),
+          email: formData.email.trim(),
           date_of_birth: formData.dateOfBirth,
           time_of_birth: formData.timeOfBirth || null,
           birth_place: formData.birthPlace.trim(),
@@ -95,6 +102,8 @@ export async function submitGuidanceRequest(formData: GuidanceFormData) {
           question: formData.question.trim(),
           service: formData.service,
           payment_amount: paymentAmount,
+          privacy_consent: true,
+          privacy_consent_at: new Date().toISOString(),
         }
       ]);
 

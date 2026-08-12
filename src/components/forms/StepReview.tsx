@@ -1,13 +1,15 @@
+import Link from "next/link";
 import { GuidanceFormData } from "@/types/guidance";
 
 interface Props {
   formData: GuidanceFormData;
+  updateForm: (fields: Partial<GuidanceFormData>) => void;
   onSubmit: () => void;
   onBack: () => void;
   isSubmitting: boolean;
 }
 
-export default function StepReview({ formData, onSubmit, onBack, isSubmitting }: Props) {
+export default function StepReview({ formData, updateForm, onSubmit, onBack, isSubmitting }: Props) {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
@@ -29,6 +31,12 @@ export default function StepReview({ formData, onSubmit, onBack, isSubmitting }:
             <dt className="text-sm font-medium text-slate-900">Full Name</dt>
             <dd className="mt-1 text-sm leading-6 text-slate-700 sm:col-span-2 sm:mt-0">
               {formData.fullName}
+            </dd>
+          </div>
+          <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt className="text-sm font-medium text-slate-900">Email Address</dt>
+            <dd className="mt-1 text-sm leading-6 text-slate-700 sm:col-span-2 sm:mt-0">
+              {formData.email}
             </dd>
           </div>
           <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -82,6 +90,27 @@ export default function StepReview({ formData, onSubmit, onBack, isSubmitting }:
         </p>
       </div>
 
+      <div className="mt-6 flex items-start">
+        <div className="flex h-6 items-center">
+          <input
+            id="consent"
+            name="consent"
+            type="checkbox"
+            checked={formData.privacyConsent}
+            onChange={(e) => updateForm({ privacyConsent: e.target.checked })}
+            className="h-4 w-4 rounded border-gray-300 text-amber-600 focus:ring-amber-600"
+          />
+        </div>
+        <div className="ml-3 text-sm leading-6">
+          <label htmlFor="consent" className="font-medium text-slate-900">
+            Privacy and Consent
+          </label>
+          <p className="text-slate-600">
+            I agree to the <Link href="/privacy-policy" className="text-brand-maroon underline hover:text-brand-saffron" target="_blank">Privacy Policy</Link> and <Link href="/terms" className="text-brand-maroon underline hover:text-brand-saffron" target="_blank">Terms of Service</Link>, and I consent to ShubhMarg using the information I provide to prepare and deliver my requested guidance.
+          </p>
+        </div>
+      </div>
+
       <div className="mt-10 flex items-center justify-between">
         <button
           type="button"
@@ -94,7 +123,7 @@ export default function StepReview({ formData, onSubmit, onBack, isSubmitting }:
         <button
           type="button"
           onClick={onSubmit}
-          disabled={isSubmitting}
+          disabled={isSubmitting || !formData.privacyConsent}
           className="rounded-full bg-amber-700 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-amber-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
         >
           {isSubmitting ? (

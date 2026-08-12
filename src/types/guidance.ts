@@ -1,6 +1,7 @@
 export interface GuidanceFormData {
   concern: string;
   fullName: string;
+  email: string;
   dateOfBirth: string;
   timeOfBirth: string; // optional
   birthPlace: string;
@@ -8,11 +9,13 @@ export interface GuidanceFormData {
   preferredLanguage: string;
   question: string;
   service: string;
+  privacyConsent: boolean;
 }
 
 export const initialGuidanceFormData: GuidanceFormData = {
   concern: "",
   fullName: "",
+  email: "",
   dateOfBirth: "",
   timeOfBirth: "",
   birthPlace: "",
@@ -20,4 +23,5 @@ export const initialGuidanceFormData: GuidanceFormData = {
   preferredLanguage: "",
   question: "",
   service: "",
+  privacyConsent: false,
 };

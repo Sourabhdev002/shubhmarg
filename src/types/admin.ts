@@ -8,6 +8,7 @@ export interface GuidanceRequest {
   status: RequestStatus;
   concern: string;
   full_name: string;
+  email: string | null;
   date_of_birth: string;
   time_of_birth: string | null;
   birth_place: string;
@@ -16,6 +17,8 @@ export interface GuidanceRequest {
   question: string;
   service: string;
   notes: string | null;
+  privacy_consent: boolean;
+  privacy_consent_at: string | null;
   payment_status: PaymentStatus;
   payment_amount: number | null;
   payment_currency: string;

@@ -170,6 +170,7 @@ export default function GuidanceRequestForm() {
         {currentStep === 5 && (
           <StepReview
             formData={formData}
+            updateForm={updateForm}
             onSubmit={handleSubmit}
             onBack={prevStep}
             isSubmitting={isSubmitting}
