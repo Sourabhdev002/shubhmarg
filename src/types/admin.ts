@@ -1,4 +1,4 @@
-export type RequestStatus = 'pending' | 'reviewing' | 'completed' | 'cancelled';
+export type RequestStatus = 'pending' | 'reviewing' | 'completed' | 'delivered' | 'cancelled';
 export type PaymentStatus = 'unpaid' | 'payment_verification' | 'paid' | 'payment_failed' | 'refunded';
 
 export interface GuidanceRequest {

@@ -98,7 +98,8 @@ export default function AdminDashboardClient({ initialRequests }: Props) {
     switch (status) {
       case "pending": return "bg-yellow-100 text-yellow-800 border-yellow-200";
       case "reviewing": return "bg-blue-100 text-blue-800 border-blue-200";
-      case "completed": return "bg-green-100 text-green-800 border-green-200";
+      case "completed": return "bg-teal-100 text-teal-800 border-teal-200";
+      case "delivered": return "bg-green-100 text-green-800 border-green-200";
       case "cancelled": return "bg-red-100 text-red-800 border-red-200";
       default: return "bg-gray-100 text-gray-800 border-gray-200";
     }
@@ -153,6 +154,7 @@ export default function AdminDashboardClient({ initialRequests }: Props) {
                 <option value="pending">Pending</option>
                 <option value="reviewing">Reviewing</option>
                 <option value="completed">Completed</option>
+                <option value="delivered">Delivered</option>
                 <option value="cancelled">Cancelled</option>
               </select>
             </div>
@@ -330,7 +332,8 @@ export default function AdminDashboardClient({ initialRequests }: Props) {
 
               {/* Request Status Management */}
               <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Update Request Status</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Update Request Status</label>
+                <p className="text-xs text-gray-500 mb-3 font-medium">Note: Completed = guidance prepared. Delivered = guidance manually sent to customer.</p>
                 <div className="flex gap-2">
                   <select
                     value={selectedRequest.status}
@@ -340,7 +343,8 @@ export default function AdminDashboardClient({ initialRequests }: Props) {
                   >
                     <option value="pending">Pending</option>
                     <option value="reviewing">Reviewing</option>
-                    <option value="completed">Completed</option>
+                    <option value="completed">Completed (Prepared)</option>
+                    <option value="delivered">Delivered (Sent)</option>
                     <option value="cancelled">Cancelled</option>
                   </select>
                   {isUpdating && <Loader2 className="h-5 w-5 animate-spin text-orange-500 my-auto" />}
