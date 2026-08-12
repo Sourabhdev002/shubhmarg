@@ -17,7 +17,7 @@ export async function getGuidanceRequests(): Promise<{ success: boolean; data?: 
 
     if (error) {
       console.error("Error fetching guidance requests:", JSON.stringify(error, null, 2));
-      return { success: false, error: error.message || "Failed to fetch guidance requests." };
+      return { success: false, error: "Unable to load guidance requests." };
     }
 
     return { success: true, data: data as GuidanceRequest[] };
@@ -43,7 +43,7 @@ export async function updateGuidanceRequestStatus(
 
     if (error) {
       console.error("Error updating request status:", JSON.stringify(error, null, 2));
-      return { success: false, error: error.message || "Failed to update request status." };
+      return { success: false, error: "Unable to update the request status." };
     }
 
     return { success: true };
@@ -81,7 +81,7 @@ export async function updatePaymentStatus(
 
     if (error) {
       console.error("Error updating payment status:", JSON.stringify(error, null, 2));
-      return { success: false, error: error.message || "Failed to update payment status." };
+      return { success: false, error: "Unable to update the payment status." };
     }
 
     return { success: true, paid_at: status === 'paid' ? now : undefined };
