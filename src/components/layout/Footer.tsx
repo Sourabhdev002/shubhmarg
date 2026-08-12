@@ -20,12 +20,8 @@ export default function Footer() {
 
           <div className="flex flex-col md:items-end">
             <nav className="grid grid-cols-2 sm:flex sm:flex-wrap gap-x-12 gap-y-4 text-sm font-medium tracking-wide">
-              <Link href="/services" className="hover:text-brand-gold transition-colors">SERVICES</Link>
-              <Link href="/daily-horoscope" className="hover:text-brand-gold transition-colors">GUIDANCE</Link>
               <Link href="/privacy-policy" className="hover:text-brand-gold transition-colors">PRIVACY</Link>
               <Link href="/terms" className="hover:text-brand-gold transition-colors">TERMS</Link>
-              <Link href="/disclaimer" className="hover:text-brand-gold transition-colors">DISCLAIMER</Link>
-              <Link href="/contact" className="hover:text-brand-gold transition-colors">CONTACT</Link>
             </nav>
           </div>
         </div>

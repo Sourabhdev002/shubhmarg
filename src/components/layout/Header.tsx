@@ -19,15 +19,7 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden items-center gap-8 md:flex">
-          <Link href="/services" className="text-sm font-medium tracking-wide text-charcoal hover:text-brand-saffron transition-colors">
-            SERVICES
-          </Link>
-          <Link href="/daily-horoscope" className="text-sm font-medium tracking-wide text-charcoal hover:text-brand-saffron transition-colors">
-            DAILY HOROSCOPE
-          </Link>
-          <Link href="/about" className="text-sm font-medium tracking-wide text-charcoal hover:text-brand-saffron transition-colors">
-            ABOUT
-          </Link>
+
           <Link
             href="/request-guidance"
             className="rounded-md bg-brand-maroon px-8 py-3 text-sm font-semibold tracking-wide text-brand-ivory shadow-sm border border-brand-maroon-light transition hover:bg-brand-maroon-dark hover:border-brand-maroon focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-maroon"
@@ -56,27 +48,7 @@ export default function Header() {
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-brand-gold/20 bg-brand-ivory">
           <div className="space-y-1 px-4 pb-6 pt-4">
-            <Link
-              href="/services"
-              className="block rounded-md px-3 py-3 text-base font-medium tracking-wide text-charcoal hover:bg-brand-parchment hover:text-brand-maroon"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              SERVICES
-            </Link>
-            <Link
-              href="/daily-horoscope"
-              className="block rounded-md px-3 py-3 text-base font-medium tracking-wide text-charcoal hover:bg-brand-parchment hover:text-brand-maroon"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              DAILY HOROSCOPE
-            </Link>
-            <Link
-              href="/about"
-              className="block rounded-md px-3 py-3 text-base font-medium tracking-wide text-charcoal hover:bg-brand-parchment hover:text-brand-maroon"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              ABOUT
-            </Link>
+
             <div className="mt-6 px-3">
               <Link
                 href="/request-guidance"
