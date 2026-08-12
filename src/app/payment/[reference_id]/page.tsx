@@ -160,7 +160,7 @@ export default function PaymentPage({ params }: PageProps) {
               <CheckCircle2 className="h-16 w-16 text-green-600 mb-4" />
               <h3 className="text-2xl font-bold text-brand-maroon font-serif mb-2">Payment Confirmed</h3>
               <p className="text-charcoal/80 italic font-serif">
-                Your payment has been successfully verified. Your guidance request is now confirmed.
+                Your payment has been successfully verified and your guidance request is confirmed. We will reach out to you using the contact details provided once your traditional guidance is prepared.
               </p>
             </div>
           )}
@@ -179,11 +179,17 @@ export default function PaymentPage({ params }: PageProps) {
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Loader2 className="h-16 w-16 text-brand-gold animate-spin mb-4" />
               <h3 className="text-2xl font-bold text-brand-maroon font-serif mb-2">Verification Pending</h3>
-              <p className="text-charcoal/80 italic font-serif mb-6">
-                Your payment confirmation has been received and is currently pending manual verification. Our team will verify the payment and confirm your guidance request.
+              <p className="text-charcoal/80 italic font-serif mb-4">
+                Your payment confirmation has been received. Our team will verify the transaction and confirm your guidance request.
               </p>
-              <p className="text-sm font-semibold tracking-widest uppercase text-brand-gold-dark animate-pulse">
-                Checking payment status...
+              <div className="bg-white p-5 rounded-sm border border-brand-gold/30 shadow-sm text-sm mb-6 w-full max-w-md">
+                <p className="font-bold text-brand-maroon mb-2">It is safe to close this page.</p>
+                <p className="text-charcoal/80 leading-relaxed">
+                  Verification is performed securely by our team. Because manual confirmation depends on bank networks, it may take some time. We have all your details and will process your request once verified.
+                </p>
+              </div>
+              <p className="text-xs font-semibold tracking-widest uppercase text-brand-gold-dark animate-pulse">
+                Automatically checking status...
               </p>
             </div>
           )}
@@ -261,9 +267,10 @@ export default function PaymentPage({ params }: PageProps) {
                 </div>
               </div>
 
-              <div className="border-t border-brand-gold/20 pt-8">
-                <p className="text-charcoal/80 font-medium mb-6">
-                  After completing your payment, confirm below. Our team will verify the payment using the merchant payment notification.
+              <div className="border-t border-brand-gold/20 pt-8 mt-8">
+                <h3 className="text-lg font-bold text-brand-maroon font-serif mb-2">Confirm Your Payment</h3>
+                <p className="text-charcoal/80 text-sm mb-6 leading-relaxed">
+                  After you have successfully completed the transfer on your UPI app, please click the button below. This notifies our team to match your payment and begin preparing your guidance.
                 </p>
 
                 <div className="space-y-4">

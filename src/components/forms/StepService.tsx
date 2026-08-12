@@ -1,5 +1,6 @@
 import { GuidanceFormData } from "@/types/guidance";
 import { CheckCircle2 } from "lucide-react";
+import { SERVICE_PRICING } from "@/lib/pricing";
 
 interface Props {
   formData: GuidanceFormData;
@@ -57,6 +58,11 @@ export default function StepService({ formData, updateForm, onNext, onBack }: Pr
                       }`}
                     >
                       {service.name}
+                    </p>
+                    <p className={`text-sm mt-1 font-medium ${
+                      selected ? "text-amber-700" : "text-slate-500"
+                    }`}>
+                      ₹{SERVICE_PRICING[service.id] || 501}
                     </p>
                   </div>
                 </div>
