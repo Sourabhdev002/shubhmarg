@@ -37,14 +37,21 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
+            <h2 className="text-2xl font-bold text-brand-maroon-dark mb-4">Analytics and Tracking</h2>
+            <p>
+              We may use third-party tracking technologies, such as the Meta Pixel, for website analytics, conversion measurement, and advertising purposes. These tools help us understand how you interact with our website so we can improve our services and deliver relevant content.
+            </p>
+          </section>
+
+          <section>
             <h2 className="text-2xl font-bold text-brand-maroon-dark mb-4">Data Deletion and Contact</h2>
             <p>
-              If you wish to have your information corrected or deleted from our records, or if you have any questions regarding how we handle your data, please contact us at:
+              If you wish to have your information corrected or deleted from our records, or if you have any questions regarding how we handle your data, please contact our support team.
             </p>
             <p className="mt-4 p-4 bg-brand-parchment rounded-sm border border-brand-gold/30">
-              <strong className="text-brand-maroon">Contact Email:</strong> [INSERT_CONTACT_EMAIL]
-              <br />
-              <em className="text-sm text-charcoal/70">* This requires owner/legal review and setup of an official contact channel.</em>
+              <Link href="/support" className="text-brand-maroon hover:text-brand-maroon-dark underline font-medium">
+                Click here to submit a support request
+              </Link>
             </p>
           </section>
         </div>

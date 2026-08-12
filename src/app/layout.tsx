@@ -3,6 +3,7 @@ import { Playfair_Display, Inter, Tiro_Devanagari_Hindi } from "next/font/google
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import MetaPixel from "@/components/analytics/MetaPixel";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${playfair.variable} ${inter.variable} ${tiro.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-brand-ivory text-charcoal">
+        <MetaPixel />
         <Header />
         <main className="flex-1">
           {children}

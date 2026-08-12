@@ -41,16 +41,20 @@ export default function GuidanceRequestForm() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     setSubmitError("");
-    
+
     const result = await submitGuidanceRequest(formData);
-    
+
     if (result.success && result.referenceId) {
       setReferenceId(result.referenceId);
       setIsSuccess(true);
+
+      if (typeof window.fbq === "function") {
+        window.fbq("track", "Lead");
+      }
     } else {
       setSubmitError(result.error || "An unexpected error occurred.");
     }
-    
+
     setIsSubmitting(false);
   };
 

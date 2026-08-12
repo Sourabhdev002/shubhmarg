@@ -95,6 +95,10 @@ export default function PaymentPage({ params }: PageProps) {
       if (request) {
         setRequest({ ...request, payment_status: "payment_verification" });
       }
+
+      if (typeof window.fbq === "function") {
+        window.fbq("trackCustom", "PaymentSubmitted");
+      }
     } else {
       setConfirmError(res.error || "Failed to confirm payment.");
     }
