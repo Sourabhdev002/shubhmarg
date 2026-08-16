@@ -126,9 +126,15 @@ export default function PaymentPage({ params }: PageProps) {
     );
   }
 
-  const upiParams = `pa=${PAYTM_UPI}&pn=ShubhMarg&tr=${reference_id}&am=${request.payment_amount}&cu=INR&tn=Payment_for_${reference_id}`;
-  const upiDeepLinkAndroid = `upi://pay?${upiParams}`;
-  const gpayLink = `gpay://upi/pay?${upiParams}`;
+  const upiParams = new URLSearchParams({
+    pa: PAYTM_UPI,
+    pn: "ShubhMarg",
+    am: request.payment_amount.toString(),
+    cu: "INR",
+    tn: `Payment for ${reference_id}`
+  }).toString();
+  
+  const upiDeepLink = `upi://pay?${upiParams}`;
 
   return (
     <div className="min-h-screen bg-brand-ivory py-16 px-6">
@@ -212,10 +218,10 @@ export default function PaymentPage({ params }: PageProps) {
                     <p className="text-charcoal/80 font-medium mb-4">Choose your UPI app</p>
                     <div className="flex flex-col gap-3 mb-6">
                       <a
-                        href={gpayLink}
+                        href={upiDeepLink}
                         className="block w-full rounded-sm bg-brand-ivory border border-brand-gold px-6 py-4 text-center font-bold text-brand-maroon uppercase tracking-widest hover:bg-brand-gold/10 transition-colors shadow-sm"
                       >
-                        Google Pay
+                        Open UPI App
                       </a>
                     </div>
                     <p className="text-charcoal/80 font-medium mb-4 uppercase tracking-wider text-sm">OR Scan QR / Copy UPI ID</p>
@@ -228,7 +234,7 @@ export default function PaymentPage({ params }: PageProps) {
                       Please make a payment of <strong className="text-charcoal">₹{request.payment_amount}</strong>
                     </p>
                     <a
-                      href={upiDeepLinkAndroid}
+                      href={upiDeepLink}
                       className="block w-full rounded-sm bg-brand-ivory border border-brand-gold px-6 py-4 text-center font-bold text-brand-maroon uppercase tracking-widest hover:bg-brand-gold/10 transition-colors mb-8 shadow-sm"
                     >
                       Pay ₹{request.payment_amount} with UPI
@@ -252,7 +258,7 @@ export default function PaymentPage({ params }: PageProps) {
                   {(deviceType === "desktop" || deviceType === "ios") && (
                     <div className="mb-6 flex flex-col items-center">
                       <div className="p-4 bg-white rounded-sm shadow-sm border border-brand-gold/20">
-                        <QRCode value={upiDeepLinkAndroid} size={180} level="M" />
+                        <QRCode value={upiDeepLink} size={180} level="M" />
                       </div>
                     </div>
                   )}
