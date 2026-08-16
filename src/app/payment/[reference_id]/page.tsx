@@ -129,6 +129,8 @@ export default function PaymentPage({ params }: PageProps) {
   const upiParams = new URLSearchParams({
     pa: PAYTM_UPI,
     pn: "ShubhMarg",
+    mc: "5499",
+    tr: reference_id,
     am: request.payment_amount.toString(),
     cu: "INR",
     tn: `Payment for ${reference_id}`
