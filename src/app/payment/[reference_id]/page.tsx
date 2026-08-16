@@ -215,16 +215,10 @@ export default function PaymentPage({ params }: PageProps) {
               <div className="text-center">
                 {deviceType === "ios" && (
                   <>
-                    <p className="text-charcoal/80 font-medium mb-4">Choose your UPI app</p>
-                    <div className="flex flex-col gap-3 mb-6">
-                      <a
-                        href={upiDeepLink}
-                        className="block w-full rounded-sm bg-brand-ivory border border-brand-gold px-6 py-4 text-center font-bold text-brand-maroon uppercase tracking-widest hover:bg-brand-gold/10 transition-colors shadow-sm"
-                      >
-                        Open UPI App
-                      </a>
-                    </div>
-                    <p className="text-charcoal/80 font-medium mb-4 uppercase tracking-wider text-sm">OR Scan QR / Copy UPI ID</p>
+                    <p className="text-charcoal/80 font-medium mb-4 text-lg">Pay securely using your UPI app</p>
+                    <p className="text-charcoal/80 text-sm leading-relaxed mb-6">
+                      Copy the UPI ID below and paste it into your preferred UPI app, or scan the QR code from another device.
+                    </p>
                   </>
                 )}
 
