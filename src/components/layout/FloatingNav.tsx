@@ -43,7 +43,7 @@ export default function FloatingNav() {
               onClick={handleNavClick}
               className={cn(
                 "relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] w-[74px] h-[50px] rounded-full transition-colors duration-300",
-                isActive ? "text-white" : "text-[#E8DFC8]"
+                isActive ? "text-white" : "text-[#F3E5C0]"
               )}
             >
               {isActive && (
@@ -54,7 +54,7 @@ export default function FloatingNav() {
                 />
               )}
               <item.icon className="w-[18px] h-[18px] mb-0.5 z-10 relative" strokeWidth={isActive ? 2.6 : 2.2} />
-              <span className={cn("text-[9.5px] font-bold tracking-wider z-10 relative uppercase", isActive ? "text-white" : "text-[#E8DFC8]")}>{item.name}</span>
+              <span className={cn("text-[9.5px] font-bold tracking-wider z-10 relative uppercase", isActive ? "text-white" : "text-[#F3E5C0]")}>{item.name}</span>
             </Link>
           );
         })}

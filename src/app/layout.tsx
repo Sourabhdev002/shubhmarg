@@ -18,6 +18,8 @@ const manrope = Manrope({
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MetaPixel from "@/components/analytics/MetaPixel";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import FloatingNav from "@/components/layout/FloatingNav";
 import SmoothScroller from "@/components/layout/SmoothScroller";
 import MagneticCursor from "@/components/layout/MagneticCursor";
@@ -96,6 +98,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </SmoothScroller>
           </div>
           <FestivalGreeting event={todayEvent} />
+          <Analytics />
+          <SpeedInsights />
           </AuthProvider>
         </LanguageProvider>
       </body>
