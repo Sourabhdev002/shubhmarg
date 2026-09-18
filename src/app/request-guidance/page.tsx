@@ -6,6 +6,7 @@ import WhatsAppProofShowcase from "@/components/shared/WhatsAppProofShowcase";
 import { ShubhMargEmblem } from "@/components/brand/ShubhMargLogo";
 import GlobalDeskBadge from "@/components/shared/GlobalDeskBadge";
 import { waLink } from "@/config/contact";
+import GuidancePageTracker from "@/components/analytics/GuidancePageTracker";
 
 export const metadata: Metadata = {
   title: "Request Guidance | ShubhMarg",
@@ -17,6 +18,7 @@ export default function RequestGuidancePage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#FFFDF8] via-[#FAF5EC] to-[#F5EAD6] pb-32">
+      <GuidancePageTracker />
       {/* Hero Header — Royal Kashi Astrological Atelier Aesthetic */}
       <div className="relative overflow-hidden pt-24 pb-8 sm:pt-28 sm:pb-10 border-b border-[#D4AF37]/20 bg-gradient-to-b from-[#FFFDF9] via-[#FAF4E8] to-[#F5EAD6]">
         

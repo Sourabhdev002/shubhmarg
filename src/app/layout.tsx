@@ -18,6 +18,7 @@ const manrope = Manrope({
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MetaPixel from "@/components/analytics/MetaPixel";
+import Clarity from "@/components/analytics/Clarity";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import FloatingNav from "@/components/layout/FloatingNav";
@@ -82,6 +83,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <div className="flex flex-col min-h-screen w-full overflow-x-clip relative">
             <SmoothScroller>
               <MetaPixel />
+              <Clarity />
               <MagneticCursor />
               <Header />
               <main className="flex-1">
