@@ -1,0 +1,926 @@
+@import "tailwindcss";
+
+:root {
+  /* ── ROYAL OBSIDIAN-GOLD TEMPLE SANCTUARY (default) ────────────
+     Obsidian stone base, radiant molten gold, warm diya amber,
+     and deep sacred bronze accents. Devotional, majestic, luxury. */
+  --background: #FBF6EC;   /* marble ivory base */
+  --foreground: #2A1810;   /* deep temple ink */
+  --font-inter: 'Inter', sans-serif;
+  --font-manrope: 'Manrope', sans-serif;
+  --font-outfit: 'Outfit', sans-serif;
+  --font-playfair: 'Playfair Display', serif;
+  --font-cormorant: 'Cormorant Garamond', serif;
+  --font-tiro: 'Tiro Devanagari Hindi', serif;
+
+  /* Official ShubhMarg Sanctuary Reference Tokens */
+  --marble-ivory:  #0E0A08;  /* base obsidian surface */
+  --warm-cream:    #15100D;  /* alternating surface */
+  --sand:          #1A120D;  /* deeper bronze card */
+  --temple-white:  #241810;  /* elevated card */
+  --ink:           #FFFDF8;  /* primary heading text */
+  --ink-soft:      #C4B59D;  /* secondary text */
+  --saffron:       #E8791E;  /* primary accent (warm orange) */
+  --saffron-deep:  #C25E10;  /* saffron hover/press */
+  --marigold:      #F5A623;  /* bright yellow-gold */
+  --vermillion:    #C0392B;  /* sindoor red — CTA/alerts */
+  --vermillion-deep:#9E2A1E;
+  --antique-gold:  #D4AF37;  /* radiant temple gold */
+  --gold-leaf:     #F3E5AB;  /* luminous metallic highlight */
+  --maroon:        #4B1515;  /* deep traditional maroon */
+  --muted-text:    #C4B59D;
+
+  --spacing-page-padding: clamp(1rem, 5vw, 2.5rem);
+  --spacing-card-padding: clamp(1.25rem, 4vw, 2rem);
+  --spacing-card-gap: clamp(1rem, 3vw, 1.5rem);
+  /* ── Premium Mobile Rhythm — tight, cohesive luxury spacing ─ */
+  --section-py-mobile: 1rem;      /* 16px — ultra-compact mobile */
+  --section-py-desktop: 3rem;     /* 48px — balanced editorial rhythm */
+  --section-py: clamp(var(--section-py-mobile), 4vw, var(--section-py-desktop));
+  --section-gap: clamp(1rem, 3.5vw, 1.75rem); /* eyebrow-to-content gap */
+  --card-radius: clamp(1rem, 3vw, 1.5rem);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* Royal obsidian aesthetic in every mode — keep consistency across devices */
+@media (prefers-color-scheme: dark) {
+  :root { --background: #FBF6EC; --foreground: #2A1810; }
+}
+
+html { scroll-behavior: auto; }
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand-maroon: #4B1515;
+  --color-brand-maroon-light: #702626;
+  --color-brand-maroon-dark: #2F0A0A;
+  --color-brand-gold: #D4AF37;
+  --color-brand-gold-light: #F3E5AB;
+  --color-brand-gold-dark: #AA8822;
+  --color-brand-ivory: #FDFBF7;
+  --color-brand-parchment: #F4EFE6;
+  --color-brand-brown: #3E2723;
+  --color-brand-saffron: #FF9933;
+  --color-brand-saffron-dark: #CC7700;
+  --color-brand-celestial: #0A192F;
+  --color-brand-charcoal: #1A1C20;
+  --color-brand-dark: #1A1C20;
+  --color-shubh-obsidian: #080604;
+  --color-shubh-surface: #100C09;
+  --color-shubh-surface-elevated: #15100C;
+  --color-shubh-gold: #C9A24A;
+  --color-shubh-gold-highlight: #E0C36A;
+  --color-shubh-champagne: #F0E8D8;
+  --color-shubh-muted: #9D968C;
+  --color-shubh-purple: #6E4A91;
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-outfit);
+  --font-serif: var(--font-playfair);
+  --font-heading: var(--font-playfair);
+  --font-devanagari: var(--font-tiro);
+  --shadow-premium: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  --shadow-premium-hover: 0 16px 40px -4px rgba(0, 0, 0, 0.5), 0 0 10px rgba(201, 162, 74, 0.15);
+  --radius-premium: 1.25rem;
+  --radius-premium-lg: 2rem;
+  --ease-vedic: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-vedic: 800ms;
+}
+
+html, body {
+  overflow-x: clip;
+  max-width: 100vw;
+  width: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif), serif;
+  letter-spacing: -0.01em;
+}
+
+/* Remove grey tap flash on Android/iOS */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Remove 300ms tap delay */
+a, button, [role="button"], input[type="submit"], input[type="button"], label {
+  touch-action: manipulation;
+}
+
+/* Prevent iOS zoom on inputs */
+@media (max-width: 768px) {
+  input, select, textarea { font-size: 16px !important; }
+}
+
+/* Native scroll on overflow containers */
+.overflow-x-auto, .overflow-y-auto, .overflow-y-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Safe-area utilities (needs viewport-fit=cover) */
+.pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.pt-safe  { padding-top: env(safe-area-inset-top, 0px); }
+.pb-nav-safe { padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px)); }
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+  opacity: 0.2;
+}
+@media (prefers-color-scheme: light) {
+  .grain::after { mix-blend-mode: multiply; opacity: 0.1; }
+}
+
+.hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+.text-fluid-xl  { font-size: clamp(2rem,   5vw, 3rem); }
+.text-fluid-2xl { font-size: clamp(2.5rem, 6vw, 4rem); }
+.text-fluid-3xl { font-size: clamp(3rem,   7vw, 5rem); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.glass-premium {
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+  backdrop-filter: blur(28px) saturate(150%);
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-right-color: rgba(255,255,255,0.03);
+  border-bottom-color: rgba(255,255,255,0.03);
+  box-shadow: var(--shadow-premium);
+  transform: translateZ(0);
+}
+@media (prefers-color-scheme: light) {
+  .glass-premium {
+    background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.4) 100%);
+    border: 1px solid rgba(255,255,255,0.9);
+    border-right-color: rgba(255,255,255,0.4);
+    border-bottom-color: rgba(255,255,255,0.4);
+    box-shadow: 0 4px 24px -4px rgba(0,0,0,0.05);
+  }
+}
+
+.ambient-mesh {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 50%, rgba(255,153,51,0.08), transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(212,175,55,0.08), transparent 50%),
+    radial-gradient(circle at 50% 90%, rgba(10,25,47,0.15),   transparent 50%);
+  z-index: 0;
+}
+
+/* Premium shimmer animation for gold borders */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+/* Gold glow pulse for CTA buttons */
+@keyframes glow {
+  0%, 100% { box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2), 0 0 0 0 rgba(212, 175, 55, 0); }
+  50% { box-shadow: 0 4px 25px rgba(212, 175, 55, 0.4), 0 0 20px rgba(212, 175, 55, 0.15); }
+}
+
+/* Payment page premium helpers */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fadeIn { animation: fadeIn 0.35s ease-out both; }
+@keyframes payRise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.animate-pay-rise { animation: payRise 0.5s cubic-bezier(0.22,1,0.36,1) both; }
+@keyframes qrBreathe { 0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0), 0 10px 30px rgba(0,0,0,0.4); } 50% { box-shadow: 0 0 0 6px rgba(212,175,55,0.10), 0 10px 40px rgba(0,0,0,0.5); } }
+.animate-qr-breathe { animation: qrBreathe 3.5s ease-in-out infinite; }
+
+/* ── Premium 3D / rich effects ────────────────────────────────── */
+
+/* Frosted glass depth: translucent surface + inner top highlight + soft shadow */
+.premium-glass {
+  background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), 0 14px 40px -18px rgba(0,0,0,0.8);
+}
+
+/* Gold-foil engraved glyph: animated metallic sheen sweeping across text */
+.gold-foil {
+  background: linear-gradient(100deg, #b8860b 0%, #f5d97a 25%, #fff4c2 40%, #f5d97a 55%, #d4af37 75%, #b8860b 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: goldFoil 4.5s ease-in-out infinite;
+}
+@keyframes goldFoil {
+  0% { background-position: 180% 0; }
+  55% { background-position: -60% 0; }
+  100% { background-position: -60% 0; }
+}
+
+/* Liquid-gold glow leading edge for animated bars */
+.liquid-gold-edge { box-shadow: 0 0 8px 1px rgba(245,217,122,0.55); }
+
+/* Soft idle float for hero/ornament layers (parallax feel) */
+@keyframes softFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-soft-float { animation: softFloat 6s ease-in-out infinite; }
+
+/* ── Premium Bronze Glass & Artifact Card Styles (Reference Design) ── */
+.surface-bronze-glass {
+  background: linear-gradient(165deg, rgba(42, 28, 20, 0.7) 0%, rgba(21, 16, 13, 0.9) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(201, 166, 70, 0.2);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(226, 200, 117, 0.12);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.surface-bronze-glass:hover {
+  border-color: rgba(201, 166, 70, 0.5);
+  box-shadow: 0 18px 40px -8px rgba(0, 0, 0, 0.85), 0 0 25px rgba(201, 166, 70, 0.15), inset 0 1px 0 rgba(226, 200, 117, 0.28);
+  transform: translateY(-3px);
+}
+
+.card-light-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-light-sweep::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(60deg, transparent 40%, rgba(226, 200, 117, 0.08) 50%, transparent 60%);
+  transform: translateX(-100%);
+  pointer-events: none;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-light-sweep:hover::after {
+  transform: translateX(100%);
+}
+
+.font-cormorant {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+}
+
+/* Sacred Geometry subtle atmospheric pattern (2% opacity) */
+.bg-sacred-yantra {
+  background-image: radial-gradient(circle at 50% 50%, rgba(201, 166, 70, 0.035) 1px, transparent 1px),
+                    radial-gradient(circle at 0% 0%, rgba(201, 166, 70, 0.025) 1px, transparent 1px);
+  background-size: 40px 40px, 80px 80px;
+}
+
+/* ── Premium 3D navbar helpers ───────────────────────────────── */
+
+/* Frosted premium header bar with depth (desktop scrolled state) */
+.nav-glass {
+  background: linear-gradient(180deg, rgba(21,16,13,0.95), rgba(11,8,7,0.95));
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: 0 8px 30px -12px rgba(0,0,0,0.8), inset 0 1px 0 rgba(201,166,70,0.2);
+}
+
+/* Raised 3D gold pill for desktop nav links on hover */
+.nav-pill {
+  position: relative;
+  border-radius: 9999px;
+  transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s, background 0.25s;
+  transform: translateZ(0);
+}
+.nav-pill:hover {
+  background: linear-gradient(180deg, rgba(201,166,70,0.18), rgba(201,166,70,0.06));
+  box-shadow: 0 6px 16px -6px rgba(201,166,70,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+}
+
+/* Glossy 3D dark-gold bottom bar for mobile floating nav */
+.nav-3d-bar {
+  background: linear-gradient(180deg, #1c130c 0%, #120b07 100%);
+  box-shadow:
+    0 10px 30px -8px rgba(0,0,0,0.7),
+    0 0 0 1px rgba(212,175,55,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    inset 0 -6px 14px -6px rgba(0,0,0,0.6);
+}
+
+/* Active raised tab knob in the 3D bar */
+.nav-3d-knob {
+  background: radial-gradient(circle at 50% 30%, rgba(245,217,122,0.28), rgba(212,175,55,0.10) 60%, transparent 75%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 4px 10px -4px rgba(212,175,55,0.6);
+}
+
+
+
+/* ══════════════════════════════════════════════════════════════════
+   STRICT PRINT & PDF STYLESHEET
+   Hides website navigation/shell and ensures clean document layout
+   ══════════════════════════════════════════════════════════════════ */
+@media print {
+  @page {
+    margin: 1.2cm 1.5cm;
+    size: A4 portrait;
+  }
+
+  /* Hide entire website chrome */
+  header,
+  footer,
+  nav,
+  aside,
+  .print-hidden,
+  [role="navigation"],
+  [class*="FloatingNav"],
+  [class*="StickyGuidanceCta"],
+  [class*="WhatsAppButton"],
+  [class*="Chatbot"],
+  button,
+  .no-print {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  body, html, main {
+    background: #ffffff !important;
+    color: #111111 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    overflow: visible !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+  }
+
+  .print-page-container {
+    border: 2px solid #333333 !important;
+    padding: 1.5rem !important;
+    border-radius: 8px !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  /* Prevent awkward page cuts */
+  h1, h2, h3, h4, .avoid-break {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   PREMIUM MOBILE RHYTHM — shared section shell helpers
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Universal section vertical rhythm */
+.section-py  { padding-top: var(--section-py); padding-bottom: var(--section-py); }
+.section-px  { padding-left: clamp(1.25rem, 5vw, 2rem); padding-right: clamp(1.25rem, 5vw, 2rem); }
+
+/* Eyebrow pill — shared across all sections */
+.eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.875rem;
+  border-radius: 9999px;
+  background: rgba(212,175,55,0.10);
+  border: 1px solid rgba(212,175,55,0.28);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #E0C36A;
+}
+
+/* Gold hairline divider ornament */
+.gold-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.gold-divider::before,
+.gold-divider::after {
+  content: "";
+  display: block;
+  height: 1px;
+  width: 2rem;
+  background: linear-gradient(to right, transparent, rgba(212,175,55,0.55));
+}
+.gold-divider::after {
+  background: linear-gradient(to left, transparent, rgba(212,175,55,0.55));
+}
+
+/* Richer premium glass — deeper depth, top edge highlight */
+.glass-deep {
+  background: linear-gradient(160deg, rgba(255,255,255,0.065) 0%, rgba(255,255,255,0.018) 100%);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.09);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.10),
+    0 14px 40px -16px rgba(0,0,0,0.85),
+    0 1px 0 rgba(212,175,55,0.12);
+}
+
+/* Gold shimmer border for cards */
+.border-gold-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.border-gold-shimmer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(212,175,55,0.55) 0%, rgba(212,175,55,0.08) 50%, rgba(212,175,55,0.45) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Animated top edge glow line (for stat bars, section tops) */
+@keyframes edgeSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+.edge-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.edge-sweep::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 30%; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212,175,55,0.8), transparent);
+  animation: edgeSweep 3s ease-in-out infinite;
+}
+
+/* Mobile-first card gap */
+.card-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(0.625rem, 2.5vw, 1rem);
+}
+.card-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(0.625rem, 2.5vw, 1rem);
+}
+@media (min-width: 640px) {
+  .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Text size for section titles — tighter floor than fluid-2xl */
+.text-section-title {
+  font-size: clamp(1.625rem, 5.5vw, 2.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+
+/* Number stat — big and bold */
+.text-stat {
+  font-size: clamp(2rem, 7vw, 3rem);
+  font-weight: 900;
+  line-height: 1;
+  font-family: var(--font-serif), serif;
+}
+
+/* Gold CTA button — reusable */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #C9A24A 0%, #E0C36A 48%, #C9A24A 100%);
+  color: #080604;
+  font-size: 0.8125rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 30px -6px rgba(201,162,74,0.55);
+  transition: filter 0.2s, transform 0.2s;
+  min-height: 52px;
+}
+.btn-gold:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.btn-gold:active { transform: scale(0.97); }
+
+/* Maroon CTA button */
+.btn-maroon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  background: #4B1515;
+  color: #FDFBF7;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border: 1px solid #702626;
+  box-shadow: 0 8px 30px -8px rgba(75,21,21,0.6);
+  transition: opacity 0.2s, transform 0.2s;
+  min-height: 52px;
+  animation: glow 3s ease-in-out infinite;
+}
+.btn-maroon:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-maroon:active { transform: scale(0.97); }
+
+/* Horizontal scroll snap row (for astrologer cards on mobile) */
+.scroll-snap-row {
+  display: flex;
+  gap: clamp(0.75rem, 3vw, 1rem);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.scroll-snap-row::-webkit-scrollbar { display: none; }
+.scroll-snap-row > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ── Hover lift on glass cards ── */
+.lift-on-hover {
+  transition: transform 0.28s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.28s cubic-bezier(0.22,1,0.36,1),
+              border-color 0.28s;
+}
+.lift-on-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 46px -20px rgba(107,42,20,0.26), 0 0 0 1px rgba(232,121,30,0.3);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   WARM PREMIUM DARK — kills the "black void" feeling
+   Alternating warm surfaces, ambient glow, ivory accents, dividers
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Alternating section surfaces — use these instead of flat #0a0604.
+   .surface-obsidian = deepest, .surface-bronze = warmer/lifted.
+   Alternate them down the page so it reads as rhythm, not a black column. */
+.surface-obsidian {
+  position: relative;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(42,28,20,0.35) 0%, transparent 55%),
+    linear-gradient(180deg, #0B0807 0%, #0E0A08 100%);
+}
+.surface-bronze {
+  position: relative;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(58,38,24,0.45) 0%, transparent 60%),
+    linear-gradient(180deg, #15100D 0%, #100B08 100%);
+}
+.surface-maroon-wash {
+  position: relative;
+  background:
+    radial-gradient(90% 70% at 80% 10%, rgba(75,21,21,0.28) 0%, transparent 55%),
+    linear-gradient(180deg, #120B08 0%, #0B0807 100%);
+}
+
+/* Ambient warm-gold glow that fills otherwise-empty dark space.
+   Drop <span class="glow-fill" /> inside a relative section. */
+.glow-fill {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(45% 40% at 15% 25%, rgba(201,166,70,0.10), transparent 70%),
+    radial-gradient(50% 45% at 85% 75%, rgba(226,200,117,0.07), transparent 70%);
+}
+
+/* Soft ember at a corner — subtle life in dead zones */
+.ember-tl { position:absolute; top:-6rem; left:-4rem; width:22rem; height:22rem; border-radius:9999px; background:radial-gradient(circle, rgba(201,166,70,0.14), transparent 70%); filter: blur(60px); pointer-events:none; z-index:0; }
+.ember-br { position:absolute; bottom:-6rem; right:-4rem; width:24rem; height:24rem; border-radius:9999px; background:radial-gradient(circle, rgba(114,35,43,0.20), transparent 70%); filter: blur(70px); pointer-events:none; z-index:0; }
+
+/* Section transition divider — an ornamental gold seam between sections */
+.section-seam {
+  position: relative;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to right, transparent, rgba(201,166,70,0.35), transparent);
+}
+.section-seam::after {
+  content: "\2726"; /* ✦ */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #C25E10;
+  font-size: 10px;
+  background: #FBF6EC;
+  border: 1px solid rgba(184, 134, 11, 0.25);
+  border-radius: 9999px;
+  padding: 1px 8px;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(184,134,11,0.08);
+}
+
+/* ── Ivory accent card ── a light "cream on dark" surface for key moments.
+   Use sparingly (1-2 per page) to give brightness without losing identity. */
+.card-ivory {
+  background: linear-gradient(160deg, #F7F1E4 0%, #EFE6D3 100%);
+  color: #2A1C14;
+  border: 1px solid rgba(201,166,70,0.35);
+  box-shadow:
+    0 20px 60px -20px rgba(0,0,0,0.7),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+}
+.card-ivory .ivory-muted { color: rgba(42,28,20,0.62); }
+.card-ivory .ivory-gold  { color: #A8842B; }
+
+/* Warm hairline top accent used at the top of warm sections */
+.warm-top-accent {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201,166,70,0.4), transparent);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ⚜️ ROYAL OBSIDIAN-GOLD TEMPLE SANCTUARY (loaded last — wins cascade)
+   Deep royal obsidian stone · radiant molten gold · diya amber glow
+   Devotional, majestic, authentic Vedic luxury.
+   ══════════════════════════════════════════════════════════════════ */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Headings render in deep temple ink on the bright marble base by default, allowing utility colors like text-white to work */
+:where(h1, h2, h3, h4, h5, h6) {
+  color: #2A1810;
+}
+
+/* Footer Headings MUST render in luminous radiant 24K gold against dark obsidian background */
+footer h1, footer h2, footer h3, footer h4, footer h5, footer h6 {
+  color: #F5C842 !important;
+}
+
+/* ── Alternating ROYAL OBSIDIAN Surfaces ───────────────────────── */
+.surface-obsidian {
+  position: relative;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(212, 175, 55, 0.10) 0%, transparent 55%),
+    linear-gradient(180deg, #FFFDF8 0%, #FBF6EC 100%);
+}
+.surface-bronze {
+  position: relative;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(232, 121, 30, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #F5EAD6 0%, #F0E2C8 100%);
+}
+.surface-maroon-wash {
+  position: relative;
+  background:
+    radial-gradient(90% 70% at 80% 10%, rgba(192, 57, 43, 0.08) 0%, transparent 55%),
+    linear-gradient(180deg, #FDF3E2 0%, #FBF6EC 100%);
+}
+/* Devotional soft saffron amber wash (bright) */
+.surface-saffron {
+  position: relative;
+  background:
+    radial-gradient(100% 80% at 50% 0%, rgba(232, 121, 30, 0.12) 0%, transparent 60%),
+    linear-gradient(180deg, #FDF3E2 0%, #F7EEDD 100%);
+}
+
+/* Ambient glow → warm temple diya glow */
+.glow-fill {
+  background:
+    radial-gradient(45% 40% at 15% 25%, rgba(212, 175, 55, 0.12), transparent 70%),
+    radial-gradient(50% 45% at 85% 75%, rgba(232, 121, 30, 0.08), transparent 70%);
+}
+.ember-tl { background: radial-gradient(circle, rgba(212, 175, 55, 0.15), transparent 70%); }
+.ember-br { background: radial-gradient(circle, rgba(192, 57, 43, 0.16), transparent 70%); }
+
+/* Section seam → radiant gold divider with cream ornament center */
+.section-seam {
+  background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.4), transparent);
+}
+.section-seam::after {
+  color: #C25E10;
+  background: #FBF6EC;
+}
+
+/* ── Eyebrow pill → molten gold on dark ────────────────────────── */
+.eyebrow-pill {
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  color: #FFEAA7;
+}
+
+/* Gold divider → radiant gold rays */
+.gold-divider::before { background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.6)); }
+.gold-divider::after  { background: linear-gradient(to left,  transparent, rgba(212, 175, 55, 0.6)); }
+
+/* ── Premium glass → royal dark obsidian crystal card ─────────── */
+.glass-deep {
+  background: linear-gradient(160deg, rgba(24, 15, 10, 0.94) 0%, rgba(14, 9, 6, 0.96) 100%);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 234, 167, 0.12),
+    0 14px 40px -18px rgba(0, 0, 0, 0.85),
+    0 1px 0 rgba(212, 175, 55, 0.15);
+}
+.glass-premium {
+  background: linear-gradient(135deg, rgba(26, 17, 11, 0.92) 0%, rgba(16, 10, 7, 0.96) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 10px 34px -14px rgba(0, 0, 0, 0.85);
+}
+.premium-glass {
+  background: linear-gradient(160deg, rgba(28, 18, 12, 0.92), rgba(16, 10, 7, 0.96));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(255, 234, 167, 0.1), 0 14px 40px -18px rgba(0, 0, 0, 0.85);
+}
+
+/* Card hover lift → radiant gold aura */
+.lift-on-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 46px -22px rgba(107,42,20,0.28), 0 0 0 1px rgba(232,121,30,0.35);
+}
+
+/* Gold shimmer border */
+.border-gold-shimmer::before {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.6) 0%, rgba(245, 166, 35, 0.2) 50%, rgba(212, 175, 55, 0.5) 100%);
+}
+
+/* Edge sweep line → molten gold */
+.edge-sweep::after { background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.9), transparent); }
+
+/* ── Buttons ─────────────────────────────────────────────────────── */
+/* Primary CTA → radiant molten gold gradient */
+.btn-gold {
+  background: linear-gradient(135deg, #D4AF37 0%, #F3E5AB 50%, #D4AF37 100%);
+  color: #0B0807;
+  box-shadow: 0 10px 30px -8px rgba(212, 175, 55, 0.55);
+}
+.btn-gold:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+/* Secondary CTA → vermillion sindoor */
+.btn-maroon {
+  background: linear-gradient(135deg, #C0392B 0%, #9E2A1E 100%);
+  color: #FFFDF8;
+  border: 1px solid rgba(192, 57, 43, 0.5);
+  box-shadow: 0 10px 30px -8px rgba(192, 57, 43, 0.5);
+}
+
+/* ── Ivory accent card → warm consecrated bronze stone ───────── */
+.card-ivory {
+  background: linear-gradient(160deg, #1C120B 0%, #120B07 100%);
+  color: #FFEAA7;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 22px 60px -24px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 234, 167, 0.15);
+}
+.card-ivory .ivory-muted { color: #C4B59D; }
+.card-ivory .ivory-gold  { color: #D4AF37; }
+
+/* ── Navbar → dark obsidian glass ─────────────────────────────── */
+.nav-glass {
+  background: linear-gradient(180deg, rgba(14, 9, 6, 0.96), rgba(9, 6, 4, 0.94));
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: 0 8px 30px -14px rgba(0, 0, 0, 0.85), inset 0 -1px 0 rgba(212, 175, 55, 0.2);
+}
+.nav-pill:hover {
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.15), rgba(232, 121, 30, 0.08));
+  box-shadow: 0 6px 16px -6px rgba(212, 175, 55, 0.35), inset 0 1px 0 rgba(255, 234, 167, 0.2);
+}
+
+/* Mobile floating nav → dark obsidian glass with gold bezel */
+.nav-3d-bar {
+  background: linear-gradient(180deg, rgba(20, 13, 8, 0.96) 0%, rgba(13, 8, 5, 0.94) 100%);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow:
+    0 16px 40px -10px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(212, 175, 55, 0.30),
+    inset 0 1px 0 rgba(255, 234, 167, 0.20),
+    inset 0 -6px 14px -8px rgba(212, 175, 55, 0.12);
+}
+/* Active tab → a lit diya amber knob */
+.nav-3d-knob {
+  background: linear-gradient(160deg, #F5A623 0%, #E8791E 55%, #C25E10 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 6px 16px -4px rgba(232, 121, 30, 0.6),
+    0 0 0 1px rgba(194, 94, 16, 0.35);
+}
+
+/* Gold-foil animated text → radiant molten gold */
+.gold-foil {
+  background: linear-gradient(100deg, #D4AF37 0%, #F5A623 25%, #FFEAA7 40%, #F5A623 55%, #D4AF37 75%, #D4AF37 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Ambient mesh (hero bg) → cosmic amber & gold nebula */
+.ambient-mesh {
+  background:
+    radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.12), transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(232, 121, 30, 0.10), transparent 50%),
+    radial-gradient(circle at 50% 90%, rgba(192, 57, 43, 0.08), transparent 50%);
+}
+
+/* Grain overlay */
+.grain::after { mix-blend-mode: overlay; opacity: 0.04; }
+
+/* Bronze-glass card → dark obsidian bronze glass */
+.surface-bronze-glass {
+  background: linear-gradient(165deg, rgba(255, 253, 248, 0.96) 0%, rgba(245, 234, 214, 0.96) 100%);
+  border: 1px solid rgba(184, 134, 11, 0.25);
+  box-shadow: 0 12px 34px -16px rgba(107, 42, 20, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.surface-bronze-glass:hover {
+  border-color: rgba(232, 121, 30, 0.5);
+  box-shadow: 0 20px 44px -18px rgba(107, 42, 20, 0.3), 0 0 24px rgba(232, 121, 30, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+/* Light sweep shimmer → warm gold highlight */
+.card-light-sweep::after {
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 234, 167, 0.15) 50%, transparent 70%);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   📱 MOBILE PERFORMANCE GUARD (iOS Safari)
+   Large blur() radii and backdrop-filter are the biggest GPU cost on
+   phones. On small screens we cap blur radius and lighten backdrop
+   blur so scrolling stays smooth. Desktop keeps the full rich effect.
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Cap oversized ambient-glow blurs — anything above ~60px is invisible
+     difference on a phone but very expensive to rasterize. */
+  [class*="blur-["] { --tw-blur: blur(48px); }
+
+  /* Lighten frosted-glass backdrop blurs (cheaper offscreen sampling) */
+  .glass-deep,
+  .glass-premium,
+  .premium-glass,
+  .surface-bronze-glass {
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
+  }
+
+  /* The fixed mobile nav re-samples the backdrop every scroll frame —
+     drop its blur to a light value (still frosted, far cheaper). */
+  .nav-3d-bar {
+    backdrop-filter: blur(10px) saturate(1.3);
+    -webkit-backdrop-filter: blur(10px) saturate(1.3);
+  }
+
+  /* Panchang card is huge; its blur-2xl backdrop is heavy on scroll */
+  .backdrop-blur-2xl { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+}
+
+/* Fully honor reduced-motion: also pause infinite decorative loops */
+@media (prefers-reduced-motion: reduce) {
+  .gold-foil, .animate-soft-float, .animate-qr-breathe { animation: none !important; }
+}
+
+/* ── Calm the default Tailwind loops (was too fast on live/iOS) ──────────────
+   The stock animate-ping/pulse/bounce run ~1s which reads as hectic for a
+   premium, sacred feel. Slow them to an unhurried cadence sitewide. */
+.animate-ping   { animation-duration: 2.6s !important; }
+.animate-pulse  { animation-duration: 2.8s !important; }
+.animate-bounce { animation-duration: 2.2s !important; }

@@ -1,0 +1,7 @@
+SHUBH-TEST29 -> permission denied for table guidance_requests
+MIGTEST-KPT1F -> permission denied for table guidance_requests
+WVTEST-O5SXM -> permission denied for table guidance_requests
+WVTEST-3NJKZ -> permission denied for table guidance_requests
+WVTEST-GH4BX -> permission denied for table guidance_requests
+CLEANTEST-XT3V0 -> permission denied for table guidance_requests
+remaining=6

@@ -1,0 +1,6 @@
+CREATE=ok WVTEST-GH4BX
+AUTH status=401 body={"status":"unauthorized","matched":false}
+CONFIRM status=200 body={"status":"duplicate","matched":false,"referenceId":"WVTEST-O5SXM"}
+DB_AFTER={"payment_status":"unpaid","payment_verified_by":null,"payment_utr":null}
+REPLAY status=200 body={"status":"duplicate","matched":false,"referenceId":"WVTEST-O5SXM"}
+CLEANED

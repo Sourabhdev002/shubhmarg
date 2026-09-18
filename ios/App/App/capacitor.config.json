@@ -1,0 +1,10 @@
+{
+	"appId": "com.shubhmarg.app",
+	"appName": "ShubhMarg",
+	"webDir": "public",
+	"server": {
+		"url": "https://shubhmarg.vercel.app",
+		"cleartext": false
+	},
+	"packageClassList": []
+}

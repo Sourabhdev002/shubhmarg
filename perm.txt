@@ -1,0 +1,4 @@
+INSERT=ok
+UPDATE=ok
+DELETE=permission denied for table guidance_requests
+perm_row_remains=1

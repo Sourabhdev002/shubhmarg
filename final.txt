@@ -1,0 +1,5 @@
+leftover_after_purge=5
+CONFIRM status=200 body={"status":"confirmed","matched":true,"referenceId":"CLEANTEST-XT3V0"}
+DB_AFTER={"payment_status":"paid","payment_verified_by":"webhook","payment_utr":"UPI1788092961216"}
+REPLAY status=200 body={"status":"duplicate","matched":false,"referenceId":"CLEANTEST-XT3V0"}
+CLEANED_FINAL
