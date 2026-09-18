@@ -17,7 +17,6 @@ import RashiToday from "@/components/home/RashiToday";
 import Reveal3D from "@/components/ui/Reveal3D";
 import { Reveal } from "@/components/ui/Reveal";
 import AstrologerRoster from "@/components/home/AstrologerRoster";
-import AajKaAashirwad from "@/components/home/AajKaAashirwad";
 
 export const revalidate = 3600;
 
@@ -39,11 +38,6 @@ export default async function Home() {
       <CelestialLiveTicker panchang={todayPanchang} event={todayEvent} />
       {/* 2. Stats — animated counters */}
       <SocialProof />
-
-      <div className="section-seam" />
-
-      {/* FIRST YES — frictionless Rs11 tripwire (instant free blessing -> soft upsell) */}
-      <Reveal><AajKaAashirwad /></Reveal>
 
       <div className="section-seam" />
 
