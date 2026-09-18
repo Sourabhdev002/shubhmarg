@@ -6,6 +6,7 @@ import { Home, BookOpen, Compass } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 import { Haptics, ImpactStyle } from "@capacitor/haptics";
+import { Capacitor } from "@capacitor/core";
 import { waLink } from "@/config/contact";
 
 const WhatsAppIcon = () => (
@@ -24,7 +25,12 @@ const navItems = [
 export default function FloatingNav() {
   const pathname = usePathname();
 
-  const handleNavClick = () => Haptics.impact({ style: ImpactStyle.Light }).catch(() => {});
+  const handleNavClick = () => {
+    // Native app only — Capacitor Haptics throws in a browser (Facebook in-app etc).
+    if (Capacitor.isNativePlatform()) {
+      try { Haptics.impact({ style: ImpactStyle.Light }).catch(() => {}); } catch { /* ignore */ }
+    }
+  };
 
   return (
     <motion.div

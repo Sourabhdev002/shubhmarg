@@ -6,6 +6,7 @@
  */
 
 import { Haptics, ImpactStyle } from "@capacitor/haptics";
+import { Capacitor } from "@capacitor/core";
 
 // Frequency mappings for sacred Vedic realms
 export const REALM_FREQUENCIES: Record<string, number> = {
@@ -52,7 +53,10 @@ class CosmicResonanceEngine {
    * Triggers dual haptic feedback: Capacitor Native + Web Vibration API fallback
    */
   public triggerHaptic(style: ImpactStyle = ImpactStyle.Light) {
-    Haptics.impact({ style }).catch(() => {});
+    // Native app only — calling Capacitor Haptics in a browser (esp. Facebook in-app) throws "Error invoking plugin".
+    if (Capacitor.isNativePlatform()) {
+      try { Haptics.impact({ style }).catch(() => {}); } catch { /* ignore */ }
+    }
 
     if (typeof window !== "undefined" && window.navigator && window.navigator.vibrate) {
       try {
