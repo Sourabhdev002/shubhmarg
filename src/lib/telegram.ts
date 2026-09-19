@@ -82,6 +82,29 @@ export async function sendTopupAlert(alert: TopupAlert): Promise<boolean> {
   }
 }
 
+/** Simple info-only alert for Rs11 quick-unlocks (no Approve button - content already delivered). */
+export async function sendQuickUnlockAlert(info: { amountInr: number; product: string; rashi?: string | null; ref: string; }): Promise<boolean> {
+  if (!telegramConfigured()) return false;
+  const text =
+    "\ud83d\udcb0 *New Payment Received* (verify on Paytm)\n\n" +
+    "\ud83e\ude94 Product: *" + info.product + "*\n" +
+    (info.rashi ? "\u2648 Rashi: *" + info.rashi + "*\n" : "") +
+    "\ud83d\udcb5 Amount: *\u20b9" + info.amountInr + "*\n" +
+    "\ud83d\udd16 Ref: `" + info.ref + "`\n\n" +
+    "_Customer already got their reading. Just confirm \u20b9" + info.amountInr + " landed in your Paytm._";
+  try {
+    const res = await fetch(`${TG_API}/bot${botToken()}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId(), text, parse_mode: "Markdown" }),
+    });
+    return res.ok;
+  } catch (e) {
+    console.error("Telegram sendQuickUnlockAlert failed:", e);
+    return false;
+  }
+}
+
 /** Answer a callback query (removes the loading spinner on the tapped button). */
 export async function answerCallback(callbackQueryId: string, text: string): Promise<void> {
   try {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase";
-import { sendTopupAlert } from "@/lib/telegram";
+import { sendQuickUnlockAlert } from "@/lib/telegram";
 import { getGeminiClient, GEMINI_FLASH_MODEL } from "@/lib/gemini";
 
 export const dynamic = "force-dynamic";
@@ -58,12 +58,7 @@ export async function POST(req: NextRequest) {
 
   // Alert owner on Telegram to verify the payment on Paytm.
   try {
-    await sendTopupAlert({
-      txId: ref, amountInr: amount, exactAmount: amount,
-      phone: phone || name || "guest",
-      topupReference: ref + " (" + product + (rashi ? ", " + rashi : "") + ")",
-      utr: null,
-    });
+    await sendQuickUnlockAlert({ amountInr: amount, product, rashi: rashi || null, ref });
   } catch (e) { console.warn("quick-unlock telegram skipped:", e); }
 
   return NextResponse.json({ success: true, reference: ref, blessing });
