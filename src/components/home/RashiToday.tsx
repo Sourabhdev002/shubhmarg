@@ -20,6 +20,7 @@ import { ZODIAC_GLYPH_PATHS } from "@/lib/shubhmarg-assets";
 import { useT } from "@/context/LanguageContext";
 import { waLink } from "@/config/contact";
 import { pixelContact } from "@/components/analytics/pixelEvents";
+import QuickUnlockModal from "@/components/home/QuickUnlockModal";
 
 // Dynamic load the 3D WebGL Constellation Canvas for instant performance & SSR safety
 const Rashi3DCanvas = dynamic(() => import("./3d/Rashi3DCanvas"), {
@@ -143,6 +144,7 @@ export default function RashiToday() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [copiedMantra, setCopiedMantra] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [unlockOpen, setUnlockOpen] = useState(false);
 
   const today = new Date();
   const dateLabel = today.toLocaleDateString("en-IN", {
@@ -385,7 +387,7 @@ export default function RashiToday() {
               {verdict && (
                 <div className="mb-5 rounded-2xl border border-[#E8791E]/35 bg-gradient-to-r from-[#FFF6E9] to-[#FDECD2] px-4 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
                   <p className="text-[12.5px] text-[#4A2A15] font-sans font-medium leading-snug">Aaj ka <strong className="text-[#C25E10]">poora personal margdarshan</strong> + aapke naam ka <strong className="text-[#C25E10]">diya</strong> - sirf <strong>₹11</strong>.</p>
-                  <button type="button" onClick={() => { pixelContact("aaj_ka_aashirwad_11"); const msg = "Namaste Pandit Ji. Meri rashi " + selectedRashi.key + " (" + selectedRashi.en + ") hai. Main Aaj Ka Aashirwad (₹11) lena chahta/chahti hoon - aaj ka poora personal margdarshan + mere naam ka diya. Kripya bhejein."; window.open(waLink(msg), "_blank"); }} className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-bold text-[13px] bg-gradient-to-r from-[#25D366] to-[#1EB955] text-white shadow-[0_4px_16px_rgba(30,185,85,0.4)] active:scale-95 transition-all cursor-pointer"><span>WhatsApp par paayein - ₹11</span><ArrowRight className="w-4 h-4" /></button>
+                  <button type="button" onClick={() => { pixelContact("aaj_ka_aashirwad_11"); setUnlockOpen(true); }} className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-bold text-[13px] bg-gradient-to-r from-[#E8791E] via-[#F5A623] to-[#E8791E] text-white shadow-[0_4px_16px_rgba(232,121,30,0.45)] active:scale-95 transition-all cursor-pointer"><span>Paayein - ₹11</span><ArrowRight className="w-4 h-4" /></button>
                 </div>
               )}
 
@@ -720,6 +722,17 @@ export default function RashiToday() {
           )}
         </AnimatePresence>
       </div>
-    </section>
+    
+      {selectedRashi && verdict && (
+        <QuickUnlockModal
+          open={unlockOpen}
+          onClose={() => setUnlockOpen(false)}
+          rashiKey={selectedRashi.key}
+          rashiEn={selectedRashi.en}
+          blessing={verdict.line}
+          amount={11}
+        />
+      )}
+</section>
   );
 }
