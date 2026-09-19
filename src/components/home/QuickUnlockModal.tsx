@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import QRCode from "react-qr-code";
 import { X, CheckCircle2, Loader2, Smartphone, ShieldCheck, Sparkles } from "lucide-react";
 import { getUpiVpa, getUpiPayeeName } from "@/lib/upi-config";
+import { waLink } from "@/config/contact";
 import { pixelInitiateCheckout, pixelLead } from "@/components/analytics/pixelEvents";
 
 interface Props {
@@ -22,6 +23,7 @@ type Step = "pay" | "verifying" | "done";
 export default function QuickUnlockModal({ open, onClose, rashiKey, rashiEn, blessing, amount = 11 }: Props) {
   const [step, setStep] = useState<Step>("pay");
   const [mounted, setMounted] = useState(false);
+  const [realBlessing, setRealBlessing] = useState<string>("");
 
   // portal mount guard
   if (typeof window !== "undefined" && !mounted) setMounted(true);
@@ -37,11 +39,13 @@ export default function QuickUnlockModal({ open, onClose, rashiKey, rashiEn, ble
     setStep("verifying");
     pixelInitiateCheckout(amount);
     try {
-      await fetch("/api/quick-unlock", {
+      const res = await fetch("/api/quick-unlock", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ product: "aaj-ka-aashirwad", rashi: `${rashiKey} (${rashiEn})`, amount }),
+        body: JSON.stringify({ product: "aaj-ka-aashirwad", rashi: rashiKey, rashiEn, amount }),
       });
+      const data = await res.json();
+      if (data && data.blessing) setRealBlessing(data.blessing);
     } catch { /* deliver anyway */ }
     pixelLead("aaj-ka-aashirwad");
     setTimeout(() => setStep("done"), 900);
@@ -106,10 +110,18 @@ export default function QuickUnlockModal({ open, onClose, rashiKey, rashiEn, ble
               </div>
               <h3 className="text-xl font-bold font-cormorant text-[#2A1810] mb-1">Aaj Ka Aashirwad {"\u00b7"} {rashiKey}</h3>
               <div className="mt-3 rounded-2xl bg-[#FBF6EC] border border-[#D4AF37]/30 p-4 text-left">
-                <p className="text-[14px] font-cormorant font-semibold text-[#2A1810] leading-relaxed">{"\u201c"}{blessing}{"\u201d"}</p>
+                <p className="text-[14px] font-cormorant font-semibold text-[#2A1810] leading-relaxed">{"\u201c"}{realBlessing || blessing}{"\u201d"}</p>
               </div>
-              <p className="text-[11px] text-[#6B5A48] mt-3">Ek diya aapke naam se prajwalit kiya gaya hai {"\ud83e\ude94"}. Aapka poora margdarshan WhatsApp par bhi bheja jaayega.</p>
-              <button onClick={onClose} className="mt-4 px-6 py-2.5 rounded-full font-bold text-[13px] bg-[#2A1810] text-[#FDF5E6] active:scale-95 transition-all">Dhanyavaad {"\ud83d\ude4f"}</button>
+              <p className="text-[11px] text-[#6B5A48] mt-3">Ek diya aapke naam se prajwalit kiya gaya hai {"\ud83e\ude94"}.</p>
+              <a
+                href={waLink("Namaste Pandit Ji. Meri rashi " + rashiKey + " (" + rashiEn + ") hai. Maine Aaj Ka Aashirwad liya. Kripya mera aaj ka poora personal margdarshan bhejein aur batayein aage kaun sa reading mere liye sahi rahega.")}
+                target="_blank" rel="noopener noreferrer"
+                onClick={() => pixelLead("aaj_ka_aashirwad_whatsapp")}
+                className="mt-4 w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold text-[14px] bg-gradient-to-r from-[#25D366] to-[#1EB955] text-white shadow-[0_4px_16px_rgba(30,185,85,0.4)] active:scale-95 transition-all"
+              >
+                <span>Poora margdarshan WhatsApp par paayein</span>
+              </a>
+              <button onClick={onClose} className="mt-2 px-6 py-2 rounded-full font-semibold text-[12px] text-[#6B5A48] hover:text-[#2A1810] active:scale-95 transition-all">Dhanyavaad {"\ud83d\ude4f"}</button>
             </div>
           )}
         </motion.div>
