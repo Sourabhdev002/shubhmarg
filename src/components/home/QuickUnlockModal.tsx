@@ -4,7 +4,7 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import QRCode from "react-qr-code";
-import { X, CheckCircle2, Loader2, Smartphone, ShieldCheck, Sparkles } from "lucide-react";
+import { X, CheckCircle2, Loader2, Copy, ShieldCheck, Sparkles } from "lucide-react";
 import { getUpiVpa, getUpiPayeeName } from "@/lib/upi-config";
 import { waLink } from "@/config/contact";
 import { pixelInitiateCheckout, pixelLead } from "@/components/analytics/pixelEvents";
@@ -24,6 +24,7 @@ export default function QuickUnlockModal({ open, onClose, rashiKey, rashiEn, ble
   const [step, setStep] = useState<Step>("pay");
   const [mounted, setMounted] = useState(false);
   const [realBlessing, setRealBlessing] = useState<string>("");
+  const [copiedVpa, setCopiedVpa] = useState(false);
 
   // portal mount guard
   if (typeof window !== "undefined" && !mounted) setMounted(true);
@@ -34,6 +35,20 @@ export default function QuickUnlockModal({ open, onClose, rashiKey, rashiEn, ble
   const upiUri =
     `upi://pay?pa=${vpa}&pn=${encodeURIComponent(payee)}` +
     `&am=${amount}.00&cu=INR&tn=${encodeURIComponent("ShubhMarg Aaj Ka Aashirwad " + rashiKey)}`;
+
+  const handleCopyVpa = async () => {
+    try {
+      await navigator.clipboard.writeText(vpa);
+    } catch {
+      // clipboard blocked (rare) - select fallback
+      const ta = document.createElement("textarea");
+      ta.value = vpa; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); } catch { /* ignore */ }
+      document.body.removeChild(ta);
+    }
+    setCopiedVpa(true);
+    setTimeout(() => setCopiedVpa(false), 2000);
+  };
 
   const handlePaid = async () => {
     setStep("verifying");
@@ -83,10 +98,18 @@ export default function QuickUnlockModal({ open, onClose, rashiKey, rashiEn, ble
                 <QRCode value={upiUri} size={180} level="M" fgColor="#1a0f09" />
               </div>
 
-              <a href={upiUri} className="mt-4 w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold text-[14px] bg-gradient-to-r from-[#E8791E] via-[#F5A623] to-[#E8791E] text-white shadow-[0_4px_16px_rgba(232,121,30,0.4)] active:scale-95 transition-all">
-                <Smartphone className="w-4 h-4" /> Pay {"\u20b9"}{amount} in UPI app
-              </a>
-
+                            <button
+                type="button"
+                onClick={handleCopyVpa}
+                className="mt-4 w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold text-[14px] bg-gradient-to-r from-[#E8791E] via-[#F5A623] to-[#E8791E] text-white shadow-[0_4px_16px_rgba(232,121,30,0.4)] active:scale-95 transition-all"
+              >
+                {copiedVpa
+                  ? (<><CheckCircle2 className="w-4 h-4" /> UPI ID Copied</>)
+                  : (<><Copy className="w-4 h-4" /> Copy UPI ID</>)}
+              </button>
+              <p className="mt-2 text-[11px] text-[#6B5A48] leading-snug px-2">
+                Scan the QR, or copy <span className="font-semibold text-[#8C3F08] break-all">{vpa}</span> and pay {"\u20b9"}{amount} in GPay / PhonePe / Paytm.
+              </p>
               <button onClick={handlePaid} className="mt-3 w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold text-[14px] bg-gradient-to-r from-[#25D366] to-[#1EB955] text-white shadow-[0_4px_16px_rgba(30,185,85,0.4)] active:scale-95 transition-all">
                 <CheckCircle2 className="w-4 h-4" /> I&apos;ve Paid {"\u2014"} Show my Aashirwad
               </button>

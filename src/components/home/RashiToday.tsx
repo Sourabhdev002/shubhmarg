@@ -169,7 +169,7 @@ export default function RashiToday() {
   };
 
   return (
-    <section className="relative pt-6 sm:pt-10 pb-10 sm:pb-16 overflow-hidden surface-obsidian">
+    <section id="rashi-today" style={{ scrollMarginTop: "72px" }} className="relative pt-6 sm:pt-10 pb-10 sm:pb-16 overflow-hidden surface-obsidian">
       {/* 6-Layer Celestial Background System */}
       {/* Layer 1: Ivory Base (surface-obsidian renders bright) */}
       {/* Layer 2: Subtle Warm Saffron Radial Glow */}
