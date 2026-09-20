@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { Home, Compass, Sparkles } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Home, BookOpen, Compass } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 import { Haptics, ImpactStyle } from "@capacitor/haptics";
 import { Capacitor } from "@capacitor/core";
 import { waLink } from "@/config/contact";
-import { pixelContact } from "@/components/analytics/pixelEvents";
 
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor">
@@ -19,30 +18,18 @@ const WhatsAppIcon = () => (
 
 const navItems = [
   { name: "Home", href: "/", icon: Home },
+  { name: "Services", href: "/services", icon: BookOpen },
   { name: "Guidance", href: "/request-guidance", icon: Compass },
 ];
 
 export default function FloatingNav() {
   const pathname = usePathname();
-  const router = useRouter();
 
   const handleNavClick = () => {
-    // Native app only - Capacitor Haptics throws in a browser (Facebook in-app etc).
+    // Native app only — Capacitor Haptics throws in a browser (Facebook in-app etc).
     if (Capacitor.isNativePlatform()) {
       try { Haptics.impact({ style: ImpactStyle.Light }).catch(() => {}); } catch { /* ignore */ }
     }
-  };
-
-  // The "first yes" action: on the homepage scroll to the Rashi section (where the free
-  // reading + Rs11 unlock live); elsewhere route to the quick answer page.
-  const goRashi = () => {
-    handleNavClick();
-    pixelContact("nav_rashi_11");
-    if (pathname === "/") {
-      const el = document.getElementById("rashi-today");
-      if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
-    }
-    router.push("/quick-answer");
   };
 
   return (
@@ -50,9 +37,9 @@ export default function FloatingNav() {
       initial={{ y: 80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 350, damping: 26 }}
-      className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] left-1/2 -translate-x-1/2 z-50 md:hidden w-[calc(100%-1.5rem)] max-w-[380px] pointer-events-none"
+      className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] left-1/2 -translate-x-1/2 z-50 md:hidden w-[calc(100%-1.5rem)] max-w-[360px] pointer-events-none"
     >
-      <nav className="nav-3d-bar pointer-events-auto flex items-center justify-between rounded-full p-1.5 px-2 mx-auto w-full gap-1">
+      <nav className="nav-3d-bar pointer-events-auto flex items-center justify-between rounded-full p-1.5 px-2 mx-auto w-full">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -61,7 +48,7 @@ export default function FloatingNav() {
               href={item.href}
               onClick={handleNavClick}
               className={cn(
-                "relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] w-[62px] h-[50px] rounded-full transition-colors duration-300",
+                "relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] w-[74px] h-[50px] rounded-full transition-colors duration-300",
                 isActive ? "text-white" : "text-[#F3E5C0]"
               )}
             >
@@ -77,25 +64,13 @@ export default function FloatingNav() {
             </Link>
           );
         })}
-
-        {/* Rashi Rs11 - the always-visible "first yes" money action, saffron so it leads the eye */}
-        <button
-          type="button"
-          onClick={goRashi}
-          className="relative flex items-center justify-center gap-1.5 min-h-[44px] h-[50px] px-3.5 rounded-full text-white bg-gradient-to-b from-[#F5A623] to-[#E8791E] shadow-[0_6px_16px_-4px_rgba(232,121,30,0.6),inset_0_1px_0_rgba(255,255,255,0.35)] active:scale-95 transition-transform"
-        >
-          <Sparkles className="w-[16px] h-[16px]" strokeWidth={2.4} />
-          <span className="text-[11px] font-black tracking-wide uppercase leading-none">Rashi</span>
-          <span className="text-[10px] font-black leading-none px-1 py-0.5 rounded-md bg-white/25">{"\u20B9"}11</span>
-        </button>
-
-        {/* WhatsApp - filled emerald pill so it reads as a clear action */}
+        {/* WhatsApp — filled emerald pill so it reads as a clear action */}
         <a
           href={waLink()}
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleNavClick}
-          className="relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] w-[58px] h-[50px] rounded-full text-white bg-gradient-to-b from-[#25D366] to-[#1EB955] shadow-[0_6px_16px_-4px_rgba(30,185,85,0.55),inset_0_1px_0_rgba(255,255,255,0.4)] active:scale-95 transition-transform"
+          className="relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] w-[74px] h-[50px] rounded-full text-white bg-gradient-to-b from-[#25D366] to-[#1EB955] shadow-[0_6px_16px_-4px_rgba(30,185,85,0.55),inset_0_1px_0_rgba(255,255,255,0.4)] active:scale-95 transition-transform"
         >
           <WhatsAppIcon />
           <span className="text-[9px] font-bold tracking-wider uppercase text-white mt-0.5">Chat</span>
