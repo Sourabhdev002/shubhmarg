@@ -17,7 +17,6 @@ import RashiToday from "@/components/home/RashiToday";
 import Reveal3D from "@/components/ui/Reveal3D";
 import { Reveal } from "@/components/ui/Reveal";
 import AstrologerRoster from "@/components/home/AstrologerRoster";
-import GuidanceQuiz from "@/components/home/GuidanceQuiz";
 
 export const revalidate = 3600;
 
@@ -43,12 +42,7 @@ export default async function Home() {
 
       <div className="section-seam" />
 
-      {/* 2. GUIDANCE QUIZ - 20-sec router that kills choice paralysis */}
-      <Reveal><GuidanceQuiz /></Reveal>
-
-      <div className="section-seam" />
-
-      {/* 3. FREE TASTE + Rs11 FIRST-YES - the top converter, surfaced early */}
+      {/* 2. FREE TASTE + Rs11 FIRST-YES - the top converter, surfaced early */}
       <Reveal><RashiToday /></Reveal>
 
       <div className="section-seam" />
