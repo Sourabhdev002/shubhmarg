@@ -17,6 +17,7 @@ import RashiToday from "@/components/home/RashiToday";
 import Reveal3D from "@/components/ui/Reveal3D";
 import { Reveal } from "@/components/ui/Reveal";
 import AstrologerRoster from "@/components/home/AstrologerRoster";
+import AashirwadStrip from "@/components/home/AashirwadStrip";
 
 export const revalidate = 3600;
 
@@ -39,6 +40,9 @@ export default async function Home() {
 
       {/* Stats - quick trust bar */}
       <SocialProof />
+
+      {/* Aaj Ka Aashirwad - Rs11 first-yes surfaced high, scrolls to Rashi section */}
+      <AashirwadStrip />
 
       <div className="section-seam" />
 
