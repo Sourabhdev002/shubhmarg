@@ -6,27 +6,29 @@ import { Smartphone, CheckCircle2 } from "lucide-react";
 import { getMerchantVpa, getMerchantPayeeName } from "@/lib/upi-config";
 
 /**
- * UpiPayButton — true one-tap "click & pay" UPI on mobile.
+ * UpiPayButton — one-tap "click & pay" UPI on mobile, platform-aware.
  *
- * On a phone, tapping this fires a `upi://pay` INTENT with a prefilled amount +
- * payee. Android shows the "Pay with" chooser (GPay / PhonePe / Paytm / any UPI
- * app) with the amount already filled — the customer just picks an app and
- * enters their PIN. No typing, no card page.
+ * ANDROID: fires a generic `upi://pay` INTENT with prefilled amount + payee.
+ * Android shows the system "Pay with" chooser (GPay/PhonePe/Paytm/any UPI app),
+ * amount already filled → customer picks an app and enters PIN. One tap.
  *
- * WHY THIS WORKS HERE: the VPA is a Paytm MERCHANT VPA (paytmqr…@paytm). A
- * merchant VPA lets the amount-prefilled intent open cleanly; personal VPAs make
- * many apps reject the prefilled amount ("limit exceeded" catch-all error).
+ * iOS (iPhone/iPad): `upi://` is NOT a valid iOS scheme — Safari mis-routes it
+ * (commonly opens WhatsApp). iOS has no system UPI chooser and cannot detect
+ * installed apps (privacy). So on iOS we DON'T fire the generic intent; instead
+ * we show APP-SPECIFIC buttons using each app's own iOS scheme:
+ *   Google Pay → gpay://upi/pay?...   (per Google's iOS in-app payments docs)
+ *   PhonePe    → phonepe://pay?...
+ *   Paytm      → paytmmp://upi/pay?...
+ * The payer taps their app directly. If none is installed, the caller's QR /
+ * Paytm hosted link remains the reliable path.
  *
- * The URI is NPCI-clean: amount as exactly two decimals, minimal params, values
- * URL-encoded — malformed params are the #1 cause of the "limit exceeded" error.
+ * WHY THE VPA WORKS: it's a Paytm MERCHANT VPA (paytmqr…@paytm); merchant VPAs
+ * accept the prefilled amount (personal VPAs trigger the "limit exceeded" error).
+ * The URI is NPCI-clean (amount = exactly 2 decimals, minimal, URL-encoded).
  *
- * FALLBACKS: if the generic intent is flaky on a device, the buttons below let
- * the payer force a specific app (tez:// GPay, phonepe://, paytmmp:// Paytm).
+ * DESKTOP: no mobile UPI handler → renders nothing; the caller's QR is the path.
  *
- * ON DESKTOP: `upi://` has no handler, so this component hides its intent action
- * and the caller's QR remains the path. We only show it on touch devices.
- *
- * CONFIRMATION is unchanged: after paying, the payer taps the caller's existing
+ * CONFIRMATION is unchanged: after paying, the payer uses the caller's existing
  * "I've Paid" / UTR + Telegram-approve flow.
  */
 
@@ -42,57 +44,98 @@ interface UpiPayButtonProps {
 
 const SNAPPY = { type: "spring" as const, stiffness: 400, damping: 30 };
 
-/** Build a clean, NPCI-compliant upi:// intent URI (amount = exactly 2 decimals). */
-function buildIntent(vpa: string, name: string, amount: number, note?: string): string {
+/** UPI query string, NPCI-clean (amount = exactly 2 decimals). */
+function upiQuery(vpa: string, name: string, amount: number, note?: string): string {
   const p = new URLSearchParams();
   p.set("pa", vpa);
   p.set("pn", name);
   p.set("am", amount.toFixed(2));
   p.set("cu", "INR");
   if (note) p.set("tn", note);
-  return `upi://pay?${p.toString()}`;
+  return p.toString();
 }
 
-/** App-specific scheme variants for forced fallbacks. */
-function buildForApp(scheme: string, vpa: string, name: string, amount: number, note?: string): string {
-  const p = new URLSearchParams();
-  p.set("pa", vpa);
-  p.set("pn", name);
-  p.set("am", amount.toFixed(2));
-  p.set("cu", "INR");
-  if (note) p.set("tn", note);
-  return `${scheme}//upi/pay?${p.toString()}`;
+/** Generic Android UPI intent (system app chooser). */
+function androidIntent(vpa: string, name: string, amount: number, note?: string): string {
+  return `upi://pay?${upiQuery(vpa, name, amount, note)}`;
+}
+
+/**
+ * App-specific deep links. Android uses the tez:// (GPay) variant; iOS uses the
+ * gpay:// variant (per Google docs). PhonePe/Paytm schemes are the same shape.
+ */
+function appLink(
+  app: "gpay" | "phonepe" | "paytm",
+  platform: "ios" | "android",
+  vpa: string,
+  name: string,
+  amount: number,
+  note?: string,
+): string {
+  const q = upiQuery(vpa, name, amount, note);
+  switch (app) {
+    case "gpay":
+      return platform === "ios" ? `gpay://upi/pay?${q}` : `tez://upi/pay?${q}`;
+    case "phonepe":
+      return `phonepe://pay?${q}`;
+    case "paytm":
+      return `paytmmp://upi/pay?${q}`;
+  }
 }
 
 export default function UpiPayButton({ amount, note, className = "", onLaunched }: UpiPayButtonProps) {
   const reduce = useReducedMotion();
   const [showApps, setShowApps] = useState(false);
 
-  // Only meaningful on touch devices — upi:// has no desktop handler.
+  const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
+  const isIOS = /iphone|ipad|ipod/i.test(ua);
+  const isAndroid = /android/i.test(ua);
   const isTouch =
-    typeof navigator !== "undefined" &&
-    (/android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent) ||
-      (typeof window !== "undefined" && "ontouchstart" in window));
+    isIOS || isAndroid || /mobile/i.test(ua) ||
+    (typeof window !== "undefined" && "ontouchstart" in window);
 
   if (!isTouch || amount <= 0) return null;
 
   const vpa = getMerchantVpa();
   const name = getMerchantPayeeName();
-  const genericIntent = buildIntent(vpa, name, amount, note);
+  const platform: "ios" | "android" = isIOS ? "ios" : "android";
 
   const launch = (uri: string) => {
     onLaunched?.();
     window.location.href = uri; // same-tab hand-off = reliable app open on mobile
   };
 
+  const AppRow = (
+    <div className="grid grid-cols-3 gap-2">
+      <AppButton label="Google Pay" onClick={() => launch(appLink("gpay", platform, vpa, name, amount, note))} />
+      <AppButton label="PhonePe" onClick={() => launch(appLink("phonepe", platform, vpa, name, amount, note))} />
+      <AppButton label="Paytm" onClick={() => launch(appLink("paytm", platform, vpa, name, amount, note))} />
+    </div>
+  );
+
+  // iOS: no reliable generic intent → show app buttons directly.
+  if (isIOS) {
+    return (
+      <div className={className}>
+        <p className="mb-2 text-center text-[12px] font-semibold text-[#2A1810]">
+          {`Pay \u20b9${amount.toFixed(2)} \u2014 tap your UPI app`}
+        </p>
+        {AppRow}
+        <p className="mt-2 text-center text-[10.5px] text-[#6B5A48]/70">
+          Opens the app with the amount filled in. No app? Scan the QR below.
+        </p>
+      </div>
+    );
+  }
+
+  // Android: one-tap generic intent (system chooser) + app fallbacks.
   return (
     <div className={className}>
-      {/* Primary: generic UPI intent → OS app chooser, amount prefilled */}
       <motion.button
         type="button"
         whileTap={reduce ? undefined : { scale: 0.97 }}
         transition={SNAPPY}
-        onClick={() => launch(genericIntent)}
+        onClick={() => launch(androidIntent(vpa, name, amount, note))}
         className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 font-bold text-white bg-gradient-to-r from-[#1EB955] to-[#25D366] shadow-[0_10px_30px_-10px_rgba(30,185,85,0.7)]"
         aria-label={`Pay ₹${amount.toFixed(2)} by UPI — one tap`}
       >
@@ -108,13 +151,7 @@ export default function UpiPayButton({ amount, note, className = "", onLaunched 
         {showApps ? "Hide app options" : "Didn't open? Choose your app"}
       </button>
 
-      {showApps && (
-        <div className="mt-2 grid grid-cols-3 gap-2">
-          <AppButton label="Google Pay" onClick={() => launch(buildForApp("tez:", vpa, name, amount, note))} />
-          <AppButton label="PhonePe" onClick={() => launch(buildForApp("phonepe:", vpa, name, amount, note))} />
-          <AppButton label="Paytm" onClick={() => launch(buildForApp("paytmmp:", vpa, name, amount, note))} />
-        </div>
-      )}
+      {showApps && <div className="mt-2">{AppRow}</div>}
     </div>
   );
 }
