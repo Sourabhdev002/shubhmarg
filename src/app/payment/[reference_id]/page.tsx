@@ -10,6 +10,9 @@ import { getUpiVpa, getUpiPayeeName } from "@/lib/upi-config";
 import { useAuth } from "@/context/AuthContext";
 import { useWallet, walletSpend, formatPaise } from "@/hooks/useWallet";
 import { waLink } from "@/config/contact";
+import { getPaytmLink } from "@/config/paytm-links";
+import PayNowButton from "@/components/shared/PayNowButton";
+import UpiPayButton from "@/components/shared/UpiPayButton";
 
 interface PageProps {
   params: Promise<{ reference_id: string }>;
@@ -283,6 +286,60 @@ export default function PaymentPage({ params }: PageProps) {
             {request.payment_status === "payment_failed" && (
               <div className="order-0 rounded-xl bg-red-500/10 border border-red-500/20 p-3 text-xs text-red-300">
                 Previous verification could not find the payment. Please pay and enter the 12-digit UTR below.
+              </div>
+            )}
+
+            {/* ── ONE-TAP UPI (mobile hero) — merchant-VPA intent, amount prefilled ──
+                Opens the UPI app chooser (GPay/PhonePe/Paytm) with amount + payee
+                filled in. Touch devices only. On tap → verification pending, then the
+                existing status poll / Telegram-approve confirms. QR stays below. */}
+            <div className="order-0">
+              <UpiPayButton
+                amount={request.payment_amount}
+                note={`ShubhMarg ${request.service.replace(/-/g, " ")} ${request.reference_id}`}
+                onLaunched={() => {
+                  if (typeof window !== "undefined" && typeof window.fbq === "function") {
+                    window.fbq("trackCustom", "PaymentSubmitted");
+                  }
+                  setRequest({ ...request, payment_status: "payment_verification" });
+                }}
+              />
+            </div>
+
+            {/* ── PAY ON PAYTM (hosted link — works on desktop + all phones) ──
+                Renders only when a Paytm link is configured. Uses the exact ₹99
+                link when the amount is 99, else the generic "any amount" link
+                (the amount is pre-copied so the payer pastes it on Paytm's page).
+                On tap we advance to "verification pending" — the payer returns and
+                the existing status polling / Telegram-approve flow confirms it. */}
+            {getPaytmLink(request.payment_amount) && (
+              <div className="order-0 relative rounded-2xl overflow-hidden border border-[#00baf2]/30 bg-gradient-to-br from-[#071722] to-[#0a1016] p-4">
+                <div className="flex items-center justify-between gap-3 mb-3">
+                  <div>
+                    <p className="text-[13px] font-bold text-white">Pay on Paytm</p>
+                    <p className="text-[11px] text-white/45">UPI, cards &amp; netbanking · opens the Paytm app</p>
+                  </div>
+                  <PaytmIcon />
+                </div>
+                <PayNowButton
+                  amount={request.payment_amount}
+                  label={`Pay \u20b9${formatAmount(request.payment_amount)} on Paytm`}
+                  className="w-full"
+                  onOpened={() => {
+                    if (typeof window !== "undefined" && typeof window.fbq === "function") {
+                      window.fbq("trackCustom", "PaymentSubmitted");
+                    }
+                    setRequest({ ...request, payment_status: "payment_verification" });
+                  }}
+                />
+                <p className="mt-2 text-[10.5px] text-white/40 text-center">
+                  After paying, come back here — we verify and prepare your report.
+                </p>
+                <div className="flex items-center gap-2 mt-3">
+                  <div className="h-px flex-1 bg-white/10" />
+                  <span className="text-[10px] text-white/25 font-semibold uppercase tracking-widest">or pay via QR / wallet</span>
+                  <div className="h-px flex-1 bg-white/10" />
+                </div>
               </div>
             )}
 

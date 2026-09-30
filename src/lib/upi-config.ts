@@ -32,3 +32,23 @@ export function getUpiPayeeName(): string {
 export function getWebhookSecret(): string {
   return process.env.UPI_WEBHOOK_SECRET || "";
 }
+
+/**
+ * MERCHANT VPA — the Paytm merchant UPI ID (paytmqr…@paytm) from the signed
+ * business QR. This is a MERCHANT VPA (not personal), which is what makes a
+ * `upi://pay` intent with a prefilled amount actually open the UPI app cleanly
+ * (personal VPAs make the amount-prefilled intent fail on many apps).
+ *
+ * Used to build the true one-tap "click & pay" UPI intent link on mobile.
+ * Override via NEXT_PUBLIC_UPI_MERCHANT_VPA if the merchant QR ever changes.
+ */
+const MERCHANT_VPA = "paytmqr2810050501011nkqq2oa80eh@paytm";
+
+export function getMerchantVpa(): string {
+  return process.env.NEXT_PUBLIC_UPI_MERCHANT_VPA || MERCHANT_VPA;
+}
+
+/** Display name shown as the payee hint on the UPI intent (apps may override it). */
+export function getMerchantPayeeName(): string {
+  return process.env.NEXT_PUBLIC_UPI_MERCHANT_NAME || "ShubhMarg";
+}
