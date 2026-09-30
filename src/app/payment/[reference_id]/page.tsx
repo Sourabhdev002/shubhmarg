@@ -12,7 +12,6 @@ import { useWallet, walletSpend, formatPaise } from "@/hooks/useWallet";
 import { waLink } from "@/config/contact";
 import { getPaytmLink } from "@/config/paytm-links";
 import PayNowButton from "@/components/shared/PayNowButton";
-import UpiPayButton from "@/components/shared/UpiPayButton";
 
 interface PageProps {
   params: Promise<{ reference_id: string }>;
@@ -289,41 +288,26 @@ export default function PaymentPage({ params }: PageProps) {
               </div>
             )}
 
-            {/* ── ONE-TAP UPI (mobile hero) — merchant-VPA intent, amount prefilled ──
-                Opens the UPI app chooser (GPay/PhonePe/Paytm) with amount + payee
-                filled in. Touch devices only. On tap → verification pending, then the
-                existing status poll / Telegram-approve confirms. QR stays below. */}
-            <div className="order-0">
-              <UpiPayButton
-                amount={request.payment_amount}
-                note={`ShubhMarg ${request.service.replace(/-/g, " ")} ${request.reference_id}`}
-                onLaunched={() => {
-                  if (typeof window !== "undefined" && typeof window.fbq === "function") {
-                    window.fbq("trackCustom", "PaymentSubmitted");
-                  }
-                  setRequest({ ...request, payment_status: "payment_verification" });
-                }}
-              />
-            </div>
-
-            {/* ── PAY ON PAYTM (hosted link — works on desktop + all phones) ──
+            {/* ── SECURE CHECKOUT (Paytm hosted — UPI / cards / netbanking) ──
                 Renders only when a Paytm link is configured. Uses the exact ₹99
-                link when the amount is 99, else the generic "any amount" link
-                (the amount is pre-copied so the payer pastes it on Paytm's page).
-                On tap we advance to "verification pending" — the payer returns and
-                the existing status polling / Telegram-approve flow confirms it. */}
+                link when amount is 99, else the generic "any amount" link (amount
+                pre-copied so the payer enters it). On tap → verification pending;
+                the payer returns and the existing poll / Telegram-approve confirms. */}
             {getPaytmLink(request.payment_amount) && (
-              <div className="order-0 relative rounded-2xl overflow-hidden border border-[#00baf2]/30 bg-gradient-to-br from-[#071722] to-[#0a1016] p-4">
+              <div className="order-0 relative rounded-2xl overflow-hidden border border-[#00baf2]/30 bg-gradient-to-br from-[#0a1622] to-[#0a1016] p-4">
                 <div className="flex items-center justify-between gap-3 mb-3">
                   <div>
-                    <p className="text-[13px] font-bold text-white">Pay on Paytm</p>
-                    <p className="text-[11px] text-white/45">UPI, cards &amp; netbanking · opens the Paytm app</p>
+                    <p className="text-[13px] font-bold text-white flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-[#00baf2]" /> Secure Checkout
+                    </p>
+                    <p className="text-[11px] text-white/45">Pay by UPI, card or netbanking · encrypted</p>
                   </div>
                   <PaytmIcon />
                 </div>
                 <PayNowButton
                   amount={request.payment_amount}
-                  label={`Pay \u20b9${formatAmount(request.payment_amount)} on Paytm`}
+                  label={`Pay \u20b9${formatAmount(request.payment_amount)} Securely`}
+                  hideTrust
                   className="w-full"
                   onOpened={() => {
                     if (typeof window !== "undefined" && typeof window.fbq === "function") {
@@ -332,12 +316,12 @@ export default function PaymentPage({ params }: PageProps) {
                     setRequest({ ...request, payment_status: "payment_verification" });
                   }}
                 />
-                <p className="mt-2 text-[10.5px] text-white/40 text-center">
-                  After paying, come back here — we verify and prepare your report.
+                <p className="mt-2.5 text-[10.5px] text-white/45 text-center flex items-center justify-center gap-1.5">
+                  <Lock className="w-3 h-3 text-[#00baf2]/70" /> Secured by Paytm · come back after paying to get your report
                 </p>
                 <div className="flex items-center gap-2 mt-3">
                   <div className="h-px flex-1 bg-white/10" />
-                  <span className="text-[10px] text-white/25 font-semibold uppercase tracking-widest">or pay via QR / wallet</span>
+                  <span className="text-[10px] text-white/25 font-semibold uppercase tracking-widest">or scan QR / use wallet</span>
                   <div className="h-px flex-1 bg-white/10" />
                 </div>
               </div>

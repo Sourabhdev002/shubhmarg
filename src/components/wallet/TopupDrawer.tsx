@@ -3,12 +3,11 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle2, Loader2, ArrowRight, Smartphone, Copy, Clock, AlertCircle } from "lucide-react";
+import { X, CheckCircle2, Loader2, ArrowRight, Smartphone, Copy, Clock, AlertCircle, ShieldCheck } from "lucide-react";
 import QRCode from "react-qr-code";
 import { initiateTopup, claimTopup, checkTopupStatus } from "@/hooks/useWallet";
 import { getPaytmLink } from "@/config/paytm-links";
 import PayNowButton from "@/components/shared/PayNowButton";
-import UpiPayButton from "@/components/shared/UpiPayButton";
 
 const PRESETS = [100, 200, 500, 1000, 2000];
 
@@ -186,30 +185,24 @@ export default function TopupDrawer({ open, onClose, onSuccess }: TopupDrawerPro
                 {/* ── STEP: Pay ── */}
                 {step === "pay" && topupData && (
                   <div className="space-y-4">
-                    {/* One-tap UPI (mobile hero): merchant-VPA intent, exact amount
-                        prefilled → app chooser. Touch only. On tap → waiting step,
-                        existing poll / Telegram-approve credits the wallet. */}
-                    <UpiPayButton
-                      amount={topupData.exact_amount}
-                      note={`ShubhMarg Wallet ${topupData.topup_reference}`}
-                      onLaunched={() => setStep("waiting")}
-                    />
-
-                    {/* Pay on Paytm (hosted link — desktop + all phones). Generic
-                        "any amount" link; the exact rupees are pre-copied so the payer
-                        enters the exact amount. On tap → waiting step, then the existing
-                        polling / Telegram-approve flow credits the wallet. Renders only
-                        when a Paytm link is configured; QR below always stays. */}
+                    {/* Secure checkout (Paytm hosted — UPI / cards / netbanking).
+                        Generic "any amount" link; exact rupees pre-copied so the payer
+                        enters them. On tap → waiting step, then the existing poll /
+                        Telegram-approve credits the wallet. QR below always stays. */}
                     {getPaytmLink(topupData.exact_amount) && (
-                      <div className="rounded-2xl border border-[#00baf2]/30 bg-gradient-to-br from-[#071722] to-[#0a1016] p-4">
+                      <div className="rounded-2xl border border-[#00baf2]/30 bg-gradient-to-br from-[#0a1622] to-[#0a1016] p-4">
+                        <p className="text-[12px] font-bold text-white flex items-center gap-1.5 mb-2.5">
+                          <ShieldCheck className="w-4 h-4 text-[#00baf2]" /> Secure Checkout
+                        </p>
                         <PayNowButton
                           amount={topupData.exact_amount}
-                          label={`Pay \u20b9${topupData.exact_amount.toFixed(2)} on Paytm`}
+                          label={`Add \u20b9${topupData.exact_amount.toFixed(2)} Securely`}
+                          hideTrust
                           className="w-full"
                           onOpened={() => setStep("waiting")}
                         />
-                        <p className="mt-2 text-[10.5px] text-white/40 text-center">
-                          Enter {"\u20b9"}{topupData.exact_amount.toFixed(2)} on Paytm (amount copied). We credit once confirmed.
+                        <p className="mt-2 text-[10.5px] text-white/45 text-center">
+                          Enter {"\u20b9"}{topupData.exact_amount.toFixed(2)} on the secure page (copied). Credited once confirmed.
                         </p>
                         <div className="flex items-center gap-2 mt-3">
                           <div className="h-px flex-1 bg-white/10" />

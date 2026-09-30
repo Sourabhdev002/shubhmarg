@@ -9,7 +9,6 @@ import { getUpiVpa, getUpiPayeeName } from "@/lib/upi-config";
 import { waLink } from "@/config/contact";
 import { getPaytmLink } from "@/config/paytm-links";
 import PayNowButton from "@/components/shared/PayNowButton";
-import UpiPayButton from "@/components/shared/UpiPayButton";
 import { pixelInitiateCheckout, pixelLead } from "@/components/analytics/pixelEvents";
 
 interface Props {
@@ -97,33 +96,20 @@ export default function QuickUnlockModal({ open, onClose, rashiKey, rashiEn, ble
               <h3 className="text-xl font-bold font-cormorant text-[#2A1810]">Pay {"\u20b9"}{amount}</h3>
               <p className="text-[12px] text-[#6B5A48] mt-1 mb-4">{rashiKey} ({rashiEn}) {"\u2022"} GPay / PhonePe / Paytm</p>
 
-              {/* MOBILE HERO: true one-tap UPI intent — opens the app chooser with
-                  amount + payee prefilled (merchant VPA). Shows only on touch devices;
-                  on desktop it renders nothing and the QR/Paytm options below take over. */}
-              <UpiPayButton
-                amount={amount}
-                note={"ShubhMarg Aaj Ka Aashirwad " + rashiKey}
-                className="mb-4"
-                onLaunched={handlePaid}
-              />
-
-              {/* Paytm hosted checkout (works on desktop + all phones, opens
+              {/* Secure checkout (Paytm hosted — desktop + all phones, UPI/cards/
                   the Paytm app if installed). Renders only when a link is configured;
                   otherwise the QR below is the sole path. */}
               {getPaytmLink(amount) && (
                 <div className="mb-4">
                   <PayNowButton
                     amount={amount}
-                    label={`Pay \u20b9${amount} on Paytm`}
+                    label={`Pay \u20b9${amount} Securely`}
                     className="w-full"
                     onOpened={handlePaid}
                   />
-                  <p className="mt-2 text-[11px] text-[#6B5A48] leading-snug px-2">
-                    Opens Paytm securely. After paying, come back {"\u2014"} your aashirwad appears here.
-                  </p>
                   <div className="my-4 flex items-center gap-3 px-2">
                     <span className="h-px flex-1 bg-[#D4AF37]/25" />
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#8C5212]/60">or scan</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#8C5212]/60">or scan to pay</span>
                     <span className="h-px flex-1 bg-[#D4AF37]/25" />
                   </div>
                 </div>

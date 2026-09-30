@@ -10,7 +10,6 @@ import { getUpiVpa, getUpiPayeeName } from "@/lib/upi-config";
 import { waLink } from "@/config/contact";
 import { getPaytmLink } from "@/config/paytm-links";
 import PayNowButton from "@/components/shared/PayNowButton";
-import UpiPayButton from "@/components/shared/UpiPayButton";
 
 /**
  * DonateModal — a ShubhMarg-branded "Scan to Donate" widget.
@@ -199,17 +198,6 @@ export default function DonateModal({ open, onClose, causeName = "ShubhMarg" }: 
                       />
                     </div>
 
-                    {/* One-tap UPI (mobile hero): opens the app chooser with amount +
-                        payee prefilled. Touch devices only; desktop falls to QR/Paytm. */}
-                    {amount > 0 && (
-                      <UpiPayButton
-                        amount={amount}
-                        note={`ShubhMarg Seva ${causeName}`}
-                        className="mb-4"
-                        onLaunched={() => setPaidTapped(true)}
-                      />
-                    )}
-
                     {/* QR */}
                     <div className="flex flex-col items-center">
                       <div className="relative inline-block p-2.5 rounded-2xl bg-gradient-to-br from-[#F5D97A] via-[#D4A537] to-[#B8860B] shadow-[0_8px_28px_-8px_rgba(184,134,11,0.55)]">
@@ -252,12 +240,12 @@ export default function DonateModal({ open, onClose, causeName = "ShubhMarg" }: 
                       <div className="mt-4">
                         <PayNowButton
                           amount={amount}
-                          label={`Pay \u20b9${formatAmount(amount)} on Paytm`}
+                          label={`Donate \u20b9${formatAmount(amount)} Securely`}
                           className="w-full"
                           onOpened={() => setPaidTapped(true)}
                         />
                         <p className="text-center text-[10.5px] text-[#6B5A48]/70 mt-1.5">
-                          Amount copied — paste {"\u20b9"}{formatAmount(amount)} on the Paytm page.
+                          Amount copied — enter {"\u20b9"}{formatAmount(amount)} on the secure page.
                         </p>
                       </div>
                     )}
