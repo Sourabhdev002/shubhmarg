@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flame, ArrowRight, MessageCircle } from "lucide-react";
 import Link from "next/link";
@@ -9,16 +10,15 @@ import { waLink } from "@/config/contact";
 interface StickyBarProps {
   serviceId?: string;
   serviceName?: string;
-  price?: number | string;
   badge?: string;
 }
 
 export default function SanctifiedVerdictStickyBar({
   serviceId = "vedic-guidance",
   serviceName = "Pandit Ji Personalized Remedial Guidance",
-  price = 501,
   badge = "Live Consecration Session Open",
 }: StickyBarProps) {
+  const priceLabel = ctaPriceLabel(serviceId);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function SanctifiedVerdictStickyBar({
   }, []);
 
   const whatsappHref = waLink(
-    `Namaste Pandit Ji 🙏 I am reviewing my Vedic assessment on ShubhMarg and wish to unlock my personalized Gotra Sankalp remedy for *${serviceName}* (${typeof price === "number" ? `₹${price}` : price}).`
+    `Namaste Pandit Ji 🙏 I am reviewing my Vedic assessment on ShubhMarg and wish to unlock my personalized Gotra Sankalp remedy for *${serviceName}* (${priceLabel}).`
   );
 
   return (
@@ -84,7 +84,7 @@ export default function SanctifiedVerdictStickyBar({
                 href={`/request-guidance?service=${serviceId}`}
                 className="flex-1 sm:flex-initial px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#e5c453] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-[0_4px_20px_rgba(212,175,55,0.35)] hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
               >
-                <span>Unlock Personal Remedy ({typeof price === "number" ? `₹${price}` : price})</span>
+                <span>Unlock Personal Remedy ({priceLabel})</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { Sparkles, ShieldAlert, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -145,14 +146,14 @@ export default function KaalSarpDoshaScanner() {
                 </div>
                 <div className="flex flex-col gap-2 shrink-0 w-full sm:w-auto">
                   <Link href="/request-guidance?service=temple-puja" className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#ffd700] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all">
-                    <span>Kaal Sarp Nivaran (₹5,100)</span><ArrowRight className="w-3.5 h-3.5" />
+                    <span>Kaal Sarp Nivaran ({ctaPriceLabel("temple-puja")})</span><ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                   <DirectWhatsAppButton variant="compact" serviceName={`Kaal Sarp Nivaran Puja (${activeDosha.name})`} price={5100} className="w-full justify-center py-2 text-xs" />
                 </div>
               </div>
             </div>
 
-            <SanctifiedVerdictStickyBar serviceId="temple-puja" serviceName={`Kaal Sarp Nivaran (${activeDosha.resolutionTemple})`} price={5100} badge="Kaal Sarp Dosha Scanned" />
+            <SanctifiedVerdictStickyBar serviceId="temple-puja" serviceName={`Kaal Sarp Nivaran (${activeDosha.resolutionTemple})`} badge="Kaal Sarp Dosha Scanned" />
           </div>
         )}
       </div>

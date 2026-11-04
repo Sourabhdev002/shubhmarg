@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Heart, Sparkles, ArrowRight } from "lucide-react";
@@ -279,7 +280,7 @@ export default function GarbhSanskarSanctum() {
                     href="/request-guidance?service=voice-dossier"
                     className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-rose-500 via-pink-400 to-amber-300 text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all"
                   >
-                    <span>Complete 9-Month Kit (₹2,999)</span>
+                    <span>Complete 9-Month Kit ({ctaPriceLabel("voice-dossier")})</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                   <DirectWhatsAppButton
@@ -295,7 +296,6 @@ export default function GarbhSanskarSanctum() {
             <SanctifiedVerdictStickyBar
               serviceId="voice-dossier"
               serviceName={`Garbh Sanskar Month ${gestationMonth}`}
-              price={2999}
               badge="🌸 Garbh Sanskar Activated"
             />
           </motion.div>

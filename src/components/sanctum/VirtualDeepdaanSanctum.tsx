@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Flame, Bell, Sparkles, Flower, ShieldCheck, ArrowRight } from "lucide-react";
@@ -240,7 +241,7 @@ export default function VirtualDeepdaanSanctum() {
                   href="/request-guidance?service=temple-puja"
                   className="px-5 py-3 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#e5c453] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                 >
-                  <span>Book Temple Puja (₹2,100)</span>
+                  <span>Book Temple Puja ({ctaPriceLabel("temple-puja")})</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
 

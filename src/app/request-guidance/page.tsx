@@ -1,6 +1,7 @@
+import { Suspense } from "react";
 import { Metadata } from "next";
 import GuidanceRequestForm from "@/components/guidance/GuidanceRequestForm";
-import { ShieldCheck, Lock, Clock, Sparkles, MessageCircle, ArrowRight } from "lucide-react";
+import { ShieldCheck, Lock, Clock, MessageCircle, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import WhatsAppProofShowcase from "@/components/shared/WhatsAppProofShowcase";
 import { ShubhMargEmblem } from "@/components/brand/ShubhMargLogo";
@@ -113,7 +114,17 @@ export default function RequestGuidancePage() {
 
       {/* Main Luxury Atelier Form */}
       <div className="relative z-10 -mt-2">
-        <GuidanceRequestForm />
+        {/* useSearchParams() inside the form needs a Suspense boundary; without it the WHOLE page
+            opts out of server rendering (blank until JS loads, nothing for Google to read). */}
+        <Suspense
+          fallback={
+            <div className="mx-auto max-w-xl px-4 py-2" aria-busy="true" aria-label="Loading guidance form">
+              <div className="h-96 rounded-3xl bg-[#F5EAD6]/60 animate-pulse" />
+            </div>
+          }
+        >
+          <GuidanceRequestForm />
+        </Suspense>
       </div>
 
       {/* What You Receive on WhatsApp (Collapsible / Compact Atelier Proof) */}

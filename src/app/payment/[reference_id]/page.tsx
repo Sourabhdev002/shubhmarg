@@ -69,6 +69,8 @@ export default function PaymentPage({ params }: PageProps) {
   const [copiedApp, setCopiedApp] = useState<string | null>(null);
   const [utrInput, setUtrInput] = useState("");
   const [showUtrField, setShowUtrField] = useState(false);
+  // UI-only: lets the payer go back to the pay options while verification is pending.
+  const [showOptions, setShowOptions] = useState(false);
 
   // Wallet
   const { user } = useAuth();
@@ -258,29 +260,38 @@ export default function PaymentPage({ params }: PageProps) {
             </div>
             <h2 className="text-2xl font-bold text-white font-serif">Payment Confirmed</h2>
             <p className="text-gray-300 max-w-xs leading-relaxed text-sm">
-              Your offering has been verified. Pandit Ji&apos;s automated Vedic guidance report is being prepared.
+              Your offering has been verified. Pandit Ji&apos;s team will deliver your guidance on WhatsApp.
             </p>
           </div>
         )}
 
         {/* STATUS: verification pending */}
-        {request.payment_status === "payment_verification" && (
+        {request.payment_status === "payment_verification" && !showOptions && (
           <div className="flex-1 flex flex-col items-center justify-center text-center py-12 gap-4">
             <div className="w-20 h-20 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/30 flex items-center justify-center mb-2">
               <Loader2 className="h-10 w-10 text-[#d4af37] animate-spin" />
             </div>
             <h2 className="text-2xl font-bold text-white font-serif">Verification In Progress</h2>
             <p className="text-gray-400 max-w-xs leading-relaxed text-sm">
-              We received your payment confirmation. Your astrological report is being generated automatically by Gemini.
+              We received your payment confirmation. Pandit Ji&apos;s team will confirm your payment and deliver your guidance on WhatsApp.
             </p>
             <p className="text-xs font-bold uppercase tracking-widest text-[#d4af37] animate-pulse mt-2">
               Checking status automatically...
             </p>
+            <button
+              type="button"
+              onClick={() => setShowOptions(true)}
+              className="mt-2 text-xs font-bold text-[#d4af37] underline underline-offset-2 hover:text-[#f5d97a] cursor-pointer"
+            >
+              Back to payment options
+            </button>
           </div>
         )}
 
         {/* STATUS: unpaid / payment_failed */}
-        {(request.payment_status === "unpaid" || request.payment_status === "payment_failed") && (
+        {(request.payment_status === "unpaid" ||
+          request.payment_status === "payment_failed" ||
+          (request.payment_status === "payment_verification" && showOptions)) && (
           <div className="flex-1 flex flex-col gap-4 pb-8">
             {request.payment_status === "payment_failed" && (
               <div className="order-0 rounded-xl bg-red-500/10 border border-red-500/20 p-3 text-xs text-red-300">
@@ -309,15 +320,26 @@ export default function PaymentPage({ params }: PageProps) {
                   label={`Pay \u20b9${formatAmount(request.payment_amount)} Securely`}
                   hideTrust
                   className="w-full"
-                  onOpened={() => {
+                  onOpened={async () => {
                     if (typeof window !== "undefined" && typeof window.fbq === "function") {
                       window.fbq("trackCustom", "PaymentSubmitted");
                     }
-                    setRequest({ ...request, payment_status: "payment_verification" });
+                    setConfirmError("");
+                    try {
+                      const res = await submitPaymentConfirmation(reference_id);
+                      if (res.success) {
+                        setShowOptions(false);
+                        setRequest((prev) => (prev ? { ...prev, payment_status: "payment_verification" } : prev));
+                      } else {
+                        setConfirmError(res.error || "Failed to confirm. Please try again.");
+                      }
+                    } catch {
+                      setConfirmError("Failed to confirm. Please try again.");
+                    }
                   }}
                 />
                 <p className="mt-2.5 text-[10.5px] text-white/45 text-center flex items-center justify-center gap-1.5">
-                  <Lock className="w-3 h-3 text-[#00baf2]/70" /> Secured by Paytm · come back after paying to get your report
+                  <Lock className="w-3 h-3 text-[#00baf2]/70" /> Secured by Paytm · come back here after paying
                 </p>
                 <div className="flex items-center gap-2 mt-3">
                   <div className="h-px flex-1 bg-white/10" />
@@ -556,7 +578,7 @@ export default function PaymentPage({ params }: PageProps) {
                 {submittingConfirmation ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin text-black" />
-                    <span>Verifying &amp; Generating Report...</span>
+                    <span>Submitting...</span>
                   </>
                 ) : (
                   <>

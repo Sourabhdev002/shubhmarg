@@ -48,7 +48,7 @@ export default function FloatingNav() {
               href={item.href}
               onClick={handleNavClick}
               className={cn(
-                "relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] w-[74px] h-[50px] rounded-full transition-colors duration-300",
+                "relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] w-[66px] h-[50px] rounded-full transition-colors duration-300",
                 isActive ? "text-white" : "text-[#F3E5C0]"
               )}
             >
@@ -60,7 +60,7 @@ export default function FloatingNav() {
                 />
               )}
               <item.icon className="w-[18px] h-[18px] mb-0.5 z-10 relative" strokeWidth={isActive ? 2.6 : 2.2} />
-              <span className={cn("text-[9.5px] font-bold tracking-wider z-10 relative uppercase", isActive ? "text-white" : "text-[#F3E5C0]")}>{item.name}</span>
+              <span className={cn("text-[10px] font-bold tracking-wider z-10 relative uppercase", isActive ? "text-white" : "text-[#F3E5C0]")}>{item.name}</span>
             </Link>
           );
         })}
@@ -70,10 +70,10 @@ export default function FloatingNav() {
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleNavClick}
-          className="relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] w-[74px] h-[50px] rounded-full text-white bg-gradient-to-b from-[#25D366] to-[#1EB955] shadow-[0_6px_16px_-4px_rgba(30,185,85,0.55),inset_0_1px_0_rgba(255,255,255,0.4)] active:scale-95 transition-transform"
+          className="relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] w-[66px] h-[50px] rounded-full text-white bg-gradient-to-b from-[#25D366] to-[#1EB955] shadow-[0_6px_16px_-4px_rgba(30,185,85,0.55),inset_0_1px_0_rgba(255,255,255,0.4)] active:scale-95 transition-transform"
         >
           <WhatsAppIcon />
-          <span className="text-[9px] font-bold tracking-wider uppercase text-white mt-0.5">Chat</span>
+          <span className="text-[9px] font-bold tracking-wider uppercase text-white mt-0.5">whatsapp</span>
         </a>
       </nav>
     </motion.div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { Crown, Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -243,7 +244,7 @@ export default function RajaYogaMahapurushaScanner() {
                     href="/request-guidance?service=deep-kundli"
                     className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#ffd700] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all"
                   >
-                    <span>Activate Raja Yoga (₹1,501)</span>
+                    <span>Activate Raja Yoga ({ctaPriceLabel("deep-kundli")})</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
 
@@ -261,7 +262,6 @@ export default function RajaYogaMahapurushaScanner() {
             <SanctifiedVerdictStickyBar
               serviceId="deep-kundli"
               serviceName={`Raja Yoga Activation (${activeYoga.name})`}
-              price={1501}
               badge="Raja Yoga Detected"
             />
           </div>

@@ -1,23 +1,25 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
+import { motion } from "framer-motion";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { pixelContact } from "@/components/analytics/pixelEvents";
+import { glassClass, type Surface } from "@/lib/home-surfaces";
 
 // "Aaj Ka Aashirwad" - the Rs11 first-yes, surfaced high on the homepage as a
-// premium inline temple strip. Tapping it smooth-scrolls to the Rashi section,
-// where the seeker picks their sign and unlocks via the existing modal flow.
-export default function AashirwadStrip() {
-  const reduce = useReducedMotion();
-
-  const goRashi = () => {
-    pixelContact("aashirwad_strip_11");
-    const el = document.getElementById("rashi-today");
-    if (el) el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-  };
-
+// premium inline temple strip. Tapping it routes to the dedicated /aashirwad
+// page, where the seeker picks their sign and unlocks via the existing flow.
+export default function AashirwadStrip({
+  surface = "bronze",
+}: {
+  surface?: Surface;
+}) {
   return (
-    <section className="relative section-px py-5 sm:py-7 overflow-hidden">
+    <section
+      className={`relative section-px py-5 sm:py-7 overflow-hidden ${glassClass(
+        surface
+      )}`}
+    >
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -25,9 +27,9 @@ export default function AashirwadStrip() {
         transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
         className="max-w-2xl mx-auto"
       >
-        <button
-          type="button"
-          onClick={goRashi}
+        <Link
+          href="/aashirwad"
+          onClick={() => pixelContact("aashirwad_strip_11")}
           className="group relative w-full flex items-center gap-4 rounded-2xl px-4 sm:px-6 py-4 sm:py-5 text-left bg-gradient-to-r from-[#FFFDF8] via-[#FDF3DE] to-[#FCEBCF] border border-[#D4AF37]/45 shadow-[0_10px_30px_-14px_rgba(184,134,11,0.28),inset_0_1px_2px_rgba(255,255,255,0.9)] hover:border-[#E8791E]/60 active:scale-[0.99] transition-all duration-300 overflow-hidden"
         >
           {/* soft ambient glow */}
@@ -53,7 +55,7 @@ export default function AashirwadStrip() {
             <span>{"\u20B9"}11</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </span>
-        </button>
+        </Link>
       </motion.div>
     </section>
   );

@@ -218,7 +218,6 @@ export default function PrashnaKundliPage() {
               toolName="Prashna Horary Astrology (Seed #{prashnaNumber})"
               serviceId="tatkal-express"
               serviceName="2-Hour Tatkal Express Guidance"
-              price={2499}
               highlightWarning="This specific Prashna seed reveals a critical turning point that requires immediate decisive action in your current planetary Hora."
             />
 
@@ -232,7 +231,6 @@ export default function PrashnaKundliPage() {
           <SanctifiedVerdictStickyBar
             serviceId="tatkal-express"
             serviceName="2-Hour Tatkal Express Guidance"
-            price={2499}
             badge="Live 2-Hour Tatkal Queue Open"
           />
         )}

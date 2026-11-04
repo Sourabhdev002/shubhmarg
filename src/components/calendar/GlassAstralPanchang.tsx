@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
+import { useIstNow } from "@/hooks/useIstNow";
+import { istMinutes, istWeekday } from "@/lib/ist-time";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -28,6 +30,8 @@ import SankalpMandala, { recordSankalpToday } from "./SankalpMandala";
 interface Props {
   panchang?: DailyPanchang | null;
   event?: CalendarEventWithOccurrence | null;
+  /** Time the server rendered with (ms). Keeps the first render hydration-safe. */
+  serverNow: number;
 }
 
 type PanchangTab = "overview" | "muhurats" | "angas" | "choghadiya";
@@ -170,14 +174,10 @@ const toSanskritPanchang = (
   };
 };
 
-export default function GlassAstralPanchang({ panchang, event }: Props) {
-  const getLiveISTMinutes = () => {
-    const now = new Date();
-    const ist = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
-    return ist.getHours() * 60 + ist.getMinutes();
-  };
-
-  const [currentMinutes, setCurrentMinutes] = useState<number>(getLiveISTMinutes);
+export default function GlassAstralPanchang({ panchang, event, serverNow }: Props) {
+  // Hydration-safe clock: first render uses the server's time, then the live IST clock.
+  const nowMs = useIstNow(serverNow);
+  const currentMinutes = istMinutes(nowMs);
   const [activeTab, setActiveTab] = useState<PanchangTab>("overview");
   const [selectedKarya, setSelectedKarya] = useState<string | null>(null);
   const [bellRinging, setBellRinging] = useState<boolean>(false);
@@ -207,7 +207,6 @@ export default function GlassAstralPanchang({ panchang, event }: Props) {
 
   useEffect(() => {
     const updateTime = () => {
-      setCurrentMinutes(getLiveISTMinutes());
       setMuhurats(getDailyMuhuratTimings());
       setActiveChoghadiya(getActiveChoghadiya());
       setActiveHora(getActiveHora());
@@ -251,7 +250,6 @@ export default function GlassAstralPanchang({ panchang, event }: Props) {
   const karanaName = panchang?.karana || "Baalava";
 
   // Weekday & Ruling Deity
-  const istDate = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
   const daysOfWeek = [
     { en: "Sunday", hi: "रविवार", lord: "Surya Dev (Sun)", dishaShoola: "West (पश्चिम)", remedy: "Consume betel leaf (पान) before departure" },
     { en: "Monday", hi: "सोमवार", lord: "Chandra Dev (Moon)", dishaShoola: "East (पूर्व)", remedy: "Look into a mirror or consume milk before departure" },
@@ -261,8 +259,8 @@ export default function GlassAstralPanchang({ panchang, event }: Props) {
     { en: "Friday", hi: "शुक्रवार", lord: "Shukra Dev (Venus)", dishaShoola: "West (पश्चिम)", remedy: "Consume barley (जौ) or curd-jaggery before departure" },
     { en: "Saturday", hi: "शनिवार", lord: "Shani Dev (Saturn)", dishaShoola: "East (पूर्व)", remedy: "Consume ginger (अदरक) before departure" },
   ];
-  const currentDay = daysOfWeek[istDate.getDay()];
-  const todayDayIndex = istDate.getDay();
+  const todayDayIndex = istWeekday(nowMs);
+  const currentDay = daysOfWeek[todayDayIndex];
   const todayMantra: DailyMantraInfo = PRESIDING_MANTRAS[todayDayIndex] || PRESIDING_MANTRAS[0];
 
   // Pure Devanagari Sanskrit Ephemeris terms for Sacred Sankalp

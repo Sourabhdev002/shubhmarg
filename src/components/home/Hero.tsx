@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import { useT } from "@/context/LanguageContext";
 import type { DailyPanchang } from "@/types/calendar";
 
@@ -20,6 +20,8 @@ function getGreeting() {
   if (h < 21) return "Shubh Sandhya 🌙";
   return "Shubh Ratri 🌟";
 }
+
+const noopSubscribe = () => () => {};
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -39,23 +41,8 @@ export default function Hero({ panchang }: { panchang?: DailyPanchang | null }) 
   const { scrollYProgress } = useScroll();
   const yText = useTransform(scrollYProgress, [0, 1], [0, 280]);
 
-  // Personal time-based greeting (client-only so no SSR mismatch).
-  const [greeting, setGreeting] = useState<string>("");
-  useEffect(() => {
-    setGreeting(getGreeting());
-  }, []);
-
-  // Honest, gently-alive "viewing now" — small natural drift instead of a frozen 14.
-  const [viewers, setViewers] = useState(14);
-  useEffect(() => {
-    const id = setInterval(() => {
-      setViewers((v) => {
-        const next = v + (Math.random() > 0.5 ? 1 : -1);
-        return Math.min(19, Math.max(9, next));
-      });
-    }, 5000);
-    return () => clearInterval(id);
-  }, []);
+  // Personal time-based greeting: empty on the server/hydration, real greeting right after.
+  const greeting = useSyncExternalStore(noopSubscribe, getGreeting, () => "");
 
   // Live Panchang micro-line — real "today" data surfaced up top (authentic Vedic signal).
   const cleanTithi = panchang?.tithi?.split("-").pop()?.trim() || null;
@@ -132,7 +119,7 @@ export default function Hero({ panchang }: { panchang?: DailyPanchang | null }) 
         className="absolute inset-x-0 top-0 h-[62%] pointer-events-none md:hidden"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(251,246,236,0.96) 0%, rgba(251,246,236,0.9) 38%, rgba(251,246,236,0.6) 70%, transparent 100%)",
+            "linear-gradient(to bottom, rgba(251,246,236,0.98) 0%, rgba(251,246,236,0.95) 50%, rgba(251,246,236,0.75) 72%, transparent 100%)",
         }}
         aria-hidden="true"
       />
@@ -242,10 +229,6 @@ export default function Hero({ panchang }: { panchang?: DailyPanchang | null }) 
           >
             <span className="bg-[#FFFDF8] border border-[#E8791E]/35 text-[#C25E10] text-[11px] font-bold px-3.5 py-1.5 rounded-full tracking-wide shadow-sm">
               {t("hero.from")}
-            </span>
-            <span className="flex items-center gap-1.5 text-[11px] text-[#2E1D14] font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              {viewers} {t("hero.viewing")}
             </span>
           </motion.div>
 

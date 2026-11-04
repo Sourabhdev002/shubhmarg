@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { fetchAdvancedPanchang, fetchPanchangFestivals } from "@/lib/astrologyapi";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(_req: NextRequest) {
+export async function GET() {
   try {
     const today = new Date();
     const day = today.getDate();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { submitGuidanceRequest } from "@/app/request-guidance/actions";
 import { 
@@ -20,6 +20,9 @@ import { ShubhMargEmblem } from "@/components/brand/ShubhMargLogo";
 import PremiumVedicIcon from "@/components/ui/PremiumVedicIcon";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { SERVICE_META, SAME_PRICE_ALIASES, getServiceView, resolveServiceId, formatInr } from "@/lib/service-catalog";
+import { PHONE_ERROR, isValidIndianMobile, normalizePhone, validateQuestion } from "@/lib/phone";
+import { formatAmount } from "@/lib/upi";
 
 const SERVICE_ICON_MAP: Record<string, string> = {
   "vedic-guidance": "kundli-engine",
@@ -36,32 +39,29 @@ const SERVICE_ICON_MAP: Record<string, string> = {
   "business-retainer": "vastu-compass",
 };
 
-const SERVICES = [
-  // Classical Consultations
-  { id: "vedic-guidance", name: "Prashna (1 Question)", price: 501, delivery: "2-3 days", category: "guidance", popular: true, desc: "Specific answer with remedial guidance" },
-  { id: "kundli", name: "Jyotish / Kundli Reading", price: 1101, delivery: "3-5 days", category: "guidance", popular: false, desc: "Full planetary horoscope chart analysis" },
-  { id: "muhurat", name: "Muhurta (Auspicious Timing)", price: 251, delivery: "2-3 days", category: "guidance", popular: false, desc: "Marriage, business, travel or griha pravesh" },
-  { id: "career-business", name: "Career & Business Advice", price: 501, delivery: "2-3 days", category: "guidance", popular: false, desc: "10th house analysis & wealth timings" },
-  { id: "marriage", name: "Marriage & Relationships", price: 1501, delivery: "3-5 days", category: "guidance", popular: false, desc: "Gun Milan, compatibility & remedies" },
-  { id: "remedy", name: "Remedies & Solutions", price: 1101, delivery: "3-5 days", category: "guidance", popular: false, desc: "Custom gemstone, mantra & puja remedy" },
+const SERVICES = Object.keys(SERVICE_META)
+  .map(id => ({ ...getServiceView(id), popular: id === "vedic-guidance" || id === "temple-puja" }));
 
-  // Sacred Offerings & Pujas
-  { id: "temple-puja", name: "Remote Temple Sankalp Puja", price: 2100, delivery: "Kashi/Ujjain + Prasad", category: "offering", popular: true, desc: "Live priest sankalp with sanctified prasad" },
-  { id: "tatkal-express", name: "2-Hour Tatkal Express Guidance", price: 2499, delivery: "Within 120 Mins", category: "offering", popular: false, desc: "Emergency priority guidance direct on phone" },
-  { id: "voice-dossier", name: "Pandit Ji Voice Audio Dossier", price: 1999, delivery: "Studio MP3 on WhatsApp", category: "offering", popular: false, desc: "Personalized deep-dive audio recording" },
-  { id: "annual-varshphal", name: "365-Day Royal Varshphal Book", price: 2999, delivery: "25+ Page Gold Dossier", category: "offering", popular: false, desc: "Full year month-by-month predictive report" },
-  { id: "energized-gemstone", name: "Consecrated Gemstone Ring", price: 5500, delivery: "Lab Certified + Ring", category: "offering", popular: false, desc: "Prana-pratishtha energized authentic stone" },
-  { id: "business-retainer", name: "Vyapar Vastu & Business Retainer", price: 11000, delivery: "Quarterly VIP Retainer", category: "offering", popular: false, desc: "Ongoing strategic Vedic advisory for business" },
-];
+const FORM_SERVICE_IDS = new Set(SERVICES.map(s => s.id));
 
-const ALIAS_MAP: Record<string, string> = {
-  puja: "temple-puja",
-  express: "tatkal-express",
-  voice: "voice-dossier",
-  varshphal: "annual-varshphal",
-  gemstone: "energized-gemstone",
-  business: "business-retainer",
+// Short, de-duplicated menus shown as pills. Any other valid service (e.g. deep-kundli or vastu
+// linked from a tool page) still works: it is shown at the front of its tab while selected.
+const MENU_IDS: Record<"guidance" | "offering", string[]> = {
+  guidance: ["vedic-guidance", "kundli", "marriage", "career-business", "muhurat", "baby-name"],
+  offering: ["temple-puja", "jaap", "tatkal-express", "voice-dossier", "annual-varshphal", "energized-gemstone"],
 };
+
+function menuFor(category: "guidance" | "offering", selectedId: string) {
+  const ids = [...MENU_IDS[category]];
+  const sel = SERVICES.find(s => s.id === selectedId);
+  if (sel && sel.category === category && !ids.includes(sel.id)) ids.unshift(sel.id);
+  return ids.map(id => SERVICES.find(s => s.id === id)).filter((x): x is (typeof SERVICES)[number] => Boolean(x));
+}
+
+function pickInitialService(raw: string): string {
+  const id = SAME_PRICE_ALIASES[raw] ?? resolveServiceId(raw);
+  return id && FORM_SERVICE_IDS.has(id) ? id : "vedic-guidance";
+}
 
 const PROMPT_CHIPS = [
   { label: "Career Timing", query: "When will my career transition succeed and what remedial actions are recommended?" },
@@ -73,7 +73,7 @@ const PROMPT_CHIPS = [
 export default function GuidanceRequestForm() {
   const searchParams = useSearchParams();
   const rawParam = searchParams.get("service") || "";
-  const initialService = ALIAS_MAP[rawParam] || rawParam || "vedic-guidance";
+  const initialService = pickInitialService(rawParam);
 
   const [form, setForm] = useState({
     service: initialService,
@@ -88,7 +88,8 @@ export default function GuidanceRequestForm() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState<{ referenceId: string; amount: number } | null>(null);
 
-  const selectedService = SERVICES.find(s => s.id === form.service) || SERVICES[0];
+  const selectedService = SERVICES.find(s => s.id === form.service) ?? SERVICES[0];
+  const questionLen = form.question.trim().length;
 
   const update = (field: string, value: string) => {
     setError("");
@@ -105,8 +106,9 @@ export default function GuidanceRequestForm() {
       document.getElementById("fullName")?.focus();
       return;
     }
-    if (!form.phone.trim() || form.phone.trim().length < 10) {
-      setError("Please enter a valid 10-digit WhatsApp number to receive your guidance.");
+    const phone10 = normalizePhone(form.phone);
+    if (!isValidIndianMobile(phone10)) {
+      setError(PHONE_ERROR);
       document.getElementById("phone")?.focus();
       return;
     }
@@ -120,8 +122,9 @@ export default function GuidanceRequestForm() {
       document.getElementById("birthPlace")?.focus();
       return;
     }
-    if (!form.question.trim()) {
-      setError("Please write your question or intention for Pandit Ji.");
+    const questionCheck = validateQuestion(form.question);
+    if (!questionCheck.ok) {
+      setError(questionCheck.error);
       document.getElementById("question")?.focus();
       return;
     }
@@ -132,7 +135,8 @@ export default function GuidanceRequestForm() {
     const formData = {
       concern: "",
       fullName: form.fullName.trim(),
-      email: form.phone.trim() + "@phone.shubhmarg.com", // phone as primary identifier
+      email: "", // server builds the identifier email from `phone`
+      phone: phone10,
       dateOfBirth: form.dateOfBirth,
       timeOfBirth: form.timeOfBirth || "",
       birthPlace: form.birthPlace.trim(),
@@ -143,13 +147,41 @@ export default function GuidanceRequestForm() {
       privacyConsent: true,
     };
 
-    const result = await submitGuidanceRequest(formData);
-    if (result.success && result.referenceId) {
-      setSuccess({ referenceId: result.referenceId, amount: selectedService.price });
-    } else {
-      setError(result.error || "Something went wrong. Please try again.");
+    try {
+      const result = await submitGuidanceRequest(formData);
+      if (result.success && result.referenceId && typeof result.amount === "number") {
+        setSuccess({ referenceId: result.referenceId, amount: result.amount });
+      } else {
+        setError(result.error || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setError("We could not reach our servers. Please check your connection and try again.");
+    } finally {
+      setSubmitting(false);
     }
-    setSubmitting(false);
+  };
+
+  // Default category from selected service (hooks must stay above any early return)
+  const initialCategory = getServiceView(initialService).category === "offering" ? "offering" : "guidance";
+  const [activeCategory, setActiveCategory] = useState<"guidance" | "offering">(initialCategory);
+
+  // Audio sample chant player (single Audio instance kept in a ref)
+  const [isPlayingChant, setIsPlayingChant] = useState(false);
+  const chantAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  const toggleChant = () => {
+    if (!chantAudioRef.current) {
+      const audio = new Audio("/audio/1.Divya Pratah Aashirwad.mp3");
+      audio.onended = () => setIsPlayingChant(false);
+      chantAudioRef.current = audio;
+    }
+    const audio = chantAudioRef.current;
+    if (isPlayingChant) {
+      audio.pause();
+      setIsPlayingChant(false);
+    } else {
+      audio.play().then(() => setIsPlayingChant(true)).catch(() => {});
+    }
   };
 
   // ── Success State ──
@@ -197,7 +229,7 @@ export default function GuidanceRequestForm() {
           >
             <span className="relative z-10 flex items-center gap-3">
               <ShubhMargEmblem size={26} />
-              <span>Complete Dakshina of ₹{success.amount}</span>
+              <span>Complete Dakshina of ₹{formatAmount(success.amount)}</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </span>
           </Link>
@@ -211,36 +243,11 @@ export default function GuidanceRequestForm() {
     );
   }
 
-  // Determine default category from selected service
-  const initialCategory = SERVICES.find(s => s.id === initialService)?.category === "offering" ? "offering" : "guidance";
-  const [activeCategory, setActiveCategory] = useState<"guidance" | "offering">(initialCategory);
-
-  const filteredServices = SERVICES.filter(s => s.category === activeCategory);
-
-  // Audio sample chant player
-  const [isPlayingChant, setIsPlayingChant] = useState(false);
-  const chantAudioRef = typeof window !== "undefined" ? new Audio("/audio/Divya Pratah Aashirwad.mp3") : null;
-
-  const toggleChant = () => {
-    if (!chantAudioRef) return;
-    if (isPlayingChant) {
-      chantAudioRef.pause();
-      setIsPlayingChant(false);
-    } else {
-      chantAudioRef.play().then(() => setIsPlayingChant(true)).catch(() => {});
-      chantAudioRef.onended = () => setIsPlayingChant(false);
-    }
-  };
+  const filteredServices = menuFor(activeCategory, form.service);
 
   // ── Form ──
   return (
     <div className="mx-auto max-w-xl px-4 py-2 sm:py-4">
-      {/* Cosmic Muhurta Live Ticker */}
-      <div className="flex items-center justify-center gap-1.5 py-1 px-3 rounded-full bg-gradient-to-r from-amber-500/15 via-white to-amber-500/15 border border-[#D4AF37]/45 text-[10px] font-bold text-[#8B1A1A] mb-2.5 max-w-sm mx-auto shadow-2xs">
-        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping shrink-0" />
-        <span>Live Kashi Muhurta: Auspicious for Gotra Sankalp</span>
-      </div>
-
       {/* Royal Manuscript Card */}
       <div className="relative rounded-3xl bg-gradient-to-b from-[#FFFDF9] via-[#FAF5EC] to-[#F6EEE0] p-4 sm:p-7 border-2 border-[#D4AF37]/45 shadow-[0_16px_40px_rgba(107,42,20,0.12),0_4px_16px_rgba(212,175,55,0.1)] overflow-hidden">
         
@@ -276,10 +283,6 @@ export default function GuidanceRequestForm() {
               <span>{isPlayingChant ? "Chant Playing..." : "Sample Voice"}</span>
             </button>
 
-            <div className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/95 border border-emerald-600/35 text-emerald-800 text-[9.5px] font-bold shadow-2xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Desk Active</span>
-            </div>
           </div>
         </div>
 
@@ -298,7 +301,7 @@ export default function GuidanceRequestForm() {
                   type="button"
                   onClick={() => {
                     setActiveCategory("guidance");
-                    const firstInCat = SERVICES.find(s => s.category === "guidance");
+                    const firstInCat = menuFor("guidance", "")[0];
                     if (firstInCat) update("service", firstInCat.id);
                   }}
                   className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
@@ -307,13 +310,13 @@ export default function GuidanceRequestForm() {
                       : "text-[#6B5A48] hover:text-[#2A1810]"
                   }`}
                 >
-                  Consultations (6)
+                  Consultations ({menuFor("guidance", form.service).length})
                 </button>
                 <button
                   type="button"
                   onClick={() => {
                     setActiveCategory("offering");
-                    const firstInCat = SERVICES.find(s => s.category === "offering");
+                    const firstInCat = menuFor("offering", "")[0];
                     if (firstInCat) update("service", firstInCat.id);
                   }}
                   className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
@@ -322,13 +325,13 @@ export default function GuidanceRequestForm() {
                       : "text-[#6B5A48] hover:text-[#2A1810]"
                   }`}
                 >
-                  Temple Pujas (6)
+                  Temple Pujas ({menuFor("offering", form.service).length})
                 </button>
               </div>
             </div>
 
             {/* Service Pills Grid/Carousel */}
-            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-amber-300/50">
+            <div className="grid grid-cols-2 gap-2">
               {filteredServices.map(s => {
                 const isSelected = form.service === s.id;
                 return (
@@ -336,16 +339,16 @@ export default function GuidanceRequestForm() {
                     key={s.id}
                     type="button"
                     onClick={() => update("service", s.id)}
-                    className={`shrink-0 px-3 py-2 rounded-xl text-xs font-medium transition-all border whitespace-nowrap flex items-center gap-2 cursor-pointer ${
+                    className={`min-w-0 min-h-[52px] px-3 py-2 rounded-xl text-xs font-medium transition-all border flex flex-col items-start justify-center gap-0.5 text-left cursor-pointer ${
                       isSelected
                         ? "bg-gradient-to-r from-[#7B0F1E] via-[#8B1A1A] to-[#5C0A0A] text-white border-[#D4AF37] shadow-[0_3px_12px_rgba(123,15,30,0.3)] font-bold scale-[1.02]"
                         : "bg-white/95 text-[#2A1810]/85 border-[#D4AF37]/35 hover:border-[#D4AF37] hover:bg-white"
                     }`}
                     style={{ touchAction: "manipulation" }}
                   >
-                    <span>{s.name}</span>
+                    <span className="leading-snug line-clamp-2">{s.name}</span>
                     <span className={`font-mono text-[11px] font-bold ${isSelected ? "text-amber-200" : "text-[#7B0F1E]"}`}>
-                      ₹{s.price}
+                      {formatInr(s.price)}
                     </span>
                   </button>
                 );
@@ -373,14 +376,14 @@ export default function GuidanceRequestForm() {
                         </span>
                       )}
                     </div>
-                    <p className="text-[11px] text-[#6B5A48] leading-tight mt-0.5 line-clamp-1">{selectedService.desc}</p>
+                    <p className="text-[11px] text-[#6B5A48] leading-snug mt-0.5 line-clamp-2">{selectedService.desc}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
                   <div className="text-right">
                     <span className="text-[8px] uppercase font-bold text-[#6B5A48]/70 block">Dakshina</span>
-                    <span className="text-base font-black font-mono text-[#7B0F1E] leading-tight">₹{selectedService.price}</span>
+                    <span className="text-base font-black font-mono text-[#7B0F1E] leading-tight">{formatInr(selectedService.price)}</span>
                   </div>
                   <div className="h-6 w-px bg-[#D4AF37]/35" />
                   <div className="flex items-center gap-1 text-[10px] font-medium text-[#2A1810] bg-white/95 px-2 py-1 rounded-lg border border-[#D4AF37]/30 shadow-2xs">
@@ -565,6 +568,13 @@ export default function GuidanceRequestForm() {
               style={{ fontSize: "14px" }}
             />
 
+            <p
+              className={`mt-1 text-right text-[10px] font-semibold ${questionLen >= 10 ? "text-emerald-700" : "text-[#C25E10]"}`}
+              aria-live="polite"
+            >
+              {Math.min(questionLen, 10)}/10
+            </p>
+
             {/* Micro Prompt Ideas Strip (Single compact row) */}
             <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
               <span className="text-[9px] font-bold text-[#6B5A48] uppercase tracking-wider">
@@ -624,7 +634,7 @@ export default function GuidanceRequestForm() {
 
                   {/* Golden Coin Price Badge */}
                   <div className="flex items-center gap-1.5 bg-gradient-to-r from-amber-400/30 to-amber-300/15 border border-amber-300/70 px-3 py-1 rounded-full text-amber-200 font-mono font-black text-xs tracking-normal shadow-inner shrink-0 group-hover:scale-105 transition-transform">
-                    <span>₹{selectedService.price}</span>
+                    <span>{formatInr(selectedService.price)}</span>
                     <ArrowRight className="w-3.5 h-3.5 text-amber-300 group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </>

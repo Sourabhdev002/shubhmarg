@@ -46,11 +46,27 @@ export function useWallet(): WalletState {
     }
   }, [user]);
 
+  // Initial load: state is only set when the request settles (no synchronous setState in the effect).
   useEffect(() => {
-    refresh();
-  }, [refresh]);
+    if (!user) return;
+    let cancelled = false;
+    fetch("/api/wallet/balance")
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        if (cancelled) return;
+        setBalance(data.balance_paise ?? 0);
+        setTransactions(data.transactions ?? []);
+        setError(null);
+      })
+      .catch((e) => { if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load wallet"); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [user]);
 
-  return { balance_paise, transactions, loading, error, refresh };
+  return { balance_paise, transactions, loading: user ? loading : false, error, refresh };
 }
 
 /** Initiate a wallet top-up. Returns UPI payment details. */

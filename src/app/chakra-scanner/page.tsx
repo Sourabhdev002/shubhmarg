@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import Link from "next/link";
 import { Sparkles, Loader2, Zap } from "lucide-react";
@@ -216,7 +217,6 @@ export default function ChakraScannerPage() {
               toolName="7-Chakra & Kundalini Energy Aura Scanner"
               serviceId="temple-puja"
               serviceName="Remote Temple Sankalp Puja & Energy Clearing"
-              price={2100}
               highlightWarning="Severe subtle vortex blockage detected in your primary energy vortex. Pandit Ji has sealed the specific Beej Shloka rhythm and consecrated Temple Puja protocol."
             />
 
@@ -238,13 +238,13 @@ export default function ChakraScannerPage() {
                   href="/request-guidance?service=temple-puja"
                   className="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-black font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5"
                 >
-                  <span>Book Puja (₹2,100)</span>
+                  <span>Book Puja ({ctaPriceLabel("temple-puja")})</span>
                 </Link>
                 <Link
                   href="/request-guidance?service=voice-dossier"
                   className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md flex items-center justify-center gap-1.5"
                 >
-                  <span>Spoken MP3 (₹1,999)</span>
+                  <span>Spoken MP3 ({ctaPriceLabel("voice-dossier")})</span>
                 </Link>
               </div>
             </div>
@@ -259,7 +259,6 @@ export default function ChakraScannerPage() {
           <SanctifiedVerdictStickyBar
             serviceId="temple-puja"
             serviceName="Remote Temple Sankalp Puja"
-            price={2100}
             badge="Live Chakra Energization Window"
           />
         )}

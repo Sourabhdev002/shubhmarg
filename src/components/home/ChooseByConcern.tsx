@@ -96,7 +96,7 @@ export default function ChooseByConcern() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#FFF9EE] via-[#FFF3D6] to-[#FFF9EE] border border-[#D4AF37]/60 mb-3.5 shadow-[0_4px_14px_rgba(184,134,11,0.18)]">
             <Sparkles className="w-3.5 h-3.5 text-[#C25E10] animate-pulse" />
             <span className="text-[10.5px] sm:text-[11.5px] font-sans font-bold tracking-[0.22em] text-[#8C3F08] uppercase">
-              {t("concern.eyebrow")} • BESPOKE VEDIC SANCTUARY
+              {t("concern.eyebrow")}
             </span>
             <Sparkles className="w-3.5 h-3.5 text-[#C25E10] animate-pulse" />
           </div>
@@ -261,7 +261,7 @@ export default function ChooseByConcern() {
         {/* Mobile Swipe Hint & Dot Indicator */}
         <div className="flex sm:hidden items-center justify-center gap-2 mt-2 mb-1">
           <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#8C5212]/80">
-            Swipe Sanctum Pathways
+            Swipe to explore
           </span>
           <div className="flex items-center gap-1">
             {CONCERNS.map((c, idx) => (

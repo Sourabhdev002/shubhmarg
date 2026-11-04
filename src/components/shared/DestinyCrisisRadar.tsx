@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import { Flame, ShieldAlert, Sparkles, ArrowRight, Clock, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import DirectWhatsAppButton from "./DirectWhatsAppButton";
@@ -14,7 +15,6 @@ interface DestinyCrisisRadarProps {
   remedyAction?: string;
   serviceId?: string;
   serviceName?: string;
-  price?: number | string;
 }
 
 export default function DestinyCrisisRadar({
@@ -26,8 +26,8 @@ export default function DestinyCrisisRadar({
   remedyAction = "Perform Remote Gotra Sankalp Shanti & Energize Personal Beej Mantra",
   serviceId = "vedic-guidance",
   serviceName = "Pandit Ji's Urgent Planetary Remedy Guidance",
-  price = 501,
 }: DestinyCrisisRadarProps) {
+  const priceLabel = ctaPriceLabel(serviceId);
   return (
     <div className="my-10 bg-[#FFFDF8] border-2 border-red-500/60 rounded-3xl p-6 sm:p-9 shadow-[0_15px_60px_rgba(239,68,68,0.15)] relative overflow-hidden">
       {/* Background celestial grid */}
@@ -124,14 +124,14 @@ export default function DestinyCrisisRadar({
               href={`/request-guidance?service=${serviceId}`}
               className="px-7 py-4 rounded-2xl bg-gradient-to-r from-red-600 via-amber-500 to-red-600 text-[#2A1810] font-extrabold text-xs uppercase tracking-wider shadow-[0_4px_30px_rgba(239,68,68,0.4)] hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer"
             >
-              <span>Neutralize with Pandit Ji ({typeof price === "number" ? `₹${price}` : price})</span>
+              <span>Neutralize with Pandit Ji ({priceLabel})</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
 
             <DirectWhatsAppButton
               variant="compact"
               serviceName={serviceName}
-              price={price}
+              price={priceLabel}
               className="py-3.5 px-5 rounded-2xl justify-center text-xs"
             />
           </div>

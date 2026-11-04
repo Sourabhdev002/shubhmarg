@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, ArrowRight } from "lucide-react";
@@ -195,7 +196,7 @@ export default function InteractiveYantraAltar() {
                 href="/request-guidance?service=energized-gemstone"
                 className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#e5c453] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all"
               >
-                <span>Order Gold Yantra (₹1,100)</span>
+                <span>Order Gold Yantra ({ctaPriceLabel("energized-gemstone")})</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -206,7 +207,6 @@ export default function InteractiveYantraAltar() {
         <SanctifiedVerdictStickyBar
           serviceId="energized-gemstone"
           serviceName={`24K Gold Consecrated ${activeYantra.name}`}
-          price={1100}
           badge="Prana Pratishtha Consecrated"
         />
       </div>

@@ -246,7 +246,6 @@ export default function PalmScannerPage() {
               planetaryAlertDesc="Your palm mounts reveal heightened electromagnetic activity along your Sun & Saturn lines, indicating an auspicious breakthrough window that can be accelerated through customized gotra-energized remedies."
               recommendedServiceId="kundli"
               recommendedServiceName="Jyotish & Full Life Kundli Reading"
-              price={1101}
             />
 
             {/* Parallel Destiny Simulator */}
@@ -255,7 +254,6 @@ export default function PalmScannerPage() {
               seekerName="Seeker"
               serviceId="kundli"
               serviceName="Jyotish & Full Life Kundli Reading"
-              price={1101}
             />
           </div>
         )}
@@ -265,7 +263,6 @@ export default function PalmScannerPage() {
           <SanctifiedVerdictStickyBar
             serviceId="kundli"
             serviceName="Jyotish & Full Kundli Guidance"
-            price={1101}
             badge="Live Samudrika Session Open"
           />
         )}

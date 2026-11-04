@@ -185,7 +185,6 @@ export default function KarmicDebtPage() {
               remedyAction="Perform Remote Kashi Vishwanath / Gaya Gotra Tarpan & Sankalp Puja"
               serviceId="temple-puja"
               serviceName="Remote Temple Sankalp Puja & Prasad Delivery"
-              price={2100}
             />
           </div>
         )}
@@ -195,7 +194,6 @@ export default function KarmicDebtPage() {
           <SanctifiedVerdictStickyBar
             serviceId="temple-puja"
             serviceName="Remote Temple Sankalp Puja"
-            price={2100}
             badge="Live Pitru Shanti Window Open"
           />
         )}

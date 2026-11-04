@@ -146,6 +146,7 @@ export default function Footer() {
                   <FooterLink href="/">Home</FooterLink>
                   <FooterLink href="/sacred-offerings">Sacred Offerings</FooterLink>
                   <FooterLink href="/shubh-calendar">Vedic Panchang</FooterLink>
+                  <FooterLink href="/hanuman-chalisa">Hanuman Chalisa</FooterLink>
                   <FooterLink href="/services">Consultations</FooterLink>
                   <FooterLink href="/request-guidance">Request Guidance</FooterLink>
                   <FooterLink href="/about">About ShubhMarg</FooterLink>
@@ -237,6 +238,7 @@ export default function Footer() {
               <FooterLink href="/">Home</FooterLink>
               <FooterLink href="/sacred-offerings">Sacred Offerings</FooterLink>
               <FooterLink href="/shubh-calendar">Vedic Panchang</FooterLink>
+              <FooterLink href="/hanuman-chalisa">Hanuman Chalisa</FooterLink>
               <FooterLink href="/services">Consultations</FooterLink>
               <FooterLink href="/request-guidance">Request Guidance</FooterLink>
               <FooterLink href="/about">About ShubhMarg</FooterLink>

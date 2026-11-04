@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useIsClient } from "@/hooks/useIsClient";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { X, Copy, CheckCircle2, HeartHandshake, ShieldCheck, QrCode, ArrowRight } from "lucide-react";
 import QRCode from "react-qr-code";
@@ -37,14 +38,12 @@ interface DonateModalProps {
 }
 
 export default function DonateModal({ open, onClose, causeName = "ShubhMarg" }: DonateModalProps) {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useIsClient();
   const [selected, setSelected] = useState<number>(101);
   const [custom, setCustom] = useState("");
   const [copied, setCopied] = useState(false);
   const [paidTapped, setPaidTapped] = useState(false);
   const reduce = useReducedMotion();
-
-  useEffect(() => { setMounted(true); }, []);
 
   // Lock body scroll while open
   useEffect(() => {

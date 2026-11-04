@@ -8,6 +8,8 @@ interface RealisticTempleBell3DProps {
   onStrike?: () => void;
   className?: string;
   size?: number; // size in px, default 76
+  reduceMotion?: boolean; // when true, skip idle sway / swing keyframes / sound-wave rings (sound still plays)
+  ariaLabel?: string; // optional override for the default English aria-label
 }
 
 export const RealisticTempleBell3D: React.FC<RealisticTempleBell3DProps> = ({
@@ -15,6 +17,8 @@ export const RealisticTempleBell3D: React.FC<RealisticTempleBell3DProps> = ({
   onStrike,
   className = "",
   size = 76,
+  reduceMotion = false,
+  ariaLabel,
 }) => {
   return (
     <div
@@ -27,7 +31,7 @@ export const RealisticTempleBell3D: React.FC<RealisticTempleBell3DProps> = ({
           onStrike?.();
         }
       }}
-      aria-label="Strike Consecrated Panchadhatu Temple Bell"
+      aria-label={ariaLabel ?? "Strike Consecrated Panchadhatu Temple Bell"}
       title="Tap to strike sacred temple bell"
       className={`relative inline-flex items-center justify-center cursor-pointer select-none group outline-none ${className}`}
       style={{ width: size, height: size + 20 }}
@@ -37,7 +41,7 @@ export const RealisticTempleBell3D: React.FC<RealisticTempleBell3DProps> = ({
 
       {/* Concentric Golden Sound Waves when ringing */}
       <AnimatePresence>
-        {isRinging && (
+        {isRinging && !reduceMotion && (
           <>
             <motion.div
               key="wave-1"
@@ -64,7 +68,9 @@ export const RealisticTempleBell3D: React.FC<RealisticTempleBell3DProps> = ({
       {/* Main Suspended Bell with Pendulum Physics Pivot at Top Chain Hook */}
       <motion.div
         animate={
-          isRinging
+          reduceMotion
+            ? { rotate: 0, scale: 1, y: 0 }
+            : isRinging
             ? {
                 rotate: [0, -22, 18, -14, 10, -6, 3, 0],
                 scale: [1, 1.05, 0.98, 1.02, 1],
@@ -75,7 +81,9 @@ export const RealisticTempleBell3D: React.FC<RealisticTempleBell3DProps> = ({
               }
         }
         transition={
-          isRinging
+          reduceMotion
+            ? { duration: 0 }
+            : isRinging
             ? { duration: 3.2, ease: "easeOut" }
             : { duration: 4.5, repeat: Infinity, ease: "easeInOut" }
         }
@@ -186,7 +194,9 @@ export const RealisticTempleBell3D: React.FC<RealisticTempleBell3DProps> = ({
           <motion.g
             id="clapperTongue"
             animate={
-              isRinging
+              reduceMotion
+                ? { rotate: 0 }
+                : isRinging
                 ? {
                     rotate: [0, 18, -16, 12, -8, 4, -2, 0],
                   }
@@ -195,7 +205,9 @@ export const RealisticTempleBell3D: React.FC<RealisticTempleBell3DProps> = ({
                   }
             }
             transition={
-              isRinging
+              reduceMotion
+                ? { duration: 0 }
+                : isRinging
                 ? { duration: 3.2, ease: "easeOut", delay: 0.05 }
                 : { duration: 4.5, repeat: Infinity, ease: "easeInOut" }
             }

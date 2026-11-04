@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 /**
@@ -68,28 +68,29 @@ function buildWindow(): string[] {
   return out;
 }
 
+function subscribeJournal(cb: () => void) {
+  const onStorage = (e: StorageEvent) => { if (e.key === STORAGE_KEY) cb(); };
+  window.addEventListener("shubhmarg:sankalp-updated", cb);
+  window.addEventListener("storage", onStorage);
+  return () => {
+    window.removeEventListener("shubhmarg:sankalp-updated", cb);
+    window.removeEventListener("storage", onStorage);
+  };
+}
+
+function readJournalRaw(): string {
+  try { return localStorage.getItem(STORAGE_KEY) ?? ""; } catch { return ""; }
+}
+
 export default function SankalpMandala() {
   const reduce = useReducedMotion();
-  const [journal, setJournal] = useState<Journal>({ seals: [] });
   // The SVG petal coords use Math.cos/sin which produce tiny float diffs between
   // server & client → hydration mismatch. This is a client-only visual (reads
-  // localStorage), so we only draw the chakra after mount.
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    setJournal(readJournal());
-    const onUpdate = () => setJournal(readJournal());
-    window.addEventListener("shubhmarg:sankalp-updated", onUpdate);
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEY) setJournal(readJournal());
-    };
-    window.addEventListener("storage", onStorage);
-    return () => {
-      window.removeEventListener("shubhmarg:sankalp-updated", onUpdate);
-      window.removeEventListener("storage", onStorage);
-    };
-  }, []);
+  // localStorage), so the chakra is only drawn once raw !== null (client).
+  const raw = useSyncExternalStore(subscribeJournal, readJournalRaw, () => null);
+  const mounted = raw !== null;
+  // raw is the trigger: re-parse whenever the stored journal text changes.
+  const journal = useMemo<Journal>(() => (raw === null ? { seals: [] } : readJournal()), [raw]);
 
   const window30 = useMemo(() => buildWindow(), []);
   const today = todayIsoLocal();

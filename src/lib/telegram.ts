@@ -1,4 +1,10 @@
 import "server-only";
+import {
+  buildClaimAlertText,
+  buildOrderAlertText,
+  type ClaimAlertInput,
+  type OrderAlertInput,
+} from "@/lib/telegram-messages";
 
 /**
  * Telegram bot helper — sends wallet top-up alerts to the owner
@@ -101,6 +107,39 @@ export async function sendQuickUnlockAlert(info: { amountInr: number; product: s
     return res.ok;
   } catch (e) {
     console.error("Telegram sendQuickUnlockAlert failed:", e);
+    return false;
+  }
+}
+
+/** Best-effort plain Markdown send. Never throws, never logs token or chat id. */
+async function sendPlainAlert(text: string): Promise<boolean> {
+  if (!telegramConfigured()) return false;
+  try {
+    const res = await fetch(`${TG_API}/bot${botToken()}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId(), text, parse_mode: "Markdown" }),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+/** Owner alert for a newly created order. Best effort. */
+export async function sendOrderAlert(info: OrderAlertInput): Promise<boolean> {
+  try {
+    return await sendPlainAlert(buildOrderAlertText(info));
+  } catch {
+    return false;
+  }
+}
+
+/** Owner alert for a payment claim or UTR submission. Best effort. */
+export async function sendPaymentClaimAlert(info: ClaimAlertInput): Promise<boolean> {
+  try {
+    return await sendPlainAlert(buildClaimAlertText(info));
+  } catch {
     return false;
   }
 }

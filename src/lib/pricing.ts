@@ -1,4 +1,4 @@
-export const SERVICE_PRICING: Record<string, number> = {
+﻿export const SERVICE_PRICING: Record<string, number> = {
   // Classical Guidance Services
   "vedic-guidance": 501,
   "career-business": 501,
@@ -26,6 +26,15 @@ export const SERVICE_PRICING: Record<string, number> = {
   "gemstone": 5500,
   "business-retainer": 11000,
   "business": 11000,
+
+  // Aliases used by tool-page CTAs (previously fell back to 501 = revenue/trust leak).
+  // Prices match how each is advertised on its tool page.
+  "deep-kundli": 1500,      // Manglik-Free / full kundli certified report
+  "yantra-kavach": 1100,    // Raksha Kavach / Yantra consecration
+  "vastu": 1101,            // Vastu analysis & remedies
+  "jyotish": 501,           // general astrology reading (same as vedic-guidance)
+  "prashna": 501,           // single-question Prashna
+  "muhurta": 251,           // common misspelling of "muhurat"
 };
 
 export function getServicePrice(serviceId: string): number {

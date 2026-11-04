@@ -36,7 +36,7 @@ interface PayNowButtonProps {
   /** Hide the trust row under the button (e.g. when space is tight). */
   hideTrust?: boolean;
   /** Called after the link opens (e.g. fire a pixel / advance to "confirm"). */
-  onOpened?: () => void;
+  onOpened?: () => void | Promise<unknown>;
 }
 
 const SNAPPY = { type: "spring" as const, stiffness: 400, damping: 30 };
@@ -66,15 +66,28 @@ export default function PayNowButton({
         /* clipboard optional — the amount is also shown on-page */
       }
     }
-    onOpened?.();
+    const pending = onOpened?.();
 
     // Mobile: same-tab navigation hands off reliably to Paytm's secure page.
     // Desktop: new tab so the payer keeps this confirmation page.
     const isMobile =
       typeof navigator !== "undefined" &&
       /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent);
-    if (isMobile) window.location.href = link;
-    else window.open(link, "_blank", "noopener,noreferrer");
+    if (isMobile) {
+      // A same-tab navigation cancels in-flight requests. If onOpened returned a
+      // promise (e.g. a server call), give it a short, capped head start (1.5s max,
+      // never throws) so it can finish before we leave. Sync callers are unaffected.
+      if (pending && typeof (pending as Promise<unknown>).then === "function") {
+        await Promise.race([
+          (pending as Promise<unknown>).catch(() => undefined),
+          new Promise((resolve) => setTimeout(resolve, 1500)),
+        ]);
+      }
+      window.location.href = link;
+    } else {
+      // Desktop opens synchronously (keeps the popup gesture); the page stays alive.
+      window.open(link, "_blank", "noopener,noreferrer");
+    }
   };
 
   return (

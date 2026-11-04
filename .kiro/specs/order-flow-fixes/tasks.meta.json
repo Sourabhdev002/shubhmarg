@@ -1,0 +1,182 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Write bug condition exploration test": [
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793629713547
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793629758826
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793630382135
+      }
+    ],
+    "2. Write preservation property tests (BEFORE implementing fix)": [
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793629713612
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793630382266
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793630594272
+      }
+    ],
+    "3.1 Add the pure helper modules": [
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793629713673
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793630594720
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793630812962
+      }
+    ],
+    "3.2 Fix the request form and the server action (B1, B2, B3, B4, B6)": [
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793629713732
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793630813659
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793633002852
+      }
+    ],
+    "3.3 Fix Quick Answer (B5, B1, B6)": [
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793629713792
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793633004299
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793633469646
+      }
+    ],
+    "3.4 Fix the payment screen and claim alerts (B7, B6)": [
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793629713851
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793633003947
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793633468629
+      }
+    ],
+    "3.5 Make CTA labels match the charged price (B4)": [
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793629713915
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793633469969
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793634154675
+      }
+    ],
+    "3.6 Verify bug condition exploration test now passes": [
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793629713973
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793634154796
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793634413511
+      }
+    ],
+    "3.7 Verify preservation tests still pass": [
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793629714071
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793634154835
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793634415187
+      }
+    ],
+    "4. Checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793629714126
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793634415320
+      },
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793634426200
+      }
+    ],
+    "3. Fix the seven order-flow defects (B1 to B7)": [
+      {
+        "executionId": "00b4946b-cbb6-4fc1-aa7c-0ce47c9e7bce",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793634415272
+      }
+    ]
+  }
+}

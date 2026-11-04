@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { useIsClient } from "@/hooks/useIsClient";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle2, Loader2, ArrowRight, Smartphone, Copy, Clock, AlertCircle, ShieldCheck } from "lucide-react";
 import QRCode from "react-qr-code";
@@ -37,11 +38,8 @@ export default function TopupDrawer({ open, onClose, onSuccess }: TopupDrawerPro
   const [copied, setCopied] = useState(false);
   const [utrInput, setUtrInput] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useIsClient();
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  // Portal target only exists on the client.
-  useEffect(() => { setMounted(true); }, []);
 
   const amount = custom ? Math.floor(Number(custom)) : selected;
 

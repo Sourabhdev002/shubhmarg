@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { CalendarDays, TrendingUp, ArrowRight } from "lucide-react";
@@ -174,13 +175,13 @@ export default function VedicWealthCalendar() {
               </div>
               <div className="flex flex-col gap-2 shrink-0 w-full sm:w-auto">
                 <Link href="/request-guidance?service=deep-kundli" className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#ffd700] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all">
-                  <span>Wealth Strategy Call (₹1,999)</span><ArrowRight className="w-3.5 h-3.5" />
+                  <span>Wealth Strategy Call ({ctaPriceLabel("deep-kundli")})</span><ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <DirectWhatsAppButton variant="compact" serviceName={`Annual VIP Vedic Wealth Advisor (${RASHIS[selectedRashi]})`} price={5100} className="w-full justify-center py-2 text-xs" />
               </div>
             </div>
 
-            <SanctifiedVerdictStickyBar serviceId="deep-kundli" serviceName="Vedic Wealth Calendar Strategy Call" price={1999} badge="📅 Calendar Generated" />
+            <SanctifiedVerdictStickyBar serviceId="deep-kundli" serviceName="Vedic Wealth Calendar Strategy Call" badge="📅 Calendar Generated" />
           </motion.div>
         )}
       </div>

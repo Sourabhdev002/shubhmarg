@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { Sparkles, Compass, Flame, ArrowRight, Share2, Droplets, Wind, Mountain, Sun } from "lucide-react";
 import { VEDIC_GOTRAS, GotraDetail } from "@/lib/gotras";
@@ -206,7 +207,7 @@ export default function KuldevtaResolverPage() {
                   href="/request-guidance?service=temple-puja"
                   className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] to-amber-500 text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-2 transition-all"
                 >
-                  <span>Book {resolvedGotra.name} Gotra Sankalp Puja (₹2,100)</span>
+                  <span>Book {resolvedGotra.name} Gotra Sankalp Puja ({ctaPriceLabel("temple-puja")})</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -216,7 +217,6 @@ export default function KuldevtaResolverPage() {
             <SanctifiedVerdictStickyBar
               serviceId="temple-puja"
               serviceName={`${resolvedGotra.name} Gotra Ancestral Shanti Puja`}
-              price={2100}
               badge={`Live ${resolvedGotra.name} Consecration Open`}
             />
           </div>

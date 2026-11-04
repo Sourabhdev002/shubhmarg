@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, QrCode, ArrowRight } from "lucide-react";
@@ -161,14 +162,14 @@ export default function PersonalRakshaKavach() {
                 </div>
                 <div className="flex flex-col gap-2 shrink-0 w-full sm:w-auto">
                   <Link href="/request-guidance?service=yantra-kavach" className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#ffd700] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all">
-                    <span>Brass Kavach (₹1,100)</span><ArrowRight className="w-3.5 h-3.5" />
+                    <span>Brass Kavach ({ctaPriceLabel("yantra-kavach")})</span><ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                   <DirectWhatsAppButton variant="compact" serviceName={`Silver Kavach Locket (${activeKavach.name})`} price={2500} className="w-full justify-center py-2 text-xs" />
                 </div>
               </div>
             </div>
 
-            <SanctifiedVerdictStickyBar serviceId="yantra-kavach" serviceName={`${activeKavach.name} Raksha Kavach`} price={1100} badge="🛡️ Kavach Consecrated" />
+            <SanctifiedVerdictStickyBar serviceId="yantra-kavach" serviceName={`${activeKavach.name} Raksha Kavach`} badge="🛡️ Kavach Consecrated" />
           </motion.div>
         )}
       </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Package, ShieldCheck, ArrowRight, X } from "lucide-react";
@@ -77,7 +78,7 @@ export default function JapaMalaDedicationModal({
               onClick={onClose}
               className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#d4af37] via-[#e5c453] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-2 transition-all"
             >
-              <span>Dedicate Merits &amp; Receive Prasad (₹2,100)</span>
+              <span>Dedicate Merits &amp; Receive Prasad ({ctaPriceLabel("temple-puja")})</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
 

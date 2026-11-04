@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 export default function FaqPage() {
   return (
     <main className="min-h-screen bg-brand-ivory pt-24 pb-36">
+      <h1 className="sr-only">FAQ</h1>
       <Faq />
     </main>
   );

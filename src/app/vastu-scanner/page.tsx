@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { Upload, Sparkles, Loader2, Compass, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -228,7 +229,7 @@ export default function VastuScannerPage() {
                 href="/request-guidance?service=vastu"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-maroon hover:bg-brand-maroon-dark text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition-all"
               >
-                <span>Book Full Vastu Guidance (₹2,100)</span>
+                <span>Book Full Vastu Guidance ({ctaPriceLabel("vastu")})</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

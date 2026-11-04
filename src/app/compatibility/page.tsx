@@ -300,7 +300,6 @@ export default function CompatibilityPage() {
                 planetaryAlertDesc="While numerical Guna scores provide baseline compatibility, long-term marital longevity is governed by planetary house placements (Mangal Drishti, 7th & 8th House Dasha). Pandit Ji analyzes both birth charts together for customized remedial synchronization."
                 recommendedServiceId="marriage"
                 recommendedServiceName="Comprehensive Marriage & Relationship Kundli Guidance"
-                price={1501}
               />
 
               {/* Family & In-Laws Dignified WhatsApp Summary Card */}

@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { Sparkles, Compass, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -189,7 +190,7 @@ export default function ShaniSadeSatiDiagnostic() {
                     href="/request-guidance?service=energized-gemstone"
                     className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#e5c453] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all"
                   >
-                    <span>Get Consecrated Ring (₹3,500)</span>
+                    <span>Get Consecrated Ring ({ctaPriceLabel("energized-gemstone")})</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
 
@@ -207,7 +208,6 @@ export default function ShaniSadeSatiDiagnostic() {
             <SanctifiedVerdictStickyBar
               serviceId="energized-gemstone"
               serviceName={`Shani Protective Ring & Shanti Puja (${diagnosticResult.name})`}
-              price={3500}
               badge={`Shani Armor Active for ${diagnosticResult.name}`}
             />
           </div>

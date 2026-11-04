@@ -1,6 +1,37 @@
 "use server";
 
+import { after } from "next/server";
 import { supabaseServer } from "@/lib/supabase";
+import { sendPaymentClaimAlert } from "@/lib/telegram";
+import { shouldSendClaimAlert } from "@/lib/telegram-messages";
+
+interface ClaimRow {
+  reference_id?: string;
+  service: string | null;
+  payment_amount: number | null;
+  full_name: string | null;
+}
+
+/** Schedules the owner claim alert. Never throws and never blocks the response. */
+function scheduleClaimAlert(referenceId: string, row: ClaimRow, utr?: string) {
+  try {
+    after(async () => {
+      try {
+        await sendPaymentClaimAlert({
+          referenceId,
+          service: String(row.service ?? ""),
+          amount: Number(row.payment_amount ?? 0),
+          name: String(row.full_name ?? ""),
+          utr,
+        });
+      } catch {
+        /* best effort */
+      }
+    });
+  } catch {
+    /* best effort */
+  }
+}
 
 export async function getPaymentRequestByReference(referenceId: string) {
   try {
@@ -30,7 +61,7 @@ export async function submitPaymentUtr(referenceId: string, utr: string) {
     // Check existing status
     const { data: request, error: fetchError } = await supabaseServer
       .from("guidance_requests")
-      .select("id, payment_status")
+      .select("id, payment_status, service, payment_amount, full_name")
       .eq("reference_id", referenceId)
       .single();
 
@@ -68,6 +99,9 @@ export async function submitPaymentUtr(referenceId: string, utr: string) {
       return { success: false, error: "Failed to submit payment details. Please try again." };
     }
 
+    if (shouldSendClaimAlert(String(request.payment_status), true)) {
+      scheduleClaimAlert(referenceId, request, trimmedUtr);
+    }
 
     return { success: true };
   } catch {
@@ -79,7 +113,7 @@ export async function submitPaymentConfirmation(referenceId: string) {
   try {
     const { data: request, error: fetchError } = await supabaseServer
       .from("guidance_requests")
-      .select("id, payment_status")
+      .select("id, payment_status, service, payment_amount, full_name")
       .eq("reference_id", referenceId)
       .single();
 
@@ -104,6 +138,9 @@ export async function submitPaymentConfirmation(referenceId: string) {
       return { success: false, error: "Failed to confirm payment. Please try again." };
     }
 
+    if (shouldSendClaimAlert(String(request.payment_status), false)) {
+      scheduleClaimAlert(referenceId, request);
+    }
 
     return { success: true };
   } catch (err) {

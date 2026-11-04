@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 export default function GrahaSosPage() {
   return (
     <main className="min-h-screen bg-[#FBF6EC] text-[#2A1810] pt-24 pb-32 px-4 sm:px-6">
+      <h1 className="sr-only">Emergency Graha Shanti SOS — Instant Planetary Crisis Intervention</h1>
       <div className="pointer-events-none fixed top-0 right-0 w-[65vw] h-[65vw] max-w-[600px] max-h-[600px] bg-red-600/10 rounded-full blur-[160px]" />
       <div className="pointer-events-none fixed bottom-0 left-0 w-[65vw] h-[65vw] max-w-[600px] max-h-[600px] bg-amber-600/10 rounded-full blur-[160px]" />
       <div className="relative z-10 max-w-4xl mx-auto space-y-10">

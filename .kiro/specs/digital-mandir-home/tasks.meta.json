@@ -1,0 +1,453 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Install fast-check pinned": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814650869
+      },
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814666309
+      },
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814898361
+      }
+    ],
+    "2.1 Create aarti types, config and picker": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814650949
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815035569
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815273086
+      }
+    ],
+    "3.1 Create Pandit config and pure helpers": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651029
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815036686
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815274032
+      }
+    ],
+    "4.1 Create `src/lib/home-surfaces.ts`": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651081
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815037871
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815275472
+      }
+    ],
+    "5.1 Create darshan picker, config and image folder": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651134
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815039085
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815276429
+      }
+    ],
+    "6. Checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651201
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815999541
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816258697
+      }
+    ],
+    "7.1 Add `reduceMotion` and `ariaLabel` to `RealisticTempleBell3D`": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651252
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815040058
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815277608
+      }
+    ],
+    "7.2 Update `TempleBellStrip`": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651329
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815294847
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815944823
+      }
+    ],
+    "8.1 Add `surface` prop to `TodaysPaath`": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651383
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816289775
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816623017
+      }
+    ],
+    "8.2 Change `AashirwadStrip` to link to `/aashirwad`": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651439
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816290885
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816623859
+      }
+    ],
+    "9.1 Create `DarshanBackdrop`": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651512
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815293994
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815754035
+      }
+    ],
+    "9.2 Create `WelcomeSection`": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651559
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816291831
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816625238
+      }
+    ],
+    "9.3 Create `AartiSection`": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651610
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816292965
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816626185
+      }
+    ],
+    "9.4 Create `PanditCard`": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651661
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816293712
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816627108
+      }
+    ],
+    "10.1 Rewrite `src/app/page.tsx`": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651716
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816642604
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793817311058
+      }
+    ],
+    "11.1 Create `/aashirwad` page": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651785
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816643458
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793817312405
+      }
+    ],
+    "11.2 Point the header link to `/aashirwad`": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651835
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793817326343
+      }
+    ],
+    "12.1 Add new keys to `src/lib/translations.ts`": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651884
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815292983
+      },
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815754837
+      }
+    ],
+    "14. Checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814651935
+      }
+    ],
+    "15.1 Re-verify and delete list A (home components removed from the page)": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814652012
+      }
+    ],
+    "15.2 Re-verify and delete list B (existing orphans in `src/components/home`)": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814652065
+      }
+    ],
+    "15.3 Re-verify and delete list C (helpers) and list D (images)": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814652113
+      }
+    ],
+    "15.4 Remove proven-unused translation keys": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814652166
+      }
+    ],
+    "16. Final checkpoint - lint, type check, tests, build": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814652217
+      }
+    ],
+    "1. Test tooling": [
+      {
+        "executionId": "d4952cb5-afc4-495d-ab57-caf0dd72585c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793814898429
+      }
+    ],
+    "2. Aarti library": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815273152
+      }
+    ],
+    "3. Pandit library": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815274095
+      }
+    ],
+    "4. Surface assignment library": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815275535
+      }
+    ],
+    "5. Darshan library and config": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815276492
+      }
+    ],
+    "12. Translations": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815754901
+      }
+    ],
+    "7. Update existing bell components": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793815944906
+      }
+    ],
+    "2.2 Write property tests for the aarti picker": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816260169
+      }
+    ],
+    "3.2 Write property tests for Pandit helpers": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816260841
+      }
+    ],
+    "4.2 Write property test for surface assignment": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816261690
+      }
+    ],
+    "5.2 Write property tests for the darshan library": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816262806
+      }
+    ],
+    "8. Update TodaysPaath and AashirwadStrip": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816623923
+      }
+    ],
+    "9. New home components": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793816627179
+      }
+    ],
+    "10. Rewrite the home page": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793817311161
+      }
+    ],
+    "13.1 Write `src/__tests__/home-page-contract.test.ts`": [
+      {
+        "executionId": "625f9a54-e68b-45e0-b5ce-b1a4a185297c",
+        "chatSessionId": "sess_ad821c77-769b-4dcd-a6c0-11299e78ac6d",
+        "timestamp": 1793817327693
+      }
+    ]
+  }
+}

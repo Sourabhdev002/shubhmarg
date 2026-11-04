@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import { Lock, ShieldCheck, ArrowRight, Flame, Clock, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import DirectWhatsAppButton from "./DirectWhatsAppButton";
@@ -11,7 +12,6 @@ interface SealedEnvelopeProps {
   gotra?: string;
   serviceId?: string;
   serviceName?: string;
-  price?: number | string;
   highlightWarning?: string;
 }
 
@@ -21,9 +21,9 @@ export default function SealedGotraDestinyEnvelope({
   gotra,
   serviceId = "vedic-guidance",
   serviceName = "Pandit Ji's Consecrated Gotra Remedy",
-  price = 501,
   highlightWarning = "A crucial malefic planetary transit peak is active in your chart that requires specific Beej Mantra frequency neutralisation.",
 }: SealedEnvelopeProps) {
+  const priceLabel = ctaPriceLabel(serviceId);
   const [timeLeft, setTimeLeft] = useState(894); // 14 mins 54 secs
 
   useEffect(() => {
@@ -131,14 +131,14 @@ export default function SealedGotraDestinyEnvelope({
               href={`/request-guidance?service=${serviceId}`}
               className="flex-1 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#d4af37] via-[#e5c453] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-[0_4px_30px_rgba(212,175,55,0.4)] hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Break Sacred Seal &amp; Unlock ({typeof price === "number" ? `₹${price}` : price})</span>
+              <span>Break Sacred Seal &amp; Unlock ({priceLabel})</span>
               <ArrowRight className="h-4 w-4" />
             </Link>
 
             <DirectWhatsAppButton
               variant="compact"
               serviceName={serviceName}
-              price={price}
+              price={priceLabel}
               seekerName={seekerName}
               className="py-3.5 px-5 rounded-2xl justify-center text-xs"
             />

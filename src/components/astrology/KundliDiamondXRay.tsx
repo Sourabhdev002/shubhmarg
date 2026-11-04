@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, ArrowRight, Compass } from "lucide-react";
 import Link from "next/link";
 import DirectWhatsAppButton from "@/components/shared/DirectWhatsAppButton";
+import { ctaPriceLabel } from "@/lib/service-catalog";
 
 export interface HouseDetail {
   houseNumber: number;
@@ -19,7 +20,6 @@ export interface HouseDetail {
   prescribedRemedy: string;
   serviceId: string;
   serviceName: string;
-  price: number;
 }
 
 const DEFAULT_HOUSES: HouseDetail[] = [
@@ -36,7 +36,6 @@ const DEFAULT_HOUSES: HouseDetail[] = [
     prescribedRemedy: "Offer morning Arghya to Surya Dev with copper vessel.",
     serviceId: "kundli",
     serviceName: "1st House Vitality & Life Direction Guidance",
-    price: 1101,
   },
   {
     houseNumber: 2,
@@ -51,7 +50,6 @@ const DEFAULT_HOUSES: HouseDetail[] = [
     prescribedRemedy: "Kanakadhara Stotram recitation on Fridays + Gotra-energized Gomti Chakra.",
     serviceId: "annual-varshphal",
     serviceName: "2nd House Wealth & Capital Protection Dossier",
-    price: 3100,
   },
   {
     houseNumber: 3,
@@ -66,7 +64,6 @@ const DEFAULT_HOUSES: HouseDetail[] = [
     prescribedRemedy: "Hanuman Chalisa recitation on Tuesdays.",
     serviceId: "vedic-guidance",
     serviceName: "3rd House Initiative Guidance",
-    price: 501,
   },
   {
     houseNumber: 4,
@@ -81,7 +78,6 @@ const DEFAULT_HOUSES: HouseDetail[] = [
     prescribedRemedy: "Offer milk to Shivling on Mondays + Vastu realignment of North-East corner.",
     serviceId: "temple-puja",
     serviceName: "4th House Emotional & Property Shanti Puja",
-    price: 2100,
   },
   {
     houseNumber: 5,
@@ -96,7 +92,6 @@ const DEFAULT_HOUSES: HouseDetail[] = [
     prescribedRemedy: "Chant Gayatri Maha Mantra 108 times at sunrise.",
     serviceId: "vedic-guidance",
     serviceName: "5th House Purva Punya Alignment",
-    price: 501,
   },
   {
     houseNumber: 6,
@@ -111,7 +106,6 @@ const DEFAULT_HOUSES: HouseDetail[] = [
     prescribedRemedy: "Feed street animals on Saturdays + Maha Mrityunjaya Japa.",
     serviceId: "tatkal-express",
     serviceName: "6th House Conflict & Health Neutralization",
-    price: 2499,
   },
   {
     houseNumber: 7,
@@ -126,7 +120,6 @@ const DEFAULT_HOUSES: HouseDetail[] = [
     prescribedRemedy: "Joint Gauri-Shankar worship + Gotra Shanti ritual at Kashi.",
     serviceId: "marriage",
     serviceName: "7th House Marriage & Relationship Kundli Guidance",
-    price: 1501,
   },
   {
     houseNumber: 8,
@@ -139,9 +132,8 @@ const DEFAULT_HOUSES: HouseDetail[] = [
     significance: "Governs inheritance, unearned wealth, longevity, metaphysical research, and sudden life pivots.",
     currentInsight: "Intense transformational energy. Ideal for deep ancestral meditation and shedding outmoded belief systems.",
     prescribedRemedy: "Light mustard oil Diya under Peepal tree on Saturday evenings.",
-    serviceId: "karmic-debt",
+    serviceId: "temple-puja",
     serviceName: "8th House Ancestral Karma Neutralization",
-    price: 2100,
   },
   {
     houseNumber: 9,
@@ -156,7 +148,6 @@ const DEFAULT_HOUSES: HouseDetail[] = [
     prescribedRemedy: "Respect elders, donate yellow fruits on Thursdays, wear consecrated yellow sapphire.",
     serviceId: "energized-gemstone",
     serviceName: "9th House Bhagya Gemstone & Ring Consecration",
-    price: 5500,
   },
   {
     houseNumber: 10,
@@ -171,7 +162,6 @@ const DEFAULT_HOUSES: HouseDetail[] = [
     prescribedRemedy: "Surya Ashtakam at dawn + Copper Aditya Yantra at workplace.",
     serviceId: "tatkal-express",
     serviceName: "10th House Executive Career Guidance",
-    price: 2499,
   },
   {
     houseNumber: 11,
@@ -186,7 +176,6 @@ const DEFAULT_HOUSES: HouseDetail[] = [
     prescribedRemedy: "Lakshmi Kubera Mantra chanting on Friday evenings.",
     serviceId: "business-retainer",
     serviceName: "11th House Corporate & Wealth Retainer",
-    price: 11000,
   },
   {
     houseNumber: 12,
@@ -201,7 +190,6 @@ const DEFAULT_HOUSES: HouseDetail[] = [
     prescribedRemedy: "Meditation before sleep + Saturday charity to hospitals / elderly homes.",
     serviceId: "voice-dossier",
     serviceName: "12th House Foreign Settlement & Spoken Dossier",
-    price: 1999,
   },
 ];
 
@@ -335,14 +323,14 @@ export default function KundliDiamondXRay() {
                   href={`/request-guidance?service=${selectedHouse.serviceId}`}
                   className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#e5c453] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                 >
-                  <span>Unlock House Guidance (₹{selectedHouse.price})</span>
+                  <span>Unlock House Guidance ({ctaPriceLabel(selectedHouse.serviceId)})</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
 
                 <DirectWhatsAppButton
                   variant="compact"
                   serviceName={selectedHouse.serviceName}
-                  price={selectedHouse.price}
+                  price={ctaPriceLabel(selectedHouse.serviceId)}
                   className="w-full justify-center py-2 text-xs"
                 />
               </div>
