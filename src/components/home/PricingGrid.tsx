@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { Clock, ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
 import { useT } from "@/context/LanguageContext";
 import { inrToThbDisplay } from "@/config/contact";
+import { getServicePrice } from "@/lib/pricing";
 import VedicArtifactIcon from "@/components/ui/VedicArtifactIcon";
 
 type ServiceDef = {
@@ -26,93 +26,53 @@ const SERVICES: ServiceDef[] = [
   {
     nameKey: "pricing.svc.quick",
     descKey: "pricing.svc.quick.desc",
-    price: 99,
+    price: getServicePrice("quick-answer"),
     time: "1 hr",
     href: "/quick-answer",
     hot: false,
-    badge: "⚡ 1-HR TATKAL",
+    badge: "⚡ 1-HR ANSWER",
     sanskritSeal: "त्वरित समाधान",
     shastraTag: "Prashna Shastra",
     artifact: "tatkal-express",
-    proofs: ["Direct WhatsApp Audio", "No Birth Chart Needed"],
+    proofs: ["Answer on WhatsApp", "No Birth Chart Needed"],
   },
   {
     nameKey: "pricing.svc.prashna",
     descKey: "pricing.svc.prashna.desc",
-    price: 501,
+    price: getServicePrice("vedic-guidance"),
     time: "2-3 days",
     href: "/request-guidance?service=vedic-guidance",
     hot: true,
-    badge: "🔥 MOST POPULAR",
+    badge: "✦ RECOMMENDED",
     sanskritSeal: "प्रश्न मीमांसा",
-    shastraTag: "Horary Divination",
+    shastraTag: "Birth Chart Based",
     artifact: "kundli-engine",
-    proofs: ["Deep Karmic Root Analysis", "Exact Remedial Guidance"],
+    proofs: ["Personal Chart Analysis", "Clear Remedial Guidance"],
   },
   {
-    nameKey: "pricing.svc.muhurta",
-    descKey: "pricing.svc.muhurta.desc",
-    price: 701,
+    nameKey: "pricing.svc.puja",
+    descKey: "pricing.svc.puja.desc",
+    price: getServicePrice("temple-puja"),
     time: "3-5 days",
-    href: "/request-guidance?service=muhurat",
+    href: "/request-guidance?service=temple-puja",
     hot: false,
-    badge: "AUSPICIOUS TIMING",
-    sanskritSeal: "शुभ मुहूर्त",
-    shastraTag: "Panchang Calibrated",
-    artifact: "muhurta-finder",
-    proofs: ["Planetary Hora Alignment", "Choghadiya Shuddhi Windows"],
-  },
-  {
-    nameKey: "pricing.svc.baby",
-    descKey: "pricing.svc.baby.desc",
-    price: 999,
-    time: "3-5 days",
-    href: "/baby-name",
-    hot: false,
-    badge: "SACRED SANSKAR",
-    sanskritSeal: "नामकरण संस्कार",
-    shastraTag: "Svara Shastra",
-    artifact: "baby-cosmic",
-    proofs: ["Nakshatra Pada Sounds", "Meaning & Numerology Sync"],
-  },
-  {
-    nameKey: "pricing.svc.kundli",
-    descKey: "pricing.svc.kundli.desc",
-    price: 1101,
-    time: "3-5 days",
-    href: "/request-guidance?service=kundli",
-    hot: true,
-    badge: "👑 ROYAL DOSSIER",
-    sanskritSeal: "सम्पूर्ण जन्मपत्री",
-    shastraTag: "Parashara Classical",
-    artifact: "kundli-xray",
-    proofs: ["12 Bhavas & Dasha Cycles", "Consecrated Gemstone Guide"],
-  },
-  {
-    nameKey: "pricing.svc.compat",
-    descKey: "pricing.svc.compat.desc",
-    price: 1501,
-    time: "3-5 days",
-    href: "/compatibility",
-    hot: false,
-    badge: "SACRED UNION",
-    sanskritSeal: "अष्टकूट गुण मिलान",
-    shastraTag: "D9 Navamsha Synastry",
-    artifact: "kundli-milan",
-    proofs: ["36-Point In-Depth Milan", "Manglik & Nadi Remediation"],
+    badge: "SACRED SANKALP",
+    sanskritSeal: "गोत्र संकल्प",
+    shastraTag: "Temple Puja",
+    artifact: "temple-puja",
+    proofs: ["Your Name & Gotra in Sankalp", "Details Shared on WhatsApp"],
   },
 ];
 
 export default function PricingGrid() {
   const t = useT();
-  const [showAllServices, setShowAllServices] = useState(false);
   const reduceMotion = useReducedMotion();
 
   return (
     <section className="section-py relative overflow-hidden surface-maroon-wash">
       {/* Sacred Temple Ambient Glow */}
       <span className="glow-fill" />
-      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#F5A623]/[0.10] rounded-full blur-[140px]" />
+      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50px] h-[550px] bg-[#F5A623]/[0.10] rounded-full blur-[140px]" />
       <div className="pointer-events-none absolute -bottom-20 right-10 w-96 h-96 bg-[#D4AF37]/[0.12] rounded-full blur-[120px]" />
 
       <div className="relative z-10 max-w-5xl mx-auto section-px">
@@ -121,7 +81,7 @@ export default function PricingGrid() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#FFF9EE] via-[#FFF3D6] to-[#FFF9EE] border border-[#D4AF37]/60 mb-3 shadow-[0_4px_14px_rgba(184,134,11,0.18)]">
             <Sparkles className="w-3.5 h-3.5 text-[#C25E10] animate-pulse" />
             <span className="text-[11px] font-sans font-bold tracking-[0.2em] text-[#8C3F08] uppercase">
-              {t("pricing.eyebrow")} • CONSECRATED PARASHARA SERVICES
+              {t("pricing.eyebrow")}
             </span>
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif text-[#2A1810] mt-1 tracking-tight">
@@ -137,8 +97,52 @@ export default function PricingGrid() {
           </p>
         </div>
 
-        {/* 6 Royal Consecrated Treasury Cards (Side-by-Side 2 Columns on Mobile) */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4 lg:gap-5">
+        {/* 3 clear steps: quick answer, personal guidance, temple sankalp */}
+        {/* Mobile: compact price ladder - all 3 prices visible at once */}
+        <div className="sm:hidden max-w-md mx-auto rounded-2xl border border-[#B8860B]/30 bg-[#FFFDF8] divide-y divide-[#B8860B]/20 overflow-hidden shadow-[0_8px_22px_-8px_rgba(74,38,14,0.16)]">
+          {SERVICES.map((s, i) => (
+            <Link
+              key={s.nameKey}
+              href={s.href}
+              style={{ touchAction: "manipulation" }}
+              className={`flex items-center gap-3 px-3 py-3 active:scale-[0.98] transition-transform ${s.hot ? "bg-gradient-to-r from-[#FFF3D6] to-[#FFF9EE] border-l-4 border-l-[#E8791E]" : ""
+                }`}
+            >
+              {/* Icon */}
+              <div className="shrink-0 p-0.5 rounded-xl bg-[#0D0907] border-2 border-[#D4AF37]/55">
+                <VedicArtifactIcon name={s.artifact} size={32} priority={i < 2} />
+              </div>
+
+              {/* Name + one-line description */}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5">
+                  <h3 className="text-[15px] font-cormorant font-bold text-[#22130A] leading-tight truncate">
+                    {t(s.nameKey)}
+                  </h3>
+                  {s.hot && (
+                    <span className="shrink-0 px-1.5 py-0.5 rounded-full bg-[#C25E10] text-white text-[8px] font-black uppercase tracking-wider">
+                      Best
+                    </span>
+                  )}
+                </div>
+                <p className="text-[11px] text-[#6B5A48] font-medium truncate">
+                  {t(s.descKey)} · {s.time}
+                </p>
+              </div>
+
+              {/* Price + arrow */}
+              <div className="shrink-0 flex items-center gap-1">
+                <span className="text-[18px] font-cormorant font-bold text-[#843D0A]">
+                  ₹{s.price.toLocaleString("en-IN")}
+                </span>
+                <ArrowRight className="w-4 h-4 text-[#C25E10]" />
+              </div>
+            </Link>
+          ))}
+        </div>
+
+
+        <div className="hidden sm:grid sm:grid-cols-3 gap-3 sm:gap-3 lg:gap-5 max-w-md sm:max-w-none mx-auto">
           {SERVICES.map((s, i) => (
             <motion.div
               key={s.nameKey}
@@ -146,7 +150,7 @@ export default function PricingGrid() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={i >= 4 && !showAllServices ? "hidden sm:flex" : "flex"}
+              className="flex"
             >
               {/* Featured (Most Popular) card gets a gentle breathing gold aura so the
                   eye lands on the hero offer — the single strongest documented lever. */}
@@ -237,13 +241,6 @@ export default function PricingGrid() {
                           {s.sanskritSeal}
                         </span>
 
-                        {/* Soft social-proof signal on the featured offer */}
-                        {s.hot && (
-                          <span className="inline-flex items-center gap-0.5 text-[7px] sm:text-[8.5px] font-sans font-bold text-emerald-700">
-                            <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
-                            Seekers&apos; pick
-                          </span>
-                        )}
                       </div>
                     </div>
 
@@ -305,16 +302,6 @@ export default function PricingGrid() {
           ))}
         </div>
 
-        {/* Mobile View All Services Toggle */}
-        <div className="flex sm:hidden justify-center mt-3">
-          <button
-            type="button"
-            onClick={() => setShowAllServices(!showAllServices)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#FFF9EE] via-[#FFF3D6] to-[#FFF9EE] border border-[#D4AF37]/60 text-[#8C3F08] text-xs font-bold shadow-xs active:scale-95 transition-all cursor-pointer"
-          >
-            <span>{showAllServices ? "Show Top Offerings ▲" : `View All ${SERVICES.length} Consecrated Services ▾`}</span>
-          </button>
-        </div>
 
         {/* ── Luxury Trust & Consecration Strip ── */}
         <div className="mt-8 text-center space-y-2">

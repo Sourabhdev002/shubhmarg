@@ -21,6 +21,8 @@ export default function CalendarDashboardClient({ initialEvents }: Props) {
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [monthStatuses, setMonthStatuses] = useState<Array<'pending' | 'running' | 'success' | 'failed'>>(Array(12).fill('pending'));
+  const [genYear, setGenYear] = useState<number>(() => new Date().getFullYear());
+  const [fromMonth, setFromMonth] = useState<number>(() => new Date().getMonth());
   const [generationSummary, setGenerationSummary] = useState<{ totalInserted: number; totalMapped: number; unmapped: string[] } | null>(null);
 
   const filteredEvents = events.filter(
@@ -53,19 +55,19 @@ export default function CalendarDashboardClient({ initialEvents }: Props) {
     let totalMapped = 0;
     let allUnmapped: string[] = [];
 
-    // Find the first non-success month to allow resuming
-    let startMonth = newStatuses.findIndex(s => s !== 'success');
+    // Resume from the chosen month, skipping months already done in this session
+    let startMonth = newStatuses.findIndex((s, idx) => idx >= fromMonth && s !== 'success');
     if (startMonth === -1) {
-      // If all are success, reset to run again
-      newStatuses.fill('pending');
-      startMonth = 0;
+      // Everything from the chosen month is done: reset those months to run again
+      for (let k = fromMonth; k < 12; k++) newStatuses[k] = 'pending';
+      startMonth = fromMonth;
     }
 
     for (let i = startMonth; i < 12; i++) {
       newStatuses[i] = 'running';
       setMonthStatuses([...newStatuses]);
 
-      const res = await generateCalendarMonthAction(2026, i + 1);
+      const res = await generateCalendarMonthAction(genYear, i + 1);
 
       if (res.success) {
         newStatuses[i] = 'success';
@@ -97,16 +99,38 @@ export default function CalendarDashboardClient({ initialEvents }: Props) {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-lg font-semibold text-brand-maroon">Automated Calendar Generation</h2>
-            <p className="text-sm text-brand-charcoal/60 mt-1">Generate Hindu occurrences for 2026 month-by-month</p>
+            <p className="text-sm text-brand-charcoal/60 mt-1">Generate Hindu occurrences month-by-month for the chosen year (about 1-2 minutes per month)</p>
           </div>
+          <div className="flex flex-wrap items-center gap-2">
+          <label className="sr-only" htmlFor="gen-year">Year</label>
+          <select
+            id="gen-year"
+            value={genYear}
+            disabled={isGenerating}
+            onChange={(e) => { setGenYear(Number(e.target.value)); setMonthStatuses(Array(12).fill('pending')); setGenerationSummary(null); }}
+            className="border border-brand-gold/30 rounded-lg px-3 py-2 text-sm bg-white"
+          >
+            {[2026, 2027, 2028].map((y) => <option key={y} value={y}>{y}</option>)}
+          </select>
+          <label className="sr-only" htmlFor="gen-from">Start from month</label>
+          <select
+            id="gen-from"
+            value={fromMonth}
+            disabled={isGenerating}
+            onChange={(e) => setFromMonth(Number(e.target.value))}
+            className="border border-brand-gold/30 rounded-lg px-3 py-2 text-sm bg-white"
+          >
+            {MONTHS.map((m, idx) => <option key={m} value={idx}>From {m}</option>)}
+          </select>
           <button
             onClick={startGeneration}
             disabled={isGenerating}
             className="bg-brand-gold-dark hover:bg-brand-maroon text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 flex items-center gap-2"
           >
             {isGenerating && <Loader2 className="w-4 h-4 animate-spin" />}
-            {isGenerating ? "Generating..." : (monthStatuses.some(s => s === 'failed') ? "Retry Generation" : "Generate 2026")}
+            {isGenerating ? "Generating..." : (monthStatuses.some(s => s === 'failed') ? "Retry Generation" : `Generate ${genYear}`)}
           </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">

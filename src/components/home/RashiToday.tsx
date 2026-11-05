@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { useIstNow } from "@/hooks/useIstNow";
+import { istDateLabel, istDayNumber } from "@/lib/ist-time";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,7 +20,6 @@ import { RASHIS, RashiInfo } from "@/lib/zodiac-data";
 import { RashiMedallionCard } from "./3d/RashiMedallionCard";
 import { ZODIAC_GLYPH_PATHS } from "@/lib/shubhmarg-assets";
 import { useT } from "@/context/LanguageContext";
-import { waLink } from "@/config/contact";
 import { pixelContact } from "@/components/analytics/pixelEvents";
 import QuickUnlockModal from "@/components/home/QuickUnlockModal";
 
@@ -111,12 +112,8 @@ const VERDICT_LINES: Record<"love" | "career" | "finance" | "energy", string[]> 
   energy:  ["High vitality — channel it into one focused task.", "Your drive is strong; begin what you've been postponing."],
 };
 
-function getDailyVerdict(rashi: RashiInfo): DailyVerdict {
-  // Day seed: same result all day, changes tomorrow. IST-safe enough for a mood.
-  const now = new Date();
-  const dayNum = Math.floor(
-    new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })).getTime() / 86400000
-  );
+function getDailyVerdict(rashi: RashiInfo, dayNum: number): DailyVerdict {
+  // Day seed (IST day number): same result all day, changes at IST midnight.
   const aspects = [
     { key: "love" as const, val: rashi.stars.love },
     { key: "career" as const, val: rashi.stars.career },
@@ -139,19 +136,16 @@ function getDailyVerdict(rashi: RashiInfo): DailyVerdict {
   return { line, mood, ...MOOD_STYLE[mood] };
 }
 
-export default function RashiToday() {
+export default function RashiToday({ serverNow }: { serverNow: number }) {
   const t = useT();
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(0);
   const [copiedMantra, setCopiedMantra] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [unlockOpen, setUnlockOpen] = useState(false);
 
-  const today = new Date();
-  const dateLabel = today.toLocaleDateString("en-IN", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-  });
+  // Hydration-safe clock: first render uses the server's time, then the live IST clock.
+  const nowMs = useIstNow(serverNow);
+  const dateLabel = istDateLabel(nowMs);
 
   const selectedRashi: RashiInfo | null =
     selectedId !== null ? RASHIS[selectedId] || null : null;
@@ -160,7 +154,7 @@ export default function RashiToday() {
     ? LUCKY_COLORS[selectedId! % LUCKY_COLORS.length]
     : LUCKY_COLORS[0];
 
-  const verdict = selectedRashi ? getDailyVerdict(selectedRashi) : null;
+  const verdict = selectedRashi ? getDailyVerdict(selectedRashi, istDayNumber(nowMs)) : null;
 
   const handleCopyMantra = (mantra: string) => {
     navigator.clipboard.writeText(mantra);
@@ -386,8 +380,8 @@ export default function RashiToday() {
               {/* ── SINGLE COLLAPSIBLE FULL READING (defaults closed) ── */}
               {verdict && (
                 <div className="mb-5 rounded-2xl border border-[#E8791E]/35 bg-gradient-to-r from-[#FFF6E9] to-[#FDECD2] px-4 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
-                  <p className="text-[12.5px] text-[#4A2A15] font-sans font-medium leading-snug">Aaj ka <strong className="text-[#C25E10]">poora personal margdarshan</strong> + aapke naam ka <strong className="text-[#C25E10]">diya</strong> - sirf <strong>₹11</strong>.</p>
-                  <button type="button" onClick={() => { pixelContact("aaj_ka_aashirwad_11"); setUnlockOpen(true); }} className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-bold text-[13px] bg-gradient-to-r from-[#E8791E] via-[#F5A623] to-[#E8791E] text-white shadow-[0_4px_16px_rgba(232,121,30,0.45)] active:scale-95 transition-all cursor-pointer"><span>Paayein - ₹11</span><ArrowRight className="w-4 h-4" /></button>
+                  <p className="text-[12.5px] text-[#4A2A15] font-sans font-medium leading-snug"><strong className="text-[#C25E10]">आज का पूरा राशिफल</strong> + आपके नाम का <strong className="text-[#C25E10]">दीया</strong> — सिर्फ <strong>₹11</strong> में।</p>
+                  <button type="button" onClick={() => { pixelContact("aaj_ka_aashirwad_11"); setUnlockOpen(true); }} className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-bold text-[13px] bg-gradient-to-r from-[#E8791E] via-[#F5A623] to-[#E8791E] text-white shadow-[0_4px_16px_rgba(232,121,30,0.45)] active:scale-95 transition-all cursor-pointer"><span>₹11 में पाएं</span><ArrowRight className="w-4 h-4" /></button>
                 </div>
               )}
 

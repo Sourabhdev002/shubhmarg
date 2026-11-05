@@ -2,32 +2,13 @@ import React from "react";
 import { CalendarEventWithOccurrence } from "@/types/calendar";
 import Link from "next/link";
 import Image from "next/image";
+import { getFestivalIcon as getEventImagePath } from "@/lib/festival-images";
 
 interface Props {
   events: CalendarEventWithOccurrence[];
   limit?: number;
 }
 
-function getEventImagePath(eventName: string): string {
-  const name = eventName.toLowerCase();
-  
-  if (name.includes("pradosh")) return "/images/festivals/shiva_lingam.jpg";
-  if (name.includes("krishna") || name.includes("janmashtami")) return "/images/festivals/krishna_flute.jpg";
-  if (name.includes("radha")) return "/images/festivals/radha_krishna.jpg";
-  if (name.includes("ganesh") && name.includes("chaturthi")) return "/images/festivals/ganesha_modak.jpg";
-  if (name.includes("ganesh")) return "/images/festivals/ganesha_modak.jpg"; // Fallback for other ganesh (like Visarjan if we don't have water)
-  if (name.includes("sankranti")) return "/images/festivals/sankranti_sun.jpg";
-  if (name.includes("onam")) return "/images/festivals/onam_boat.jpg";
-  if (name.includes("raksha bandhan")) return "/images/festivals/rakhi_sweets.jpg";
-  if (name.includes("karwa chauth")) return "/images/festivals/karwa_chauth.jpg";
-  if (name.includes("navratri") || name.includes("durga") || name.includes("navami") || name.includes("vijayadashami")) return "/images/festivals/durga_lion.jpg";
-  if (name.includes("purnima") || name.includes("amavasya")) return "/images/festivals/full_moon_lotus.jpg";
-  if (name.includes("ekadashi")) return "/images/festivals/vishnu_lotus.jpg";
-  if (name.includes("pitrupaksha")) return "/images/festivals/diya_kalash.jpg";
-  
-  // Generic beautiful festival fallback
-  return "/images/festivals/diya_kalash.jpg";
-}
 
 export default function UpcomingEventsTimeline({ events, limit }: Props) {
   const displayEvents = limit ? events.slice(0, limit) : events;

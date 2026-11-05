@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState, useEffect } from "react";
 import { Clock, CheckCircle2, XCircle, Zap } from "lucide-react";
 import { getActiveHora, getActiveChoghadiya } from "@/lib/vedic-clock";
@@ -16,7 +17,23 @@ export default function DecisionClockPage() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!currentTime) return null;
+  // Time is only known in the browser. Render a real heading + soft placeholder on the server
+  // instead of a blank page, so search engines see content and users get no empty flash.
+  if (!currentTime) {
+    return (
+      <main className="min-h-screen bg-[#FBF6EC] text-[#2A1810] pt-24 pb-28 px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-3xl sm:text-5xl font-bold font-serif text-[#2A1810] tracking-wide mb-3">
+            Live Vedic Decision Clock &amp; Hora Radar
+          </h1>
+          <p className="text-[#2E1D14] text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-medium">
+            Real-time planetary Hora and Choghadiya energy calculation. Loading the live clock…
+          </p>
+          <div className="mt-8 h-40 rounded-3xl bg-[#F5EAD6]/70 animate-pulse" aria-hidden="true" />
+        </div>
+      </main>
+    );
+  }
 
   const hora = getActiveHora(currentTime);
   const choghadiya = getActiveChoghadiya(currentTime);
@@ -174,7 +191,7 @@ export default function DecisionClockPage() {
             href="/request-guidance?service=tatkal-express"
             className="px-6 py-3.5 bg-gradient-to-r from-[#7B0F1E] via-[#9E182A] to-[#630915] border border-[#F5C842] hover:brightness-110 text-white font-extrabold text-xs uppercase tracking-wider rounded-2xl shadow-[0_4px_20px_rgba(123,15,30,0.5)] shrink-0 flex items-center gap-2 cursor-pointer transition-all active:scale-95"
           >
-            <span>Get 2-Hour Express (₹2,499)</span>
+            <span>Get 2-Hour Express ({ctaPriceLabel("tatkal-express")})</span>
           </Link>
         </div>
       </div>

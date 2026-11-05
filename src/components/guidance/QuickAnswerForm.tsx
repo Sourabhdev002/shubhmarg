@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { ShieldCheck, Clock, Loader2, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
+import { PHONE_ERROR, isValidIndianMobile, normalizePhone } from "@/lib/phone";
+import { formatAmount } from "@/lib/upi";
 
 export default function QuickAnswerForm() {
   const [form, setForm] = useState({ name: "", phone: "", question: "" });
   const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState<{ referenceId: string; amount: number } | null>(null);
   const [error, setError] = useState("");
 
   const isValid = form.name.trim() && form.phone.trim().length >= 10 && form.question.trim();
@@ -15,8 +17,12 @@ export default function QuickAnswerForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isValid || submitting) return;
-    setSubmitting(true);
     setError("");
+    if (!isValidIndianMobile(normalizePhone(form.phone))) {
+      setError(PHONE_ERROR);
+      return;
+    }
+    setSubmitting(true);
 
     try {
       const res = await fetch("/api/quick-answer", {
@@ -24,9 +30,9 @@ export default function QuickAnswerForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      const data = await res.json();
-      if (data.success) {
-        setSuccess(true);
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success && data.referenceId) {
+        setSuccess({ referenceId: data.referenceId, amount: Number(data.amount) });
       } else {
         setError(data.error || "Something went wrong.");
       }
@@ -43,8 +49,16 @@ export default function QuickAnswerForm() {
           <CheckCircle2 className="w-8 h-8 text-emerald-500" />
         </div>
         <h2 className="text-2xl font-bold font-serif text-brand-charcoal mb-2">Question Received!</h2>
-        <p className="text-brand-charcoal/60 mb-6">You will receive your answer on WhatsApp within 1 hour.</p>
-        <p className="text-[13px] text-brand-charcoal/40 mb-8">Payment link sent to your WhatsApp. Answer delivered after ₹99 payment.</p>
+        <p className="text-[13px] text-brand-charcoal/50 mb-1">Reference ID</p>
+        <p className="text-lg font-bold tracking-widest text-brand-charcoal mb-4">{success.referenceId}</p>
+        <p className="text-brand-charcoal/60 mb-6">Your answer is delivered on WhatsApp after payment is confirmed.</p>
+        <Link
+          href={`/payment/${success.referenceId}`}
+          className="w-full flex items-center justify-center gap-2 bg-brand-maroon text-white font-bold text-[14px] tracking-widest uppercase py-4 rounded-full shadow-[0_4px_20px_rgba(75,21,21,0.3)] hover:bg-brand-maroon-dark active:scale-[0.98] transition-all min-h-[56px] mb-8"
+          style={{ touchAction: "manipulation" }}
+        >
+          Pay ₹{formatAmount(success.amount)} &rarr;
+        </Link>
         <Link href="/" className="text-brand-maroon font-bold text-[13px] uppercase tracking-widest">
           &larr; Back Home
         </Link>

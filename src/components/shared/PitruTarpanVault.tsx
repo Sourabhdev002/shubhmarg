@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, ArrowRight, Share2, Trees } from "lucide-react";
@@ -224,7 +225,7 @@ export default function PitruTarpanVault() {
                     href="/request-guidance?service=temple-puja"
                     className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#e5c453] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all"
                   >
-                    <span>Book Amavasya Shanti (₹2,100)</span>
+                    <span>Book Amavasya Shanti ({ctaPriceLabel("temple-puja")})</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
 
@@ -245,7 +246,6 @@ export default function PitruTarpanVault() {
             <SanctifiedVerdictStickyBar
               serviceId="temple-puja"
               serviceName={`${cleanGotra} Gotra Amavasya Pitru Shanti`}
-              price={2100}
               badge={`Amavasya Tarpana Open for ${cleanGotra}`}
             />
           </motion.div>

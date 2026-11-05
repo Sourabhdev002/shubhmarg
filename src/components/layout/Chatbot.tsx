@@ -255,7 +255,7 @@ export default function Chatbot() {
           }}
           className="fixed z-[60]"
           style={{
-            bottom: "calc(5.8rem + env(safe-area-inset-bottom, 0px))",
+            bottom: "calc(7.5rem + env(safe-area-inset-bottom, 0px))",
             right: "1rem",
             width: "50px",
             height: "50px",

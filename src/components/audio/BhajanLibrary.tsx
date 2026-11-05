@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
+import { useIsClient } from "@/hooks/useIsClient";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, Pause, SkipBack, SkipForward, Music2, Download, Sparkles, Send, X, BadgeCheck } from "lucide-react";
 import { waLink } from "@/config/contact";
@@ -90,11 +91,10 @@ export default function BhajanLibrary() {
   const [reqName, setReqName] = useState("");
   const [reqDeity, setReqDeity] = useState("");
   const [reqLyrics, setReqLyrics] = useState("");
-  const [mounted, setMounted] = useState(false);
+  const mounted = useIsClient();
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Portal target so the request modal escapes the parent <Reveal> transform.
-  useEffect(() => { setMounted(true); }, []);
+  // (mounted) Portal target so the request modal escapes the parent <Reveal> transform.
 
   const active = BHAJANS[activeIdx];
 

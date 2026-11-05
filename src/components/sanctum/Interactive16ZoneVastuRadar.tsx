@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { Compass, Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -147,7 +148,7 @@ export default function Interactive16ZoneVastuRadar() {
                 href="/request-guidance?service=vastu"
                 className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#ffd700] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all"
               >
-                <span>Book Vastu Audit (₹3,100)</span>
+                <span>Book Vastu Audit ({ctaPriceLabel("vastu")})</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -158,7 +159,6 @@ export default function Interactive16ZoneVastuRadar() {
         <SanctifiedVerdictStickyBar
           serviceId="vastu"
           serviceName={`16-Zone Vastu Energy Audit (${activeZone.name.split(" ")[0]})`}
-          price={3100}
           badge="Vastu Energy Calibrated"
         />
       </div>

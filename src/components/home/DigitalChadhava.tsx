@@ -1,7 +1,8 @@
 ﻿"use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
+import { useIsClient } from "@/hooks/useIsClient";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flame, Flower2, Leaf, Sparkles, Wallet, CheckCircle2, Loader2, X, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
@@ -79,9 +80,7 @@ export default function DigitalChadhava() {
   const [dedication, setDedication] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [err, setErr] = useState("");
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => { setMounted(true); }, []);
+  const mounted = useIsClient();
 
   const balInr = balance_paise / 100;
 

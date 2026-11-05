@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { LISTED_PAATHS } from "@/lib/paath/registry";
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
@@ -63,210 +65,57 @@ export default function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden items-center gap-6 lg:gap-7 md:flex">
           <Link
-            href="/sacred-offerings"
+            href="/services"
             className="text-[12px] font-bold tracking-[0.1em] text-[#B8860B] hover:text-[#2A1810] transition-colors flex items-center gap-1.5 bg-[#F5EAD6] px-3 py-1 rounded-full border border-[#B8860B]/40 shadow-inner"
           >
             <span className="text-[10px]"></span>
-            <span>SACRED OFFERINGS</span>
+            <span>PUJA &amp; GUIDANCE</span>
           </Link>
 
-          {/* Vedic Tools Dropdown Menu */}
+          {/* Explore menu: daily paath, free tools, and the 4 paid steps */}
           <div className="relative group">
             <button
               type="button"
               aria-haspopup="true"
               className="text-[12px] font-bold tracking-[0.1em] text-[#2A1810] hover:text-[#B8860B] focus-visible:text-[#B8860B] transition-colors flex items-center gap-1 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#B8860B] focus-visible:outline-offset-2 rounded cursor-pointer"
             >
-              <span>VEDIC SANCTUARY (38)</span>
+              <span>EXPLORE</span>
               <svg className="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-180 opacity-60 text-[#B8860B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="6 9 12 15 18 9" />
               </svg>
             </button>
 
-            {/* Dropdown Menu Panel */}
-            <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all duration-200 absolute top-full -left-28 w-[780px] bg-[#FFFDF8] border border-[#B8860B]/25 rounded-3xl p-5 shadow-[0_20px_50px_-18px_rgba(107,42,20,0.28)] z-50 backdrop-blur-xl">
-              <div className="grid grid-cols-3 gap-4">
-                {/* Column 1: Energy & Sacred Altars */}
+            <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all duration-200 absolute top-full -left-28 w-[640px] bg-[#FFFDF8] border border-[#B8860B]/25 rounded-3xl p-5 shadow-[0_20px_50px_-18px_rgba(107,42,20,0.28)] z-50">
+              <div className="grid grid-cols-3 gap-5">
                 <div>
-                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#B8860B] mb-2.5 pb-1 border-b border-[#B8860B]/20">
-                    Energy &amp; Sacred Altars
-                  </p>
+                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#B8860B] mb-2.5 pb-1 border-b border-[#B8860B]/20">Daily Paath</p>
                   <ul className="space-y-2 text-xs">
-                    <li>
-                      <Link href="/sound-sanctuary" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">432Hz Sound Sanctum
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/deepdaan-sanctum" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Virtual Deepdaan Altar
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/yantra-altar" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">24K Gold Yantra Altar
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/vastu-compass" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">16-Zone Vastu Radar
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/prasad-tracker" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">Live Prasad Tracker
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/palm-scanner" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">
-                        Samudrika Palm Scanner
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/chakra-scanner" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">
-                        7-Chakra &amp; Aura Scanner
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/japa-mala" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">
-                        Digital 108 Japa Mala
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/digital-sankalp" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">
-                        Virtual Diya Shrine
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/baby-cosmic-blueprint" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Baby Cosmic Certificate
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/graha-sos" className="text-red-700 hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Emergency Graha SOS
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/garbh-sanskar" className="text-rose-700 hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Garbh Sanskar Sanctum
-                      </Link>
-                    </li>
+                    {LISTED_PAATHS.map((p) => (
+                      <li key={p.slug}>
+                        <Link href={`/${p.slug}`} className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">{p.titleEn}</Link>
+                      </li>
+                    ))}
+                    <li><Link href="/shubh-calendar" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">Festival Calendar</Link></li>
                   </ul>
                 </div>
-
-                {/* Column 2: Astrology & Sovereign Armor */}
                 <div>
-                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#B8860B] mb-2.5 pb-1 border-b border-[#B8860B]/20">
-                    Astrology &amp; Sovereign Armor
-                  </p>
+                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#B8860B] mb-2.5 pb-1 border-b border-[#B8860B]/20">Free Tools</p>
                   <ul className="space-y-2 text-xs">
-                    <li>
-                      <Link href="/rajayoga-scanner" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Raja Yoga Scanner
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/shani-sade-sati" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Shani Sade Sati Armor
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/kundli-xray" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">12-House Kundli X-Ray
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/transit-wheel" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">
-                        3D Planetary Transits
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/decision-clock" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">
-                        Live Decision Clock (Hora)
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/disha-shoola" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">
-                        Disha Shoola Travel Radar
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/prashna-kundli" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">
-                        Prashna Horary Engine
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/shubh-calendar" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">
-                        Live Vedic Panchang
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/dosha-scanner" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Kaal Sarp Dosha Scanner
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/wealth-calendar" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Vedic Wealth Calendar
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/manglik-rescue" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Manglik Marriage Rescue
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/muhurta-finder" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Universal Muhurta Finder
-                      </Link>
-                    </li>
+                    <li><Link href="/free-reading" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">Free Reading</Link></li>
+                    <li><Link href="/shani-sade-sati" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">Shani Sade Sati Check</Link></li>
+                    <li><Link href="/manglik-rescue" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">Manglik Check</Link></li>
+                    <li><Link href="/compatibility" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">Kundli Milan</Link></li>
+                    <li><Link href="/muhurta-finder" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">Shubh Muhurta</Link></li>
                   </ul>
                 </div>
-
-                {/* Column 3: Karma, Lineage & Soulmates */}
                 <div>
-                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#B8860B] mb-2.5 pb-1 border-b border-[#B8860B]/20">
-                    Karma, Lineage &amp; Soulmates
-                  </p>
+                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#B8860B] mb-2.5 pb-1 border-b border-[#B8860B]/20">Guidance &amp; Puja</p>
                   <ul className="space-y-2 text-xs">
-                    <li>
-                      <Link href="/yoni-wheel" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">27 Nakshatra Yoni Wheel
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/navamsha-d9" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Navamsha D9 Soulmate
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/pitru-vault" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Golden Pitru Vault
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/karmic-rin-resolver" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">4-Rin Karmic Resolver
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/kuldevta-resolver" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">Gotra Rishi &amp; Kuldevta
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/compatibility" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">
-                        36-Guna Kundli Milan
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/dream-decoder" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">
-                        Swapna Dream Decoder
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/gemstone-calculator" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">
-                        Ratna &amp; Rudraksha Finder
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/raksha-kavach" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Raksha Kavach QR Card
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/vastu-scanner" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">
-                        Vedic Vastu Scanner
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/past-life-reader" className="text-purple-700 hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Past-Life Karmic Reader
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/spouse-predictor" className="text-pink-700 hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Future Spouse Blueprint
-                      </Link>
-                    </li>
+                    <li><Link href="/aashirwad" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Aaj Ka Aashirwad · ₹11</Link></li>
+                    <li><Link href="/quick-answer" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Quick Answer · {ctaPriceLabel("quick-answer")}</Link></li>
+                    <li><Link href="/request-guidance?service=vedic-guidance" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Personal Guidance · {ctaPriceLabel("vedic-guidance")}</Link></li>
+                    <li><Link href="/request-guidance?service=temple-puja" className="text-[#C25E10] hover:text-[#E8791E] transition-colors block py-0.5 font-bold">Temple Sankalp Puja · {ctaPriceLabel("temple-puja")}</Link></li>
+                    <li><Link href="/services" className="text-[#6B5A48] hover:text-[#E8791E] transition-colors block py-0.5 font-medium">All services →</Link></li>
                   </ul>
                 </div>
               </div>

@@ -4,37 +4,15 @@ import { supabaseServer } from "@/lib/supabase";
 import { GuidanceFormData } from "@/types/guidance";
 import { getServicePrice } from "@/lib/pricing";
 import { allocateUniquePaiseAmount } from "@/lib/paise-allocation";
+import { after } from "next/server";
+import { resolveServiceId } from "@/lib/service-catalog";
+import { PHONE_ERROR, buildPhoneEmail, isValidIndianMobile, normalizePhone } from "@/lib/phone";
+import { sendOrderAlert } from "@/lib/telegram";
 
 // Very basic server-side rate limiting/duplicate prevention logic
 // In a real production app, this would use Redis or similar.
 const recentSubmissions = new Set<string>();
 
-const SERVICES = [
-  "vedic-guidance",
-  "career-business",
-  "marriage",
-  "kundli",
-  "muhurat",
-  "remedy",
-  "jaap",
-  "quick-answer",
-  "emergency",
-  "baby-name",
-  "compatibility",
-  "free-reading",
-  "temple-puja",
-  "puja",
-  "tatkal-express",
-  "express",
-  "voice-dossier",
-  "voice",
-  "annual-varshphal",
-  "varshphal",
-  "energized-gemstone",
-  "gemstone",
-  "business-retainer",
-  "business",
-];
 
 export async function submitGuidanceRequest(formData: GuidanceFormData) {
   try {
@@ -48,8 +26,19 @@ export async function submitGuidanceRequest(formData: GuidanceFormData) {
     if (!formData.fullName || formData.fullName.trim().length < 2) {
       return { success: false, error: "Full name is required and must be valid." };
     }
-    if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) {
-      return { success: false, error: "A valid email address is required." };
+    // Phone path (current form): server builds the email. Email path kept for backward compatibility.
+    let email: string;
+    if (typeof formData.phone === "string") {
+      const p = normalizePhone(formData.phone);
+      if (!isValidIndianMobile(p)) {
+        return { success: false, error: PHONE_ERROR };
+      }
+      email = buildPhoneEmail(p, "phone");
+    } else {
+      if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) {
+        return { success: false, error: "A valid email address is required." };
+      }
+      email = formData.email.trim();
     }
     if (!formData.dateOfBirth || isNaN(Date.parse(formData.dateOfBirth))) {
       return { success: false, error: "A valid date of birth is required." };
@@ -72,7 +61,8 @@ export async function submitGuidanceRequest(formData: GuidanceFormData) {
     // if (!CONCERNS.includes(formData.concern)) {
     //   return { success: false, error: "Invalid area of concern selected." };
     // }
-    if (!SERVICES.includes(formData.service)) {
+    const resolvedService = resolveServiceId(formData.service);
+    if (!resolvedService) {
       return { success: false, error: "Invalid service selected." };
     }
     // Privacy consent is implied by form submission in new design
@@ -83,7 +73,7 @@ export async function submitGuidanceRequest(formData: GuidanceFormData) {
     const referenceId = `SHUBH-${randomChars}`;
 
     // 4. Calculate pricing with unique-paise fingerprint for auto-verification
-    const paymentAmount = await allocateUniquePaiseAmount(getServicePrice(formData.service));
+    const paymentAmount = await allocateUniquePaiseAmount(getServicePrice(resolvedService));
 
     // 5. Insert into Supabase
     const { error: dbError } = await supabaseServer
@@ -93,14 +83,14 @@ export async function submitGuidanceRequest(formData: GuidanceFormData) {
           reference_id: referenceId,
           concern: formData.concern,
           full_name: formData.fullName.trim(),
-          email: formData.email.trim(),
+          email,
           date_of_birth: formData.dateOfBirth,
           time_of_birth: formData.timeOfBirth || null,
           birth_place: formData.birthPlace.trim(),
           current_city: formData.currentCity.trim(),
           preferred_language: formData.preferredLanguage,
           question: formData.question.trim(),
-          service: formData.service,
+          service: resolvedService,
           payment_amount: paymentAmount,
           privacy_consent: true,
           privacy_consent_at: new Date().toISOString(),
@@ -122,10 +112,10 @@ export async function submitGuidanceRequest(formData: GuidanceFormData) {
     try {
       await supabaseServer.functions.invoke('send-confirmation-email', {
         body: {
-          to: formData.email.trim(),
+          to: email,
           name: formData.fullName.trim(),
           referenceId,
-          service: formData.service,
+          service: resolvedService,
           paymentAmount,
           paymentUrl: `https://shubhmarg.com/payment/${referenceId}`,
         },
@@ -134,7 +124,20 @@ export async function submitGuidanceRequest(formData: GuidanceFormData) {
       // Never block submission on email failure
     }
 
-    return { success: true, referenceId };
+    // 8. Owner alert (best-effort, runs after the response is sent)
+    try {
+      const alertInfo = {
+        referenceId,
+        service: resolvedService,
+        amount: paymentAmount,
+        name: formData.fullName.trim(),
+      };
+      after(() => sendOrderAlert(alertInfo).catch(() => {}));
+    } catch {
+      // Never block submission on alert scheduling
+    }
+
+    return { success: true, referenceId, amount: paymentAmount };
   } catch {
     return { success: false, error: "An unexpected server error occurred. Please try again." };
   }

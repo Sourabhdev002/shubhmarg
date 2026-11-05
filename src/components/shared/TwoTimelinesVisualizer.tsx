@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import { AlertCircle, CheckCircle2, Sparkles, ArrowRight, Compass } from "lucide-react";
 import Link from "next/link";
 import DirectWhatsAppButton from "./DirectWhatsAppButton";
@@ -15,7 +16,6 @@ interface TwoTimelinesProps {
   sanctifiedPoints?: string[];
   serviceId?: string;
   serviceName?: string;
-  price?: number | string;
 }
 
 export default function TwoTimelinesVisualizer({
@@ -36,8 +36,8 @@ export default function TwoTimelinesVisualizer({
   ],
   serviceId = "vedic-guidance",
   serviceName = "Pandit Ji's Consecrated Gotra Remedy Guidance",
-  price = 501,
 }: TwoTimelinesProps) {
+  const priceLabel = ctaPriceLabel(serviceId);
   return (
     <div className="my-10 bg-[#FFFDF8] border-2 border-[#B8860B]/30 rounded-3xl p-6 sm:p-9 shadow-[0_20px_70px_rgba(0,0,0,0.8)] relative overflow-hidden">
       {/* Background glow */}
@@ -141,14 +141,14 @@ export default function TwoTimelinesVisualizer({
             href={`/request-guidance?service=${serviceId}`}
             className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-[#d4af37] via-[#e5c453] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-[0_4px_25px_rgba(212,175,55,0.4)] hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
           >
-            <span>Activate Timeline B ({typeof price === "number" ? `₹${price}` : price})</span>
+            <span>Activate Timeline B ({priceLabel})</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
 
           <DirectWhatsAppButton
             variant="compact"
             serviceName={serviceName}
-            price={price}
+            price={priceLabel}
             seekerName={seekerName}
             className="w-full sm:w-auto py-3 px-4 justify-center text-xs"
           />

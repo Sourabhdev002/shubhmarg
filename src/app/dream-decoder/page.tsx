@@ -221,7 +221,6 @@ export default function DreamDecoderPage() {
               toolName="Swapna Shastra Dream Decoder"
               serviceId="vedic-guidance"
               serviceName="Prashna & Dream Interpretation Guidance"
-              price={501}
               highlightWarning="This dream sequence indicates a pivotal karmic turning point. Standard dream books lack birth Kundli correlation. Pandit Ji has sealed your exact Gotra Shanti remedy."
             />
 
@@ -235,7 +234,6 @@ export default function DreamDecoderPage() {
           <SanctifiedVerdictStickyBar
             serviceId="vedic-guidance"
             serviceName="Dream Interpretation Guidance"
-            price={501}
             badge="Live Swapna Shanti Session Open"
           />
         )}

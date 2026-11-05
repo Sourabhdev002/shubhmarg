@@ -684,9 +684,14 @@ body {
   color: var(--foreground);
 }
 
-/* Headings render in deep temple ink on the bright marble base by default, allowing utility colors like text-white to work */
-:where(h1, h2, h3, h4, h5, h6) {
-  color: #2A1810;
+/* Headings render in deep temple ink on the bright marble base by default.
+   MUST live in @layer base: in Tailwind v4 utilities are layered, and ANY unlayered rule beats
+   layered rules regardless of specificity. Unlayered, this silently overrode text-white /
+   text-[#..] / text-transparent on every heading (dark-on-dark headings on obsidian cards). */
+@layer base {
+  :where(h1, h2, h3, h4, h5, h6) {
+    color: #2A1810;
+  }
 }
 
 /* Footer Headings MUST render in luminous radiant 24K gold against dark obsidian background */

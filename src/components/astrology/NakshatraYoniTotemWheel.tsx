@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -147,7 +148,7 @@ export default function NakshatraYoniTotemWheel() {
                 href="/request-guidance?service=marriage"
                 className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#ffd700] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all"
               >
-                <span>Get Yoni Audit (₹1,101)</span>
+                <span>Get Yoni Audit ({ctaPriceLabel("marriage")})</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -158,7 +159,6 @@ export default function NakshatraYoniTotemWheel() {
         <SanctifiedVerdictStickyBar
           serviceId="marriage"
           serviceName={`Nakshatra Yoni Report (${activeYoni.yoniAnimal})`}
-          price={1101}
           badge="Animal Totem Aligned"
         />
       </div>

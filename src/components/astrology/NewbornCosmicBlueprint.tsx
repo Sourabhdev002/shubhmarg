@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Baby, Share2, ArrowRight, Crown } from "lucide-react";
@@ -204,7 +205,7 @@ export default function NewbornCosmicBlueprint() {
                 </div>
                 <div className="flex flex-col gap-2 shrink-0 w-full sm:w-auto">
                   <Link href="/request-guidance?service=deep-kundli" className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#ffd700] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all">
-                    <span>Framed Certificate (₹3,500)</span>
+                    <span>Framed Certificate ({ctaPriceLabel("deep-kundli")})</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                   <DirectWhatsAppButton variant="compact" serviceName={`Baby ${cleanBabyName} Kundli & Milestones`} price={2100} className="w-full justify-center py-2 text-xs" />
@@ -212,7 +213,7 @@ export default function NewbornCosmicBlueprint() {
               </div>
             </div>
 
-            <SanctifiedVerdictStickyBar serviceId="deep-kundli" serviceName={`${cleanBabyName}'s Cosmic Birth Certificate`} price={3500} badge="Birth Certificate Generated" />
+            <SanctifiedVerdictStickyBar serviceId="deep-kundli" serviceName={`${cleanBabyName}'s Cosmic Birth Certificate`} badge="Birth Certificate Generated" />
           </motion.div>
         )}
       </div>

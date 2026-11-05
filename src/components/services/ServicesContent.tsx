@@ -10,14 +10,14 @@ import {
   ArrowRight, 
   ArrowLeft,
   Crown, 
-  Sparkles,
   Headphones,
   FileText,
-  SlidersHorizontal,
   LayoutGrid
 } from "lucide-react";
 import { ShubhMargEmblem } from "@/components/brand/ShubhMargLogo";
 import PremiumVedicIcon from "@/components/ui/PremiumVedicIcon";
+import { getServicePrice } from "@/lib/pricing";
+import { ctaPriceLabel } from "@/lib/service-catalog";
 
 interface ServiceItem {
   id: string;
@@ -48,7 +48,7 @@ const services: ServiceItem[] = [
       "Personalized Studio Audio Dossier (MP3)",
       "Certified Remedial PDF sent on WhatsApp",
     ],
-    price: 501,
+    price: getServicePrice("vedic-guidance"),
     deliveryDays: "2-3",
     highlight: true,
     serviceParam: "vedic-guidance",
@@ -67,7 +67,7 @@ const services: ServiceItem[] = [
       "Planetary transits & Sade Sati timeline",
       "Personalized gemstone & mantra prescription",
     ],
-    price: 1100,
+    price: getServicePrice("kundli"),
     deliveryDays: "3-5",
     highlight: false,
     serviceParam: "kundli",
@@ -86,7 +86,7 @@ const services: ServiceItem[] = [
       "Tithi, Nakshatra, Yoga & Karana purification",
       "Do's & Don'ts guidance dossier",
     ],
-    price: 701,
+    price: getServicePrice("muhurat"),
     deliveryDays: "2-3",
     highlight: false,
     serviceParam: "muhurat",
@@ -105,10 +105,10 @@ const services: ServiceItem[] = [
       "Non-demolition remedial adjustments",
       "Certified Vastu Dossier with remedial layout",
     ],
-    price: 2100,
+    price: getServicePrice("vastu"),
     deliveryDays: "5-7",
     highlight: false,
-    serviceParam: "business",
+    serviceParam: "vastu",
     vedicIcon: "vastu-compass",
   },
 ];
@@ -124,7 +124,7 @@ const SPECIAL_SERVICES = [
   },
   { 
     name: "Quick Prashna", 
-    price: "₹99", 
+    price: ctaPriceLabel("quick-answer"), 
     desc: "1 urgent question answered on WhatsApp within 1 hour.", 
     href: "/quick-answer", 
     badge: "1 Hour Delivery", 
@@ -132,7 +132,7 @@ const SPECIAL_SERVICES = [
   },
   { 
     name: "Emergency Tatkal", 
-    price: "₹499", 
+    price: ctaPriceLabel("emergency"), 
     desc: "Priority guidance within 30 minutes on WhatsApp for urgent decisions.", 
     href: "/emergency", 
     badge: "30 Min Tatkal", 
@@ -140,7 +140,7 @@ const SPECIAL_SERVICES = [
   },
   { 
     name: "Auspicious Baby Name", 
-    price: "₹999", 
+    price: ctaPriceLabel("baby-name"), 
     desc: "5-10 consecrated names based on Janam Nakshatra & Vedic syllables.", 
     href: "/baby-name", 
     badge: "Newborn Blessing", 
@@ -148,7 +148,7 @@ const SPECIAL_SERVICES = [
   },
   { 
     name: "Kundli Matching", 
-    price: "₹1,501", 
+    price: ctaPriceLabel("compatibility"), 
     desc: "36-point Ashtakoot Guna Milan + Mangal Dosha analysis for couples.", 
     href: "/compatibility", 
     badge: "For Marriage", 
@@ -156,7 +156,7 @@ const SPECIAL_SERVICES = [
   },
   { 
     name: "Remote Temple Puja", 
-    price: "₹2,100", 
+    price: ctaPriceLabel("temple-puja"),
     desc: "Gotra Sankalp at Kashi temple with holy Prasad shipped to your door.", 
     href: "/request-guidance?service=temple-puja", 
     badge: "With Prasad Ship", 
@@ -302,7 +302,7 @@ export default function ServicesContent() {
               >
                 <span>{s.name.split(" ")[0]}</span>
                 <span className={`text-[9.5px] px-1.5 py-0.2 rounded-full font-mono ${viewMode === "slider" && activeSlideIndex === idx ? "bg-black/20 text-black font-extrabold" : "bg-white/15 text-amber-200"}`}>
-                  ₹{s.price}
+                  ₹{s.price.toLocaleString("en-IN")}
                 </span>
               </button>
             ))}
@@ -322,11 +322,6 @@ export default function ServicesContent() {
             </button>
           </div>
 
-          {/* Status Indicator */}
-          <div className="hidden md:flex items-center gap-2 text-xs text-amber-300 font-medium shrink-0">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Pandit Ji Desk Online</span>
-          </div>
         </div>
       </div>
 

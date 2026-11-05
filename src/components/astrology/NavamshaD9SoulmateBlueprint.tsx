@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { Heart, Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -172,7 +173,7 @@ export default function NavamshaD9SoulmateBlueprint() {
                     href="/request-guidance?service=marriage"
                     className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#e5c453] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all"
                   >
-                    <span>Book Navamsha Call (₹1,501)</span>
+                    <span>Book Navamsha Call ({ctaPriceLabel("marriage")})</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
 
@@ -190,7 +191,6 @@ export default function NavamshaD9SoulmateBlueprint() {
             <SanctifiedVerdictStickyBar
               serviceId="marriage"
               serviceName="Joint Family Navamsha Kundli Consultation"
-              price={1501}
               badge="D9 Soulmate Reading Complete"
             />
           </div>

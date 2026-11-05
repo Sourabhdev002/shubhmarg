@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Heart, ArrowRight } from "lucide-react";
@@ -75,7 +76,7 @@ export default function SpousePredictor() {
           ॥ भावी जीवनसाथी रूपरेखा ॥
         </h2>
         <p className="text-xs sm:text-sm text-[#6B5A48] max-w-xl mx-auto mb-8 font-light leading-relaxed">
-          Your <strong>7th house lord&apos;s sign placement</strong> reveals your future spouse&apos;s physical appearance, personality, profession, and how you will meet. Based on classical Brihat Parashara Hora Shastra methodology.
+          Your <strong>zodiac sign</strong> reveals clues about your future spouse&apos;s appearance, personality, profession, and how you may meet. Based on classical Vedic methodology.
         </p>
 
         <form onSubmit={handlePredict} className="bg-[#FBF6EC] border border-[#B8860B]/20 rounded-3xl p-5 sm:p-8 mb-8 text-left backdrop-blur-xl shadow-[0_14px_40px_-18px_rgba(107,42,20,0.25)] space-y-4">
@@ -92,7 +93,7 @@ export default function SpousePredictor() {
               </select>
             </div>
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-widest text-pink-400 mb-1">7th House Lord&apos;s Sign</label>
+              <label className="block text-[11px] font-bold uppercase tracking-widest text-pink-400 mb-1">Your Zodiac (Moon) Sign</label>
               <select value={selectedSign} onChange={(e) => setSelectedSign(Number(e.target.value))} className="w-full bg-[#FBF6EC] border border-[#B8860B]/20 rounded-xl px-4 py-2.5 text-xs text-[#2A1810] focus:outline-none focus:border-pink-400">
                 {SIGNS.map((s, i) => (<option key={i} value={i} className="bg-[#1a1a1a]">{s}</option>))}
               </select>
@@ -104,7 +105,7 @@ export default function SpousePredictor() {
         </form>
 
         {isReading && (
-          <VedicCalculationLoader title={`Visualizing Your Future ${spouseWord}...`} stages={["Analyzing 7th House Lord's Rashi & Navamsha placement...", "Computing physical appearance from planetary aspects...", "Determining profession from 10th-from-7th analysis...", "Calculating marriage timing from Dasha sequence..."]} estimatedSeconds={2} />
+          <VedicCalculationLoader title={`Visualizing Your Future ${spouseWord}...`} stages={["Analyzing your Rashi & Navamsha placement...", "Computing physical appearance from planetary aspects...", "Determining profession from 10th-from-7th analysis...", "Calculating marriage timing from Dasha sequence..."]} estimatedSeconds={2} />
         )}
 
         {profile && !isReading && (
@@ -113,7 +114,7 @@ export default function SpousePredictor() {
               <div className="text-center pb-5 border-b-2 border-pink-500/25 mb-6">
                 <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-pink-400 block mb-1">Future {spouseWord} Blueprint for {cleanName}</span>
                 <h3 className="text-2xl sm:text-3xl font-bold font-serif text-[#2A1810]">Your Destined {spouseWord}&apos;s Profile</h3>
-                <span className="text-xs text-amber-200/80 italic">7th Lord in {SIGNS[selectedSign]}</span>
+                <span className="text-xs text-amber-200/80 italic">Based on {SIGNS[selectedSign]}</span>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 text-xs">
@@ -170,14 +171,14 @@ export default function SpousePredictor() {
                 </div>
                 <div className="flex flex-col gap-2 shrink-0 w-full sm:w-auto">
                   <Link href="/request-guidance?service=deep-kundli" className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-pink-600 via-rose-500 to-pink-600 text-[#2A1810] font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all">
-                    <span>Spouse Report (₹999)</span><ArrowRight className="w-3.5 h-3.5" />
+                    <span>Spouse Report ({ctaPriceLabel("deep-kundli")})</span><ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                   <DirectWhatsAppButton variant="compact" serviceName={`Future ${spouseWord} Prediction for ${cleanName}`} price={2100} className="w-full justify-center py-2 text-xs" />
                 </div>
               </div>
             </div>
 
-            <SanctifiedVerdictStickyBar serviceId="deep-kundli" serviceName={`Future ${spouseWord} Prediction Report`} price={999} badge="💍 Spouse Blueprint Revealed" />
+            <SanctifiedVerdictStickyBar serviceId="deep-kundli" serviceName={`Future ${spouseWord} Prediction Report`} badge="💍 Spouse Blueprint Revealed" />
           </motion.div>
         )}
       </div>

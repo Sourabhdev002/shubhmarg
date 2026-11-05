@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 export default function SoundSanctuaryPage() {
   return (
     <main className="min-h-screen bg-[#FBF6EC] text-[#2A1810] pt-24 pb-28 px-4 sm:px-6">
+      <h1 className="sr-only">432Hz Vedic Sound Therapy &amp; Custom Chanting Sanctum</h1>
       {/* Ambient background lighting */}
       <div className="pointer-events-none fixed top-0 right-0 w-[60vw] h-[60vw] max-w-[500px] max-h-[500px] bg-[#d4af37]/10 rounded-full blur-[140px]" />
       <div className="pointer-events-none fixed bottom-0 left-0 w-[60vw] h-[60vw] max-w-[500px] max-h-[500px] bg-[#72232b]/20 rounded-full blur-[140px]" />

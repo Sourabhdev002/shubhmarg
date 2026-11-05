@@ -62,7 +62,6 @@ export default function CelestialLiveTicker({ panchang, event }: Props) {
     // Client-only: reads Date; run post-mount to avoid SSR mismatch.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMuhurat(getDailyMuhuratTimings());
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setNowMin(getIstMinutes());
     const id = setInterval(() => {
       setMuhurat(getDailyMuhuratTimings());

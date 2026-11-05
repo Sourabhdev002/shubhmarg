@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, ArrowRight, Zap } from "lucide-react";
@@ -117,16 +118,16 @@ export default function EmergencyGrahaShantiSOS() {
                 </div>
                 <div className="flex flex-col gap-2 shrink-0 w-full sm:w-auto">
                   <Link href="/request-guidance?service=emergency" className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-red-600 via-red-500 to-red-600 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all">
-                    <Phone className="w-3.5 h-3.5" /><span>Emergency Call (₹2,100)</span>
+                    <Phone className="w-3.5 h-3.5" /><span>Emergency Call ({ctaPriceLabel("emergency")})</span>
                   </Link>
                   <Link href="/request-guidance?service=temple-puja" className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#ffd700] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all">
-                    <span>Urgent Kashi Havan (₹5,100)</span><ArrowRight className="w-3.5 h-3.5" />
+                    <span>Urgent Kashi Havan ({ctaPriceLabel("temple-puja")})</span><ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
             </div>
 
-            <SanctifiedVerdictStickyBar serviceId="emergency" serviceName={`Emergency Graha Shanti for ${activeCrisis.name}`} price={2100} badge="⚡ Crisis Kavach Active" />
+            <SanctifiedVerdictStickyBar serviceId="emergency" serviceName={`Emergency Graha Shanti for ${activeCrisis.name}`} badge="⚡ Crisis Kavach Active" />
           </motion.div>
         )}
       </div>

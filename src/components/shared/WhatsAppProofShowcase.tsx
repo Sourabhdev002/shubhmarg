@@ -91,7 +91,7 @@ export default function WhatsAppProofShowcase() {
       {/* Hidden audio element pointing to clean human priest chant */}
       <audio
         ref={audioRef}
-        src="/audio/Divya Pratah Aashirwad.mp3"
+        src="/audio/1.Divya Pratah Aashirwad.mp3"
         onEnded={() => setIsPlaying(false)}
         preload="metadata"
       />

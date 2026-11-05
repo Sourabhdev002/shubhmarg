@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Eye } from "lucide-react";
@@ -171,14 +172,14 @@ export default function PastLifeReader() {
                 </div>
                 <div className="flex flex-col gap-2 shrink-0 w-full sm:w-auto">
                   <Link href="/request-guidance?service=deep-kundli" className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 text-[#2A1810] font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all">
-                    <span>Full Dossier (₹1,500)</span><ArrowRight className="w-3.5 h-3.5" />
+                    <span>Full Dossier ({ctaPriceLabel("deep-kundli")})</span><ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                   <DirectWhatsAppButton variant="compact" serviceName={`Past-Life Karmic Dossier for ${cleanName}`} price={1500} className="w-full justify-center py-2 text-xs" />
                 </div>
               </div>
             </div>
 
-            <SanctifiedVerdictStickyBar serviceId="deep-kundli" serviceName="Past-Life Karmic Dossier" price={1500} badge="🔮 Past Life Revealed" />
+            <SanctifiedVerdictStickyBar serviceId="deep-kundli" serviceName="Past-Life Karmic Dossier" badge="🔮 Past Life Revealed" />
           </motion.div>
         )}
       </div>

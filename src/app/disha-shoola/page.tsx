@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Compass, AlertTriangle, ShieldCheck } from "lucide-react";
+import { Compass, AlertTriangle, ShieldCheck, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 interface ShoolaData {
   dayName: string;
@@ -119,6 +120,16 @@ export default function DishaShoolaPage() {
           <p className="text-xs text-[#EAE3D2] leading-relaxed">
             If you must travel in the {shoola.blockedDirection} today for emergencies or scheduled flights, perform this sattvic consumption ritual and take 5 steps backwards before embarking towards your destination.
           </p>
+        </div>
+
+        {/* ── Conversion CTA (was a dead-end before) ── */}
+        <div className="mt-8 rounded-3xl bg-gradient-to-r from-[#FFF6E9] to-[#FDECD2] border border-[#E8791E]/35 p-6 text-center">
+          <h3 className="text-lg font-bold font-serif text-[#2A1810] mb-1">Planning an important journey or muhurat?</h3>
+          <p className="text-sm text-[#6B5A48] mb-4">Get a personalised travel & timing analysis from our Vedic Acharya.</p>
+          <Link href="/request-guidance?service=muhurat" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold text-sm bg-gradient-to-r from-[#E8791E] via-[#F5A623] to-[#E8791E] text-white shadow-[0_4px_16px_rgba(232,121,30,0.45)] active:scale-95 transition-all">
+            <span>Get My Muhurat Guidance</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
     </main>

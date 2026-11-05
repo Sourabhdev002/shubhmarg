@@ -6,10 +6,10 @@
 
 /* ── WhatsApp (India + international) ──────────────────────────────
    Format: digits only, with country code, no "+" or spaces (wa.me format).
-   Currently a Thailand (+66) number while operating from Thailand; swap to an
-   India number later by changing this one value (or NEXT_PUBLIC_WHATSAPP_NUMBER). */
+   Now an India (+91 98671 16421) number. Change this one value (or set
+   NEXT_PUBLIC_WHATSAPP_NUMBER, which overrides it) to swap numbers again. */
 export const WHATSAPP_NUMBER =
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "66969973182";
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919867116421";
 
 /** Build a wa.me deep link with an optional prefilled message. */
 export function waLink(message?: string): string {

@@ -27,7 +27,6 @@ import MagneticCursor from "@/components/layout/MagneticCursor";
 import StickyGuidanceCta from "@/components/layout/StickyGuidanceCta";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import Chatbot from "@/components/layout/Chatbot";
-import SacredLiveSankalpTicker from "@/components/shared/SacredLiveSankalpTicker";
 import ChromeGate from "@/components/layout/ChromeGate";
 import FestivalGreeting from "@/components/shared/FestivalGreeting";
 import { LanguageProvider } from "@/context/LanguageContext";
@@ -58,17 +57,17 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL("https://shubhmarg.com"),
   title: "ShubhMarg — Traditional Vedic Guidance for Modern Life",
-  description: "Personalized Vedic guidance and traditional spiritual services for modern life.",
+  description: "Free Vedic horoscope & kundli reading in Hindi. Get your personal astrology answer in 1 hour for just Rs99. Daily rashifal, birth chart, muhurta & more.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "ShubhMarg — Traditional Vedic Guidance for Modern Life",
-    description: "Personalized Vedic guidance and traditional spiritual services for modern life.",
+    description: "Free Vedic horoscope & kundli reading in Hindi. Get your personal astrology answer in 1 hour for just Rs99. Daily rashifal, birth chart, muhurta & more.",
     url: "https://shubhmarg.com",
     type: "website",
   },
   twitter: {
     title: "ShubhMarg — Traditional Vedic Guidance for Modern Life",
-    description: "Personalized Vedic guidance and traditional spiritual services for modern life.",
+    description: "Free Vedic horoscope & kundli reading in Hindi. Get your personal astrology answer in 1 hour for just Rs99. Daily rashifal, birth chart, muhurta & more.",
   },
 };
 
@@ -92,7 +91,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <ChromeGate>
                 <FloatingNav />
                 <StickyGuidanceCta />
-                <SacredLiveSankalpTicker />
                 <WhatsAppButton />
                 <Footer />
               </ChromeGate>

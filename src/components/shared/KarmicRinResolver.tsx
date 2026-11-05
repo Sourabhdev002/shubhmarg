@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { Scale, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -178,7 +179,7 @@ export default function KarmicRinResolver() {
                 href="/request-guidance?service=temple-puja"
                 className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#ffd700] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all"
               >
-                <span>Sponsor Seva (₹{activeRin.recommendedSponsorship.toLocaleString()})</span>
+                <span>Sponsor Seva ({ctaPriceLabel("temple-puja")})</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -189,7 +190,6 @@ export default function KarmicRinResolver() {
         <SanctifiedVerdictStickyBar
           serviceId="temple-puja"
           serviceName={`${activeRin.name.split(" ")[0]} Consecration Seva`}
-          price={activeRin.recommendedSponsorship}
           badge="Karmic Rin Calibrated"
         />
       </div>

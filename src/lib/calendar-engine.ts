@@ -117,7 +117,7 @@ export async function generateCalendarMonth(year: number, month: number): Promis
                     tithi_name: panchangResponse.tithi?.details?.tithi_name || null,
                     lunar_month: panchangResponse.hindu_maah?.purnimanta || null,
                     calculation_source: 'astrologyapi',
-                    calculation_version: '2026-v1',
+                    calculation_version: `${year}-v1`,
                     is_verified: true,
                     source_name: festName,
                     variant: entry.variant

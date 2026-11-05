@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React, { useState } from "react";
 import { Compass, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -125,7 +126,7 @@ export default function NineDashaTimeline({ currentDashaIndex = 5 }: { currentDa
               href="/request-guidance?service=annual-varshphal"
               className="w-full py-3 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#e5c453] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center justify-center gap-1.5 transition-all"
             >
-              <span>Get 365-Day Book (₹3,100)</span>
+              <span>Get 365-Day Book ({ctaPriceLabel("annual-varshphal")})</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

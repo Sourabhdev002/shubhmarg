@@ -43,6 +43,8 @@ export const PAYTM_GENERIC_LINK =
 
 /** FIXED-amount links, keyed by their rupee amount. Create each with a set Amount. */
 export const PAYTM_FIXED_LINKS: Record<number, string> = {
+  // Owner confirmed this Rs11 link is reusable. NOTE: an unauthenticated server-side fetch on 2026-11-01 showed
+  // "Link Paid / already Paid". If customers ever report a dead page, blank this to fall back to the generic link.
   11: env(process.env.NEXT_PUBLIC_PAYTM_LINK_11) || "https://p.ppsl.io/PYTMPS/bBHmjk",   // Rashi Aashirwad
   51: env(process.env.NEXT_PUBLIC_PAYTM_LINK_51) || "",   // Donate
   99: env(process.env.NEXT_PUBLIC_PAYTM_LINK_99) || "https://p.ppsl.io/PYTMPS/upVmjk",   // Quick Answer

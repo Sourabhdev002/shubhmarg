@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 export default function KundliXRayPage() {
   return (
     <main className="min-h-screen bg-[#FBF6EC] text-[#2A1810] pt-24 pb-28 px-4 sm:px-6">
+      <h1 className="sr-only">12-House Cosmic Kundli X-Ray &amp; Heatmap</h1>
       {/* Background ambient orbs */}
       <div className="pointer-events-none fixed top-0 right-0 w-[50vw] h-[50vw] max-w-96 max-h-96 bg-[#d4af37]/10 rounded-full blur-[130px]" />
       <div className="pointer-events-none fixed bottom-0 left-0 w-[50vw] h-[50vw] max-w-96 max-h-96 bg-[#72232b]/20 rounded-full blur-[130px]" />

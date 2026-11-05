@@ -1,5 +1,6 @@
 "use client";
 
+import { ctaPriceLabel } from "@/lib/service-catalog";
 import React from "react";
 import { Users, PhoneCall, ShieldCheck, Share2 } from "lucide-react";
 import Link from "next/link";
@@ -119,7 +120,7 @@ export default function FamilyMarriageMilanCard({
               className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#d4af37] via-[#e5c453] to-[#d4af37] text-black font-extrabold text-xs uppercase tracking-wider shadow-[0_4px_25px_rgba(212,175,55,0.4)] hover:brightness-110 flex items-center justify-center gap-2 transition-all"
             >
               <PhoneCall className="w-4 h-4" />
-              <span>Book Joint Family Consultation with Pandit Ji (₹1,501)</span>
+              <span>Book Joint Family Consultation with Pandit Ji ({ctaPriceLabel("marriage")})</span>
             </Link>
           </div>
 
