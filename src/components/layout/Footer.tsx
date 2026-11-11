@@ -320,7 +320,7 @@ export default function Footer() {
               <a href="https://www.instagram.com/shubhmarg.official/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-full border border-[#F5C842]/35 bg-white/[0.04] flex items-center justify-center text-amber-200 hover:text-[#110a0a] hover:bg-[#F5C842] hover:border-[#F5C842] hover:shadow-[0_0_15px_rgba(245,200,66,0.5)] transition-all duration-300">
                 <InstagramIcon />
               </a>
-              <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="w-8 h-8 rounded-full border border-[#F5C842]/35 bg-white/[0.04] flex items-center justify-center text-amber-200 hover:text-[#110a0a] hover:bg-[#F5C842] hover:border-[#F5C842] hover:shadow-[0_0_15px_rgba(245,200,66,0.5)] transition-all duration-300">
+              <a href="https://www.youtube.com/@ShubhMargKatha" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="w-8 h-8 rounded-full border border-[#F5C842]/35 bg-white/[0.04] flex items-center justify-center text-amber-200 hover:text-[#110a0a] hover:bg-[#F5C842] hover:border-[#F5C842] hover:shadow-[0_0_15px_rgba(245,200,66,0.5)] transition-all duration-300">
                 <YoutubeIcon />
               </a>
               <a href={waLink()} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="w-8 h-8 rounded-full border border-[#F5C842]/35 bg-white/[0.04] flex items-center justify-center text-amber-200 hover:text-[#110a0a] hover:bg-[#F5C842] hover:border-[#F5C842] hover:shadow-[0_0_15px_rgba(245,200,66,0.5)] transition-all duration-300">
