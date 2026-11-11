@@ -5,7 +5,7 @@ import { GuidanceFormData } from "@/types/guidance";
 import { getServicePrice } from "@/lib/pricing";
 import { allocateUniquePaiseAmount } from "@/lib/paise-allocation";
 import { after } from "next/server";
-import { resolveServiceId } from "@/lib/service-catalog";
+import { resolveServiceId, SERVICE_META } from "@/lib/service-catalog";
 import { PHONE_ERROR, buildPhoneEmail, isValidIndianMobile, normalizePhone } from "@/lib/phone";
 import { sendOrderAlert } from "@/lib/telegram";
 
@@ -64,6 +64,10 @@ export async function submitGuidanceRequest(formData: GuidanceFormData) {
     const resolvedService = resolveServiceId(formData.service);
     if (!resolvedService) {
       return { success: false, error: "Invalid service selected." };
+    }
+    // Honesty guard: only written AI guidance can be ordered. No pujas, jaap, kavach, gemstones or dossiers.
+    if (SERVICE_META[resolvedService]?.category !== "guidance") {
+      return { success: false, error: "This service is no longer available." };
     }
     // Privacy consent is implied by form submission in new design
 
